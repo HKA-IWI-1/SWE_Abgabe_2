@@ -17,9 +17,37 @@
  *
  */
 
-import { PaletteTree } from './palette';
-import { Previews } from '@react-buddy/ide-toolbox';
+import asciidoctor from '@asciidoctor/core';
+import kroki from 'asciidoctor-kroki';
+import { join } from 'node:path';
+import url from 'node:url';
 
-const ComponentPreviews = () => <Previews palette={<PaletteTree />}></Previews>;
+const adoc = asciidoctor();
+console.log(`Asciidoctor.js ${adoc.getVersion()}`);
 
-export default ComponentPreviews;
+kroki.register(adoc.Extensions);
+
+const options = {
+  safe: 'safe',
+  attributes: { linkcss: true },
+  base_dir: '.extras/doc/projectManual',
+  to_dir: 'html',
+  mkdirs: true,
+};
+adoc.convertFile(
+  join('.extras', 'doc', 'projectManual', 'projectManual.adoc'),
+  options,
+);
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+console.log(
+  `HTML-File ${join(
+    __dirname,
+    '..',
+    '.extras',
+    'doc',
+    'projectManual',
+    'html',
+    'projectManual.html',
+  )}`,
+);

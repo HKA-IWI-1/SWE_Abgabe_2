@@ -17,20 +17,20 @@
  *
  */
 
-import {Fragment} from "react";
 import {
     Category,
     Component,
-    Variant,
     Palette,
-} from "@react-buddy/ide-toolbox";
+    Variant,
+} from '@react-buddy/ide-toolbox';
+import { Fragment } from 'react';
 
 export const PaletteTree = () => (
     <Palette>
         <Category name="App">
             <Component name="Loader">
                 <Variant>
-                    <ExampleLoaderComponent/>
+                    <ExampleLoaderComponent />
                 </Variant>
             </Component>
         </Category>
@@ -38,7 +38,5 @@ export const PaletteTree = () => (
 );
 
 export function ExampleLoaderComponent() {
-    return (
-        <Fragment>Loading...</Fragment>
-    );
+    return <Fragment>Loading...</Fragment>;
 }
