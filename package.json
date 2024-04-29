@@ -1,7 +1,9 @@
 {
   "name": "buch-frontend",
+  "author": "Florian Sauer",
   "private": true,
-  "version": "0.0.0",
+  "license": "MIT",
+  "version": "0.0.1--alpha",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,9 +12,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-buddy/ide-toolbox": "^2.4.0",
+    "bootstrap": "^5.3.3",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "@react-buddy/ide-toolbox": "^2.4.0"
+    "react-bootstrap": "^2.10.2",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
@@ -23,6 +27,7 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "sass": "^1.75.0",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
   }
