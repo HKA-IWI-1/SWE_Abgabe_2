@@ -23,7 +23,7 @@ jobs:
 
       - name: Checking errors with ESLint
         run: |
-          npm run eslint
+          npm run lint
 
       - name: Building Asciidcotor documentation
         run: |
