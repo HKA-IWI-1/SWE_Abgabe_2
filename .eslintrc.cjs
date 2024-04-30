@@ -28,6 +28,7 @@ module.exports = {
     root: true,
     env: { browser: true, es2022: true },
     extends: [
+        'plugin:react/recommended',
         'eslint:recommended',
         'plugin:react-hooks/recommended',
         'plugin:@typescript-eslint/recommended-type-checked',
@@ -66,6 +67,7 @@ module.exports = {
             'warn',
             { allowConstantExport: true },
         ],
+        "react/react-in-jsx-scope": "off",
 
         '@eslint-community/eslint-comments/no-unused-disable': 'error',
         '@typescript-eslint/array-type': ['error', { default: 'array' }],

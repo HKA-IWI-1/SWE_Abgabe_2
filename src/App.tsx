@@ -19,6 +19,7 @@
 
 import './App.scss';
 import Button from 'react-bootstrap/Button';
+import { NavBar } from './NavBar.tsx';
 import reactLogo from './assets/react.svg';
 import { useState } from 'react';
 import viteLogo from '/vite.svg';
@@ -28,12 +29,13 @@ function App() {
 
     return (
         <>
-            <Button>I'm a Bootstrap button.</Button>
+            <NavBar></NavBar>
+            <Button>I&apos;m a Bootstrap button.</Button>
             <div>
-                <a href="https://vitejs.dev" target="_blank">
+                <a href="https://vitejs.dev">
                     <img src={viteLogo} className="logo" alt="Vite logo" />
                 </a>
-                <a href="https://react.dev" target="_blank">
+                <a href="https://react.dev">
                     <img
                         src={reactLogo}
                         className="logo react"
