@@ -21,11 +21,17 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Navbar from 'react-bootstrap/Navbar';
+import './NavBar.scss';
+import logo from './logo_test.jpg';
+
+//todo fluid entfernen bzw eher container da fluid default wert damit navbar über ganze breite geht
 
 export const NavBar = () => (
-    <Navbar expand="lg" className="bg-body-tertiary">
-        <Container>
-            <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+    <Navbar expand="lg" className="custom-navbar" fixed = "top">
+        <Container fluid> 
+            <Navbar.Brand href="#home"> 
+            <img src = {logo} alt = "logo" width = "40" height = "35"  className="d-inline-block align-middle"/>
+            React-Bootstrap</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">

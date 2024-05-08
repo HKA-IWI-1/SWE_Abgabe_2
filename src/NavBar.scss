@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 - present Florian Sauer
+ * Copyright (c) 2024 - present Adrian Spindler
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation the
@@ -16,49 +16,38 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-#root {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 2rem;
-    text-align: center;
-}
+.custom-navbar {
+    background-color: #031633; // Blue 900 von Figma
+    color: white;
 
-.logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
-}
-
-.logo:hover {
-    filter: drop-shadow(0 0 2em #930f62aa); //646cffaa
-}
-
-.logo.react:hover {
-    filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-    from {
-        transform: rotate(0deg);
+    .navbar-brand,
+    .nav-link,
+    .navbar-toggler-icon {
+        color: white;
+        &:hover, &:focus {  // Farbe beim Hover und Focus
+            color: #3d8bfd; // Blue 400 von Figma
+        }
+        &:active {
+            color: darkorange;
+        }
     }
-    to {
-        transform: rotate(360deg);
+
+    .custom-navbar .nav-dropdown .dropdown-item {
+        color: white; 
     }
-}
 
-@media (prefers-reduced-motion: no-preference) {
-    a:nth-of-type(2) .logo {
-        animation: logo-spin infinite 20s linear;
+    
+
+    .dropdown-item {
+        color: black;    
+        &:hover, &:focus {
+            color: black;
+            background-color: #3d8bfd; 
+        }
+        &:active {
+            color: darkorange;
+            background-color: #3d8bfd; 
+        }
     }
+
 }
-
-.card {
-    padding: 2em;
-}
-
-.read-the-docs {
-    color: #888;
-}
-
-

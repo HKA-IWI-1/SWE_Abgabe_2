@@ -30,7 +30,7 @@ function App() {
     return (
         <>
             <NavBar></NavBar>
-            <Button>I&apos;m a Bootstrap button.</Button>
+            <Button variant="ou">I&apos;m a Bootstrap button.</Button>
             <div>
                 <a href="https://vitejs.dev">
                     <img src={viteLogo} className="logo" alt="Vite logo" />
