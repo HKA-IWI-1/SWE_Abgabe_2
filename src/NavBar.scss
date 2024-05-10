@@ -16,38 +16,45 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
+
+// todo: change color variables globally
+
 .custom-navbar {
-    background-color: #031633; // Blue 900 von Figma
+  background-color: #031633; // Blue 900 von Figma
+  color: white;
+
+  .navbar-brand,
+  .nav-link,
+  .navbar-toggler-icon {
     color: white;
 
-    .navbar-brand,
-    .nav-link,
-    .navbar-toggler-icon {
-        color: white;
-        &:hover, &:focus {  // Farbe beim Hover und Focus
-            color: #3d8bfd; // Blue 400 von Figma
-        }
-        &:active {
-            color: darkorange;
-        }
+    &:hover,
+    &:focus {
+      // Farbe beim Hover und Focus
+      color: #3d8bfd; // Blue 400 von Figma
     }
 
-    .custom-navbar .nav-dropdown .dropdown-item {
-        color: white; 
+    &:active {
+      color: darkorange;
+    }
+  }
+
+  .dropdown-item {
+    color: black;
+
+    &:hover,
+    &:focus {
+      color: black;
+      background-color: #3d8bfd;
     }
 
-    
-
-    .dropdown-item {
-        color: black;    
-        &:hover, &:focus {
-            color: black;
-            background-color: #3d8bfd; 
-        }
-        &:active {
-            color: darkorange;
-            background-color: #3d8bfd; 
-        }
+    &:active {
+      color: darkorange;
+      background-color: #3d8bfd;
     }
+  }
 
+  .custom-navbar .nav-dropdown .dropdown-item {
+    color: white;
+  }
 }

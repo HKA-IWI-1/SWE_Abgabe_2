@@ -67,7 +67,7 @@ module.exports = {
             'warn',
             { allowConstantExport: true },
         ],
-        "react/react-in-jsx-scope": "off",
+        'react/react-in-jsx-scope': 'off',
 
         '@eslint-community/eslint-comments/no-unused-disable': 'error',
         '@typescript-eslint/array-type': ['error', { default: 'array' }],

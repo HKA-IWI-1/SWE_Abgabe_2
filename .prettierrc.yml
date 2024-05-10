@@ -19,6 +19,6 @@ singleQuote: true
 tabWidth: 2
 trailingComma: all
 overrides:
-  - files: [ '*.ts', '*.tsx' ]
+  - files: [ '*.ts', '*.tsx', '*.scss' ]
     options:
       tabWidth: 4
