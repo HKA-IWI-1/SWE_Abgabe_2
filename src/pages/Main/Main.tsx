@@ -17,18 +17,20 @@
  *
  */
 
-import './App.scss';
-import Button from 'react-bootstrap/Button';
-import { NavBar } from './components/NavBar/NavBar.tsx';
+import { ComponentPreviews, useInitial } from '../../dev';
+import App from '../../App.tsx';
+import { DevSupport } from '@react-buddy/ide-toolbox';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 
-function App() {
-    return (
-        <>
-            <NavBar></NavBar>
-            <Button variant="ou">I&apos;m a Bootstrap button.</Button>
-            <h1>Vite + React</h1>
-        </>
-    );
-}
-
-export default App;
+// eslint-disable-next-line unicorn/prefer-query-selector
+ReactDOM.createRoot(document.getElementById('root')!).render(
+    <React.StrictMode>
+        <DevSupport
+            ComponentPreviews={ComponentPreviews}
+            useInitialHook={useInitial}
+        >
+            <App />
+        </DevSupport>
+    </React.StrictMode>,
+);

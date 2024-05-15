@@ -17,21 +17,8 @@
  *
  */
 
-import './index.scss';
-import { ComponentPreviews, useInitial } from './dev';
-import App from './App.tsx';
-import { DevSupport } from '@react-buddy/ide-toolbox';
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-
-// eslint-disable-next-line unicorn/prefer-query-selector
-ReactDOM.createRoot(document.getElementById('root')!).render(
-    <React.StrictMode>
-        <DevSupport
-            ComponentPreviews={ComponentPreviews}
-            useInitialHook={useInitial}
-        >
-            <App />
-        </DevSupport>
-    </React.StrictMode>,
-);
+export class EditBook {
+    render() {
+        return <></>;
+    }
+}

@@ -17,18 +17,8 @@
  *
  */
 
-import './App.scss';
-import Button from 'react-bootstrap/Button';
-import { NavBar } from './components/NavBar/NavBar.tsx';
-
-function App() {
-    return (
-        <>
-            <NavBar></NavBar>
-            <Button variant="ou">I&apos;m a Bootstrap button.</Button>
-            <h1>Vite + React</h1>
-        </>
-    );
+export class SearchBook {
+    render() {
+        return <></>;
+    }
 }
-
-export default App;
