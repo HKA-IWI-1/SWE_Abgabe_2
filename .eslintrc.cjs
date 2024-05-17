@@ -237,6 +237,7 @@ module.exports = {
         'unicorn/prefer-switch': 'error',
         'unicorn/prevent-abbreviations': 'off',
         'unicorn/string-content': 'error',
+        'unicorn/prefer-spread': 'off',
 
         'arrow-body-style': ['error', 'as-needed'],
         'block-scoped-var': 'error',

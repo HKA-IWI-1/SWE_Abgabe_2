@@ -46,7 +46,7 @@ const httpLink = createHttpLink({
 
 const apolloClient = new ApolloClient({
     cache: new InMemoryCache(),
-    link: { ...authLink, ...httpLink },
+    link: authLink.concat(httpLink),
 });
 
 // eslint-disable-next-line unicorn/prefer-query-selector
