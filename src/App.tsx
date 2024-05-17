@@ -18,17 +18,70 @@
  */
 
 import './App.scss';
-import Button from 'react-bootstrap/Button';
 import { NavBar } from './components/NavBar/NavBar.tsx';
+import { useQuery, gql } from '@apollo/client';
+import Button from 'react-bootstrap/Button';
+import { useState } from 'react';
 
-function App() {
+interface DisplayBookProps {
+    id: number;
+}
+
+export const DisplayBook = ({ id }: DisplayBookProps) => {
+    const READ_BOOK = gql`
+        query ($id: ID! = "1") {
+            buch(id: $id) {
+                isbn
+                version
+                rating
+                art
+                preis
+                lieferbar
+                datum
+                homepage
+                schlagwoerter
+                titel {
+                    titel
+                }
+                rabatt(short: true)
+            }
+        }
+    `;
+    const { loading, error, data } = useQuery(READ_BOOK, { variables: { id } });
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error : {error.message}</p>;
+
+    return (
+        <div key={data.buch.isbn}>
+            <h1>Titel: {data.buch?.titel?.titel}</h1>
+            <p>ISBN: {data.buch?.isbn}</p>
+            <p>Version: {data.buch?.version}</p>
+            <p>Rating: {data.buch?.rating}</p>
+            <p>Art: {data.buch?.art}</p>
+            <p>Preis: {data.buch?.preis}</p>
+            <p>Lieferbar: {data.buch?.lieferbar}</p>
+            <p>Datum: {data.buch?.datum}</p>
+            <p>Homepage: {data.buch?.homepage}</p>
+            {data.buch?.schlagwoerter?.map(
+                (schlagwort: string, index: number) => (
+                    <p key={index}>Schlagwort: {schlagwort}</p>
+                ),
+            )}
+            <p>{data.buch?.rabatt}</p>
+        </div>
+    );
+};
+
+export const App = () => {
+    const [displayBook, setDisplayBook] = useState(false);
     return (
         <>
             <NavBar></NavBar>
-            <Button variant="ou">I&apos;m a Bootstrap button.</Button>
-            <h1>Vite + React</h1>
+            <Button className={'mt-3'} onClick={() => setDisplayBook(true)}>
+                Display Book with ID 1
+            </Button>
+            {displayBook ? <DisplayBook id={1} /> : null}
         </>
     );
-}
-
-export default App;
+};

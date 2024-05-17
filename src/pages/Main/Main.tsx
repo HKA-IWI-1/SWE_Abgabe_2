@@ -17,20 +17,44 @@
  *
  */
 
-import { ComponentPreviews, useInitial } from '../../dev';
-import App from '../../App.tsx';
-import { DevSupport } from '@react-buddy/ide-toolbox';
+import {
+    ApolloClient,
+    InMemoryCache,
+    ApolloProvider,
+    createHttpLink,
+} from '@apollo/client';
+import { App } from '../../App.tsx';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { setContext } from '@apollo/client/link/context';
+
+const httpLink = createHttpLink({
+    //uri: import.meta.env.VITE_GRAPHQL_API_URL ?? 'http://localhost:3000/graphql',
+    uri: 'http://localhost:3000/graphql',
+});
+
+
+const authLink = setContext((_, { headers }) => {
+    const token = localStorage.getItem('token');
+    return {
+        headers: {
+            ...headers,
+            authorization: token ? `Bearer ${token}` : 'N/A',
+        },
+    };
+});
+
+const apolloClient = new ApolloClient({
+    cache: new InMemoryCache(),
+    link: authLink.concat(httpLink),
+});
 
 // eslint-disable-next-line unicorn/prefer-query-selector
 ReactDOM.createRoot(document.getElementById('root')!).render(
+    // https://react.dev/reference/react/StrictMode#strictmode
     <React.StrictMode>
-        <DevSupport
-            ComponentPreviews={ComponentPreviews}
-            useInitialHook={useInitial}
-        >
+        <ApolloProvider client={apolloClient}>
             <App />
-        </DevSupport>
+        </ApolloProvider>
     </React.StrictMode>,
 );

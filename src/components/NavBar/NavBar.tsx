@@ -21,6 +21,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Navbar from 'react-bootstrap/Navbar';
+import { Login } from '../Login/Login.tsx';
 import logo from '../../assets/logo.jpg';
 
 // todo fluid entfernen bzw eher container da fluid default wert damit navbar über ganze breite geht
@@ -60,6 +61,9 @@ export const NavBar = () => (
                     </NavDropdown>
                 </Nav>
             </Navbar.Collapse>
+            <Navbar className="Toggle">
+                <Login />
+            </Navbar>
         </Container>
     </Navbar>
 );
