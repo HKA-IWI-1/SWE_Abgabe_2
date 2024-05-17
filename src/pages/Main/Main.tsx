@@ -19,8 +19,8 @@
 
 import {
     ApolloClient,
-    InMemoryCache,
     ApolloProvider,
+    InMemoryCache,
     createHttpLink,
 } from '@apollo/client';
 import { App } from '../../App.tsx';
@@ -28,25 +28,25 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { setContext } from '@apollo/client/link/context';
 
-const httpLink = createHttpLink({
-    //uri: import.meta.env.VITE_GRAPHQL_API_URL ?? 'http://localhost:3000/graphql',
-    uri: 'http://localhost:3000/graphql',
-});
-
-
 const authLink = setContext((_, { headers }) => {
     const token = localStorage.getItem('token');
     return {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         headers: {
             ...headers,
-            authorization: token ? `Bearer ${token}` : 'N/A',
+            authorization: token === null ? 'N/A' : `Bearer ${token}`,
         },
     };
 });
 
+const httpLink = createHttpLink({
+    // uri: import.meta.env.VITE_GRAPHQL_API_URL ?? 'http://localhost:3000/graphql',
+    uri: 'http://localhost:3000/graphql',
+});
+
 const apolloClient = new ApolloClient({
     cache: new InMemoryCache(),
-    link: authLink.concat(httpLink),
+    link: { ...authLink, ...httpLink },
 });
 
 // eslint-disable-next-line unicorn/prefer-query-selector

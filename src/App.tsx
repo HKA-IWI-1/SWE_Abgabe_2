@@ -18,9 +18,9 @@
  */
 
 import './App.scss';
-import { NavBar } from './components/NavBar/NavBar.tsx';
-import { useQuery, gql } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import Button from 'react-bootstrap/Button';
+import { NavBar } from './components/NavBar/NavBar.tsx';
 import { useState } from 'react';
 
 interface DisplayBookProps {
@@ -47,12 +47,18 @@ export const DisplayBook = ({ id }: DisplayBookProps) => {
             }
         }
     `;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { loading, error, data } = useQuery(READ_BOOK, { variables: { id } });
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error : {error.message}</p>;
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+    if (error) {
+        return <p>Error : {error.message}</p>;
+    }
 
     return (
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         <div key={data.buch.isbn}>
             <h1>Titel: {data.buch?.titel?.titel}</h1>
             <p>ISBN: {data.buch?.isbn}</p>
@@ -63,6 +69,7 @@ export const DisplayBook = ({ id }: DisplayBookProps) => {
             <p>Lieferbar: {data.buch?.lieferbar}</p>
             <p>Datum: {data.buch?.datum}</p>
             <p>Homepage: {data.buch?.homepage}</p>
+            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-call */}
             {data.buch?.schlagwoerter?.map(
                 (schlagwort: string, index: number) => (
                     <p key={index}>Schlagwort: {schlagwort}</p>
@@ -81,7 +88,7 @@ export const App = () => {
             <Button className={'mt-3'} onClick={() => setDisplayBook(true)}>
                 Display Book with ID 1
             </Button>
-            {displayBook ? <DisplayBook id={1} /> : null}
+            {displayBook ? <DisplayBook id={1} /> : undefined}
         </>
     );
 };

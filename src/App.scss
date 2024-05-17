@@ -16,21 +16,21 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-@import "../node_modules/bootstrap/scss/bootstrap";
+@import '../node_modules/bootstrap/scss/bootstrap';
 
 // Color Variables
 // primary
 $primary-color-dark: #031633;
-$primary-color-light: #EBE5FC;
+$primary-color-light: #ebe5fc;
 
 // secondary
 $secondary-color-dark: #495057;
-$secondary-color-light: #ABB5BE;
+$secondary-color-light: #abb5be;
 
 // Font Definitions
 
 // React-Botostrap Customization
 $theme-colors: (
-  "primary": $blue-900,
-  "secondary": $blue-400,
+    'primary': $blue-900,
+    'secondary': $blue-400,
 );

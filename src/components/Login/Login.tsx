@@ -17,12 +17,13 @@
  *
  */
 
+import { gql, useMutation } from '@apollo/client';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack';
 import { useState } from 'react';
-import { gql, useMutation } from '@apollo/client';
 
+// eslint-disable-next-line max-lines-per-function
 export const Login = () => {
     const [validated, setValidated] = useState(false);
 
@@ -41,43 +42,51 @@ export const Login = () => {
     // if (loading) return <p>Loading...</p>;
     // if (error) return <p>Error : {error.message}</p>;
 
-    let username: string = '';
-    let password: string = '';
+    let username = '';
+    let password = '';
     const [doAuthentication, { error }] = useMutation(AUTH);
 
     const handleSubmit = (event: any) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         event.preventDefault();
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         event.stopPropagation();
         setValidated(true);
-        if (username != '' && password != '') {
-            if (!error) {
-                doAuthentication({
-                    variables: {
-                        username,
-                        password,
-                    },
-                }).then((result) => {
+        if (username !== '' && password !== '' && !error) {
+            doAuthentication({
+                variables: {
+                    username,
+                    password,
+                },
+            })
+                .then((result) => {
                     // todo: handle expired token
                     localStorage.setItem(
                         'token',
-                        result?.data?.login?.access_token,
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                        result.data?.login?.access_token,
                     );
+                    return 1;
+                })
+                .catch((err) => {
+                    console.log(err);
                 });
-            }
         }
     };
 
     const handlePasswordChange = (event: any) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         password = event.target.value;
     };
 
     const handleUserChange = (event: any) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         username = event.target.value;
     };
 
     return (
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            {/*todo: use actual form validation*/}
+            {/* todo: use actual form validation */}
             <Stack direction="horizontal" gap={3}>
                 <Form.Control
                     className="mr-1"
