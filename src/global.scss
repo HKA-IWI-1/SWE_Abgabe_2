@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 - present Adrian Spindler
+ * Copyright (c) 2024 - present Florian Sauer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation the
@@ -16,44 +16,11 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-@import '../../global';
 
-.custom-navbar {
-  background-color: $blue-900;
-  color: $white;
+// React-Botostrap
 
-  .navbar-brand,
-  .nav-link,
-  .navbar-toggler-icon {
-    color: $white;
+// hier eventuelle überschreibungen der bootstrap variablen einfuegen
 
-    &:hover,
-    &:focus {
-      // Farbe beim Hover und Focus
-      color: $blue-900; // Blue 400 von Figma
-    }
+@import '../node_modules/bootstrap/scss/bootstrap';
 
-    &:active {
-      color: $orange-900;
-    }
-  }
-
-  .dropdown-item {
-    color: $black;
-
-    &:hover,
-    &:focus {
-      color: $black;
-      background-color: $blue-900;
-    }
-
-    &:active {
-      color: $orange-900;
-      background-color: $blue-900;
-    }
-  }
-
-  .custom-navbar .nav-dropdown .dropdown-item {
-    color: $white;
-  }
-}
+// Font Definitions

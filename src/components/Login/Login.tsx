@@ -17,6 +17,7 @@
  *
  */
 
+import './Login.scss';
 import { type ChangeEvent, useCallback, useContext, useEffect } from 'react';
 import { type FetchResult, gql, useMutation } from '@apollo/client';
 import Button from 'react-bootstrap/Button';

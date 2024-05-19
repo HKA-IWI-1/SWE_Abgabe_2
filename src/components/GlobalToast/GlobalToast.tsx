@@ -17,6 +17,7 @@
  *
  */
 
+import './GlobalToast.scss';
 import { Toast, ToastContainer } from 'react-bootstrap';
 import { type Key } from 'react';
 import { TeaserContext } from '../../contexts/teaserContext.ts';

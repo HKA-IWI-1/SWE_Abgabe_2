@@ -27,7 +27,7 @@ import logo from '../../assets/logo.jpg';
 // todo fluid entfernen bzw eher container da fluid default wert damit navbar über ganze breite geht
 
 export const NavBar = () => (
-    <Navbar expand="lg" className="custom-navbar" fixed="top">
+    <Navbar expand="lg" className="custom-navbar">
         <Container fluid>
             <Navbar.Brand href="#home">
                 <img
