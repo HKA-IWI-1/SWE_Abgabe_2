@@ -20,14 +20,17 @@
 import './App.scss';
 import { gql, useQuery } from '@apollo/client';
 import Button from 'react-bootstrap/Button';
+import { GlobalToast } from './components/GlobalToast/GlobalToast.tsx';
 import { NavBar } from './components/NavBar/NavBar.tsx';
+import { TeaserContext } from './contexts/teaserContext.ts';
+import { type TeaserData } from './dataTypes/teaserData.ts';
 import { useState } from 'react';
 
 interface DisplayBookProps {
     id: number;
 }
 
-export const DisplayBook = ({ id }: DisplayBookProps) => {
+const DisplayBook = ({ id }: DisplayBookProps) => {
     const READ_BOOK = gql`
         query ($id: ID! = "1") {
             buch(id: $id) {
@@ -82,13 +85,34 @@ export const DisplayBook = ({ id }: DisplayBookProps) => {
 
 export const App = () => {
     const [displayBook, setDisplayBook] = useState(false);
+    const [teasers, setTeasers] = useState([] as TeaserData[]);
+
+    const addTeaser = (teaser: TeaserData) => {
+        const updatedTeasers = [...teasers, teaser];
+        setTeasers(updatedTeasers);
+    };
+
+    const deleteTeaser = (timestamp: number) => {
+        const updatedTeasers = teasers.filter((teaser) => {
+            if (timestamp !== teaser.timestamp) {
+                return teaser;
+            }
+        });
+        setTeasers(updatedTeasers);
+    };
+
     return (
         <>
-            <NavBar></NavBar>
-            <Button className={'mt-3'} onClick={() => setDisplayBook(true)}>
-                Display Book with ID 1
-            </Button>
-            {displayBook ? <DisplayBook id={1} /> : undefined}
+            <TeaserContext.Provider
+                value={{ teasers, addTeaser, deleteTeaser }}
+            >
+                <NavBar></NavBar>
+                <Button className={'mt-3'} onClick={() => setDisplayBook(true)}>
+                    Display Book with ID 1
+                </Button>
+                {displayBook ? <DisplayBook id={1} /> : undefined}
+                <GlobalToast></GlobalToast>
+            </TeaserContext.Provider>
         </>
     );
 };

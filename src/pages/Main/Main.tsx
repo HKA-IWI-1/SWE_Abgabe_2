@@ -29,7 +29,7 @@ import ReactDOM from 'react-dom/client';
 import { setContext } from '@apollo/client/link/context';
 
 const authLink = setContext((_, { headers }) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access_token');
     return {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         headers: {

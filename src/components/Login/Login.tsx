@@ -17,96 +17,176 @@
  *
  */
 
-import { gql, useMutation } from '@apollo/client';
+import { type ChangeEvent, useCallback, useContext, useEffect } from 'react';
+import { type FetchResult, gql, useMutation } from '@apollo/client';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack';
+import { TeaserContext } from '../../contexts/teaserContext.ts';
 import { useState } from 'react';
+
+const AUTH = gql`
+    mutation ($username: String!, $password: String!) {
+        login(username: $username, password: $password) {
+            access_token
+            expires_in
+            refresh_token
+            refresh_expires_in
+            roles
+        }
+    }
+`;
+
+const REFRESH = gql`
+    mutation ($refreshToken: String!) {
+        refresh(refresh_token: $refreshToken) {
+            access_token
+            expires_in
+            refresh_token
+            refresh_expires_in
+            roles
+        }
+    }
+`;
+
+const persistTokenData = (result: FetchResult<any>) => {
+    localStorage.setItem(
+        'access_token',
+        result.data.login.access_token as string,
+    );
+    localStorage.setItem(
+        'refresh_token',
+        result.data.login.refresh_token as string,
+    );
+    localStorage.setItem('expires_in', result.data.login.expires_in as string);
+};
 
 // eslint-disable-next-line max-lines-per-function
 export const Login = () => {
     const [validated, setValidated] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('');
+    const { addTeaser } = useContext(TeaserContext);
 
-    const AUTH = gql`
-        mutation ($username: String!, $password: String!) {
-            login(username: $username, password: $password) {
-                access_token
-                expires_in
-                refresh_token
-                refresh_expires_in
-                roles
-            }
-        }
-    `;
+    const [authenticateUser, { client }] = useMutation(AUTH);
+    const doAuthentication = async () =>
+        authenticateUser({
+            variables: {
+                username,
+                password,
+            },
+        });
 
-    // if (loading) return <p>Loading...</p>;
-    // if (error) return <p>Error : {error.message}</p>;
+    const [refreshToken] = useMutation(REFRESH);
+    const doTokenRefresh = useCallback(
+        async (token: string) => {
+            const result = await refreshToken({
+                variables: {
+                    refreshToken: token,
+                },
+            });
+            persistTokenData(result);
+        },
+        [refreshToken],
+    );
 
-    let username = '';
-    let password = '';
-    const [doAuthentication, { error }] = useMutation(AUTH);
-
-    const handleSubmit = (event: any) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    const logIn = (event: ChangeEvent<any>) => {
         event.preventDefault();
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         event.stopPropagation();
         setValidated(true);
-        if (username !== '' && password !== '' && !error) {
-            doAuthentication({
-                variables: {
-                    username,
-                    password,
-                },
-            })
-                .then((result) => {
-                    // todo: handle expired token
-                    localStorage.setItem(
-                        'token',
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                        result.data?.login?.access_token,
-                    );
-                    return 1;
+        if (username !== '' && password !== '') {
+            doAuthentication() // don't use await in order to handle login errors
+                .then((res) => {
+                    persistTokenData(res);
+                    setLoggedIn(true);
+                    setUsername('');
+                    setPassword('');
+                    return true;
                 })
                 .catch((err) => {
-                    console.log(err);
+                    console.error(err);
+                    addTeaser({
+                        messageType: 'Danger',
+                        message: err.message as string,
+                        timestamp: Date.now(),
+                    });
                 });
         }
     };
 
-    const handlePasswordChange = (event: any) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        password = event.target.value;
-    };
+    const logOut = useCallback(async () => {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        localStorage.removeItem('expires_in');
+        setLoggedIn(false);
+        await client.resetStore();
+    }, [client, setLoggedIn]);
 
-    const handleUserChange = (event: any) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        username = event.target.value;
-    };
+    useEffect(() => {
+        const token = localStorage.getItem('access_token') ?? '';
+        const rToken = localStorage.getItem('refresh_token') ?? '';
+        const expiresIn = localStorage.getItem('expires_in') ?? '';
+        if (token !== '') {
+            if (expiresIn !== '' && expiresIn <= `${Date.now()}`) {
+                if (rToken === '') {
+                    logOut()
+                        .then((result) => console.log(result))
+                        .catch((err) => console.error(err));
+                } else {
+                    doTokenRefresh(rToken)
+                        .then((result) => console.log(result))
+                        .catch((err) => console.error(err));
+                }
+            }
+            setLoggedIn(true);
+        }
+    }, [logOut, doTokenRefresh]);
 
     return (
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            {/* todo: use actual form validation */}
-            <Stack direction="horizontal" gap={3}>
-                <Form.Control
-                    className="mr-1"
-                    type="text"
-                    placeholder="Username"
-                    required
-                    onChange={handleUserChange}
-                />
-                <Form.Control
-                    className="mr-1"
-                    type="password"
-                    placeholder="Password"
-                    required
-                    onChange={handlePasswordChange}
-                />
-                <div className="vr" />
-                <Button variant="primary" type="submit">
-                    Login
+        <>
+            {!loggedIn && (
+                <Form noValidate validated={validated} onSubmit={logIn}>
+                    {/* todo: use form validation library */}
+                    <Stack direction="horizontal" gap={3}>
+                        <Form.Control
+                            className="mr-1"
+                            type="text"
+                            placeholder="Username"
+                            required
+                            onChange={(event) =>
+                                setUsername(event.target.value)
+                            }
+                        />
+                        <Form.Control
+                            className="mr-1"
+                            type="password"
+                            placeholder="Password"
+                            required
+                            onChange={(event) =>
+                                setPassword(event.target.value)
+                            }
+                        />
+                        <div className="vr" />
+                        <Button variant="primary" type="submit">
+                            Login
+                        </Button>
+                    </Stack>
+                </Form>
+            )}
+            {loggedIn && (
+                <Button
+                    variant="primary"
+                    type="submit"
+                    onClick={async (event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        await logOut();
+                    }}
+                >
+                    Logout
                 </Button>
-            </Stack>
-        </Form>
+            )}
+        </>
     );
 };

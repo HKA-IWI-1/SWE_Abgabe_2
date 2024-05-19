@@ -3,17 +3,18 @@
   "author": "Florian Sauer",
   "private": true,
   "license": "MIT",
-  "version": "0.0.1--alpha",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "lint": "npm run eslint && npm run stylelint && npm run prettier && npm run tsc",
     "eslint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "asciidoctor": "node scripts/asciidoctor",
-    "tsc": "tsc --pretty",
     "prettier": "prettier --cache --write \"src/**/*.tsx\" \"src/**/*.ts\" \"src/**/*.scss\"",
-    "stylelint": "npx stylelint \"**/*.scss\""
+    "stylelint": "npx stylelint \"**/*.scss\"",
+    "tsc": "tsc --pretty",
+    "preview": "vite preview",
+    "asciidoctor": "node scripts/asciidoctor"
   },
   "dependencies": {
     "@apollo/client": "^3.10.4",
