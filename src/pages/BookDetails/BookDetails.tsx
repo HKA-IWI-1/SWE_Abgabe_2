@@ -17,8 +17,8 @@
  *
  */
 import { type BookId } from '../../dataTypes/bookId.ts';
-import { useLoaderData } from 'react-router-dom';
 import { DisplayBook } from './DisplayBook.tsx';
+import { useLoaderData } from 'react-router-dom';
 
 export const BookDetails = () => {
     const { book } = useLoaderData() as BookId;

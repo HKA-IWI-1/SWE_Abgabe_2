@@ -17,9 +17,9 @@
  *
  */
 
-import { useQuery } from '@apollo/client';
 import { READ_BOOK } from './queries.ts';
 import Spinner from 'react-bootstrap/Spinner';
+import { useQuery } from '@apollo/client';
 
 interface DisplayBookProps {
     id: number;
