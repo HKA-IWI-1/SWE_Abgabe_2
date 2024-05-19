@@ -17,14 +17,6 @@
  *
  */
 
-import { useLoaderData } from 'react-router-dom';
-
-export const editBookLoader = async ({ params } : any) => {
-  return { book: params.bookId };
-};
-
-export const EditBook = () => {
-    const { book } = useLoaderData() as any;
-
-    return <>edit book {book}</>;
+export const Diagrams = () => {
+    return <>diagrams</>;
 };

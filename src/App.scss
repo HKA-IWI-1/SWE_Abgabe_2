@@ -18,3 +18,17 @@
  */
 
 @import './global';
+
+#main-content-wrapper {
+  transition: opacity 200ms;
+  transition-delay: 200ms;
+
+  &.loading {
+    pointer-events: none;
+    opacity: 0.25;
+  }
+
+  &:not(.loading) {
+    opacity: 1;
+  }
+}

@@ -17,14 +17,10 @@
  *
  */
 
-import './App.scss';
-import { gql, useQuery } from '@apollo/client';
 import Button from 'react-bootstrap/Button';
-import { GlobalToast } from './components/GlobalToast/GlobalToast.tsx';
-import { NavBar } from './components/NavBar/NavBar.tsx';
-import { TeaserContext } from './contexts/teaserContext.ts';
-import { type TeaserData } from './dataTypes/teaserData.ts';
 import { useState } from 'react';
+import { gql, useQuery } from '@apollo/client';
+import Spinner from 'react-bootstrap/Spinner';
 
 interface DisplayBookProps {
     id: number;
@@ -54,10 +50,14 @@ const DisplayBook = ({ id }: DisplayBookProps) => {
     const { loading, error, data } = useQuery(READ_BOOK, { variables: { id } });
 
     if (loading) {
-        return <p>Loading...</p>;
+        return (
+            <Spinner variant="primary" animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        );
     }
     if (error) {
-        return <p>Error : {error.message}</p>;
+        throw new Error(error.message);
     }
 
     return (
@@ -83,36 +83,19 @@ const DisplayBook = ({ id }: DisplayBookProps) => {
     );
 };
 
-export const App = () => {
+export const Start = () => {
     const [displayBook, setDisplayBook] = useState(false);
-    const [teasers, setTeasers] = useState([] as TeaserData[]);
-
-    const addTeaser = (teaser: TeaserData) => {
-        const updatedTeasers = [...teasers, teaser];
-        setTeasers(updatedTeasers);
-    };
-
-    const deleteTeaser = (timestamp: number) => {
-        const updatedTeasers = teasers.filter((teaser) => {
-            if (timestamp !== teaser.timestamp) {
-                return teaser;
-            }
-        });
-        setTeasers(updatedTeasers);
-    };
 
     return (
         <>
-            <TeaserContext.Provider
-                value={{ teasers, addTeaser, deleteTeaser }}
+            <h1>Hallo!</h1>
+            <Button
+                className={'mt-3'}
+                onClick={() => setDisplayBook(!displayBook)}
             >
-                <NavBar></NavBar>
-                <Button className={'mt-3'} onClick={() => setDisplayBook(true)}>
-                    Display Book with ID 1
-                </Button>
-                {displayBook ? <DisplayBook id={1} /> : undefined}
-                <GlobalToast></GlobalToast>
-            </TeaserContext.Provider>
+                Display Book with ID 1
+            </Button>
+            {displayBook ? <DisplayBook id={1} /> : undefined}
         </>
     );
 };

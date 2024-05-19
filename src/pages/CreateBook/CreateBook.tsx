@@ -17,8 +17,6 @@
  *
  */
 
-export class CreateBook {
-    render() {
-        return <></>;
-    }
-}
+export const CreateBook = () => {
+    return <>create books</>;
+};

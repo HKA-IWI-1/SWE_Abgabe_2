@@ -17,8 +17,6 @@
  *
  */
 
-export class SearchBook {
-    render() {
-        return <></>;
-    }
-}
+export const SearchBook = () => {
+    return <>suchen</>;
+};

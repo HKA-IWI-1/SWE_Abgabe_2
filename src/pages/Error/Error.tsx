@@ -17,14 +17,33 @@
  *
  */
 
-import { useLoaderData } from 'react-router-dom';
+import { useRouteError } from 'react-router-dom';
 
-export const editBookLoader = async ({ params } : any) => {
-  return { book: params.bookId };
-};
+export const Error = () => {
+    const error = useRouteError();
+    console.error(error);
 
-export const EditBook = () => {
-    const { book } = useLoaderData() as any;
+    let errorMessage;
 
-    return <>edit book {book}</>;
+    switch ((error as any).status) {
+        case 404:
+            errorMessage = 'The page you are looking for does not exist.';
+            break;
+        case 500:
+            errorMessage =
+                'The server is currently unavailable. Please try again later.';
+            break;
+        default:
+            errorMessage = 'Sorry, an unexpected error has occurred.';
+    }
+
+    return (
+        <div id="error-page">
+            <h1>Oops!</h1>
+            <p>{errorMessage}</p>
+            <p>
+                <i>{(error as any).statusText || (error as any).message}</i>
+            </p>
+        </div>
+    );
 };
