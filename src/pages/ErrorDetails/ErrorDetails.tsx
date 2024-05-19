@@ -22,9 +22,12 @@ import { useRouteError } from 'react-router-dom';
 export const ErrorDetails = () => {
     const error = useRouteError();
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const errorComponent =
-        error instanceof Error ? error.message : (error as any).statusText;
+    let errorComponent = 'An unknown error occurred.';
+    if (error instanceof Error) {
+        errorComponent = error.message;
+    } else if (error instanceof Response) {
+        errorComponent = error.statusText;
+    }
 
     return (
         <div id="error-page">

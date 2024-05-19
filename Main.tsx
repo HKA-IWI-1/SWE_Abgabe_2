@@ -46,38 +46,39 @@ const router = createBrowserRouter([
         errorElement: <ErrorDetails />,
         children: [
             {
-                index: true,
-                element: <Start />,
-            },
-            {
-                path: 'suchen',
-                element: <SearchBook />,
-            },
-            {
-                path: 'neues_buch',
-                element: <CreateBook />,
                 errorElement: <ErrorDetails />,
-            },
-            {
-                path: ' diagramme',
-                element: <Diagrams />,
-            },
-            {
-                path: 'buch/:bookId',
-                element: <BookDetails />,
-                loader: bookDetailsLoader,
-                errorElement: <ErrorDetails />,
-            },
-            {
-                path: 'buch/:bookId/bearbeiten', // https://reactrouter.com/en/main/start/tutorial#updating-data
-                element: <EditBook />,
-                loader: editBookLoader,
-                errorElement: <ErrorDetails />,
+                children: [
+                    {
+                        index: true,
+                        element: <Start />,
+                    },
+                    {
+                        path: 'suchen',
+                        element: <SearchBook />,
+                    },
+                    {
+                        path: 'neues_buch',
+                        element: <CreateBook />,
+                    },
+                    {
+                        path: ' diagramme',
+                        element: <Diagrams />,
+                    },
+                    {
+                        path: 'buch/:bookId',
+                        element: <BookDetails />,
+                        loader: bookDetailsLoader,
+                    },
+                    {
+                        path: 'buch/:bookId/bearbeiten', // https://reactrouter.com/en/main/start/tutorial#updating-data
+                        element: <EditBook />,
+                        loader: editBookLoader,
+                    },
+                ],
             },
         ],
     },
 ]);
-
 // eslint-disable-next-line unicorn/prefer-query-selector
 ReactDOM.createRoot(document.getElementById('root')!).render(
     // https://react.dev/reference/react/StrictMode#strictmode
