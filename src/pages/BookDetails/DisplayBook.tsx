@@ -17,35 +17,15 @@
  *
  */
 
-import { gql, useQuery } from '@apollo/client';
-import Button from 'react-bootstrap/Button';
+import { useQuery } from '@apollo/client';
+import { READ_BOOK } from './queries.ts';
 import Spinner from 'react-bootstrap/Spinner';
-import { useState } from 'react';
 
 interface DisplayBookProps {
     id: number;
 }
 
-const DisplayBook = ({ id }: DisplayBookProps) => {
-    const READ_BOOK = gql`
-        query ($id: ID! = "1") {
-            buch(id: $id) {
-                isbn
-                version
-                rating
-                art
-                preis
-                lieferbar
-                datum
-                homepage
-                schlagwoerter
-                titel {
-                    titel
-                }
-                rabatt(short: true)
-            }
-        }
-    `;
+export const DisplayBook = ({ id }: DisplayBookProps) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { loading, error, data } = useQuery(READ_BOOK, { variables: { id } });
 
@@ -80,22 +60,5 @@ const DisplayBook = ({ id }: DisplayBookProps) => {
             )}
             <p>Rabatt: {data.buch?.rabatt}</p>
         </div>
-    );
-};
-
-export const Start = () => {
-    const [displayBook, setDisplayBook] = useState(false);
-
-    return (
-        <>
-            <h1>Hallo!</h1>
-            <Button
-                className={'mt-3'}
-                onClick={() => setDisplayBook(!displayBook)}
-            >
-                Display Book with ID 1
-            </Button>
-            {displayBook ? <DisplayBook id={1} /> : undefined}
-        </>
     );
 };

@@ -18,7 +18,7 @@
  */
 
 import './Login.scss';
-import { AUTH, REFRESH } from './queries.ts';
+import { AUTH, REFRESH } from './queries_mutations.ts';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';

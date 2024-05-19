@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 - present Adrian Spindler
+ * Copyright (c) 2024 - present Florian Sauer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation the
@@ -16,60 +16,25 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-@import '../../global';
 
-.custom-navbar {
-  background-color: $blue-900;
-  color: $white;
+import { gql } from '@apollo/client';
 
-  .navbar-toggler-icon {
-    filter: invert(100%);
-  }
-
-  .navbar-brand > img {
-    margin-right: $spacer;
-  }
-
-  .nav-link.active,
-  .dropdown.show > .dropdown-toggle {
-    color: $gray-600 !important;
-  }
-
-
-  .navbar-brand,
-  .nav-link,
-  .navbar-toggler-icon {
-    color: $white;
-
-    &:hover,
-    &:focus {
-      // Farbe beim Hover und Focus
-      color: $blue-400; // Blue 400 von Figma
+export const READ_BOOK = gql`
+    query ($id: ID! = "1") {
+        buch(id: $id) {
+            isbn
+            version
+            rating
+            art
+            preis
+            lieferbar
+            datum
+            homepage
+            schlagwoerter
+            titel {
+                titel
+            }
+            rabatt(short: true)
+        }
     }
-
-    &:active {
-      color: $orange-400;
-    }
-  }
-
-
-  .dropdown-item {
-    color: $black;
-
-    &:hover,
-    &:focus {
-      color: $white;
-      background-color: $blue-400;
-    }
-
-    &:active {
-      color: $orange-400;
-      background-color: $blue-400;
-    }
-  }
-
-
-  .custom-navbar .nav-dropdown .dropdown-item {
-    color: $white;
-  }
-}
+`;
