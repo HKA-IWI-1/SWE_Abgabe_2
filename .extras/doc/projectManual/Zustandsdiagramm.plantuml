@@ -1,0 +1,40 @@
+@startuml
+[*] --> BuchSuchen : NavBar: Suchen
+[*] --> BuchAnlegen : NavBar: Neues Buch
+
+state  BuchSuchen{
+    [*] --> Suchformular : Suchdaten eingeben
+    Suchformular --> Waiting : Button: Suchen
+    state cSuchen <<choice>>
+    Waiting --> cSuchen : Ergebnis
+
+    state Suchergebnis {
+     cSuchen --> Errormessage : Kein Buch gefunden
+     cSuchen --> GefundeneBuecher : mind. 1 Buch gefunden
+    }
+}
+
+GefundeneBuecher --> BuchDetails
+
+BuchDetails --> BuchBearbeiten : Button: Bearbeiten
+
+state BuchAnlegen {
+    [*] --> Anlegeformular : Buchdaten eingeben
+    state cAnlegen <<choice>>
+    Anlegeformular --> cAnlegen : Button: Anlegen
+    cAnlegen --> Anlegeformular : fehlerhafte Daten
+    cAnlegen --> [*] : korrekte Daten
+}
+
+state BuchBearbeiten {
+    [*] --> Änderungsformular : Änderungsdaten eingeben
+    state cBearbeiten <<choice>>
+    Änderungsformular --> cBearbeiten : Button: Update
+    cBearbeiten --> Änderungsformular : fehlerhafte Daten
+    cBearbeiten --> [*] : korrekte Daten
+}
+
+BuchSuchen --> [*]
+BuchAnlegen --> [*]
+BuchBearbeiten --> [*]
+@enduml

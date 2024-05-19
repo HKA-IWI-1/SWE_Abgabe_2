@@ -30,11 +30,11 @@
     &:hover,
     &:focus {
       // Farbe beim Hover und Focus
-      color: $blue-900; // Blue 400 von Figma
+      color: $blue-400; // Blue 400 von Figma
     }
 
     &:active {
-      color: $orange-900;
+      color: $orange-400;
     }
   }
 
@@ -43,13 +43,13 @@
 
     &:hover,
     &:focus {
-      color: $black;
-      background-color: $blue-900;
+      color: $white;
+      background-color: $blue-400;
     }
 
     &:active {
-      color: $orange-900;
-      background-color: $blue-900;
+      color: $orange-400;
+      background-color: $blue-400;
     }
   }
 
