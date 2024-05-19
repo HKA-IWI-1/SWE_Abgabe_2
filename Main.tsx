@@ -17,26 +17,33 @@
  *
  */
 
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { App } from './App.tsx';
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Start } from './src/pages/Start/Start';
-import { Error } from './src/pages/Error/Error';
-import { SearchBook } from './src/pages/SearchBook/SearchBook';
+import { BookDetails } from './src/pages/BookDetails/BookDetails';
 import { CreateBook } from './src/pages/CreateBook/CreateBook';
 import { Diagrams } from './src/pages/Diagrams/Diagrams';
-import { EditBook, editBookLoader } from './src/pages/EditBook/EditBook';
-import {
-    BookDetails,
-    bookDetailsLoader,
-} from './src/pages/BookDetails/BookDetails';
+import { EditBook } from './src/pages/EditBook/EditBook';
+import { ErrorDetails } from './src/pages/ErrorDetails/ErrorDetails';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { SearchBook } from './src/pages/SearchBook/SearchBook';
+import { Start } from './src/pages/Start/Start';
+
+const bookDetailsLoader = ({ params }: any) => ({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    book: params.bookId,
+});
+
+const editBookLoader = ({ params }: any) => ({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    book: params.bookId,
+});
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <App />,
-        errorElement: <Error />,
+        errorElement: <ErrorDetails />,
         children: [
             {
                 index: true,
@@ -49,7 +56,7 @@ const router = createBrowserRouter([
             {
                 path: 'neues_buch',
                 element: <CreateBook />,
-                errorElement: <Error />,
+                errorElement: <ErrorDetails />,
             },
             {
                 path: ' diagramme',
@@ -59,13 +66,13 @@ const router = createBrowserRouter([
                 path: 'buch/:bookId',
                 element: <BookDetails />,
                 loader: bookDetailsLoader,
-                errorElement: <Error />,
+                errorElement: <ErrorDetails />,
             },
             {
                 path: 'buch/:bookId/bearbeiten', // https://reactrouter.com/en/main/start/tutorial#updating-data
                 element: <EditBook />,
                 loader: editBookLoader,
-                errorElement: <Error />,
+                errorElement: <ErrorDetails />,
             },
         ],
     },

@@ -17,8 +17,8 @@
  *
  */
 import './NavBar.scss';
-import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
+import { Link } from 'react-router-dom';
 import { Login } from '../Login/Login.tsx';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -27,50 +27,48 @@ import logo from '../../assets/logo.jpg';
 
 // todo fluid entfernen bzw eher container da fluid default wert damit navbar über ganze breite geht
 
-export const NavBar = () => {
-    return (
-        <Navbar expand="lg" className="custom-navbar">
-            <Container fluid>
-                <Navbar.Brand as={Link} to={`/`}>
-                    <img
-                        src={logo}
-                        alt="logo"
-                        width="40"
-                        height="35"
-                        className="d-inline-block align-middle"
-                    />
-                    Buch-Frontend
-                </Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                        <Nav.Link as={Link} to={`suchen`}>
-                            Suchen
-                        </Nav.Link>
-                        <Nav.Link as={Link} to={`neues_buch`}>
-                            Neues Buch
-                        </Nav.Link>
-                        <NavDropdown title="Diagramme" id="basic-nav-dropdown">
-                            <NavDropdown.Item as={Link} to={`/`}>
-                                Action
-                            </NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to={`/`}>
-                                Another action
-                            </NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to={`/`}>
-                                Something
-                            </NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item as={Link} to={`/`}>
-                                Separated link
-                            </NavDropdown.Item>
-                        </NavDropdown>
-                    </Nav>
-                </Navbar.Collapse>
-                <Navbar className="Toggle">
-                    <Login />
-                </Navbar>
-            </Container>
-        </Navbar>
-    );
-};
+export const NavBar = () => (
+    <Navbar expand="lg" className="custom-navbar">
+        <Container fluid>
+            <Navbar.Brand as={Link} to={`/`}>
+                <img
+                    src={logo}
+                    alt="logo"
+                    width="40"
+                    height="35"
+                    className="d-inline-block align-middle"
+                />
+                Buch-Frontend
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="me-auto">
+                    <Nav.Link as={Link} to={`suchen`}>
+                        Suchen
+                    </Nav.Link>
+                    <Nav.Link as={Link} to={`neues_buch`}>
+                        Neues Buch
+                    </Nav.Link>
+                    <NavDropdown title="Diagramme" id="basic-nav-dropdown">
+                        <NavDropdown.Item as={Link} to={`/`}>
+                            Action
+                        </NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to={`/`}>
+                            Another action
+                        </NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to={`/`}>
+                            Something
+                        </NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item as={Link} to={`/`}>
+                            Separated link
+                        </NavDropdown.Item>
+                    </NavDropdown>
+                </Nav>
+            </Navbar.Collapse>
+            <Navbar className="Toggle">
+                <Login />
+            </Navbar>
+        </Container>
+    </Navbar>
+);

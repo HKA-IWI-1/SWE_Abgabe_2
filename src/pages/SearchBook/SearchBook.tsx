@@ -17,6 +17,4 @@
  *
  */
 
-export const SearchBook = () => {
-    return <>suchen</>;
-};
+export const SearchBook = () => <>suchen</>;

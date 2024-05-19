@@ -17,6 +17,4 @@
  *
  */
 
-export const Diagrams = () => {
-    return <>diagrams</>;
-};
+export const Diagrams = () => <>diagrams</>;

@@ -47,7 +47,10 @@ export const GlobalToast = () => {
 
     return (
         <>
-            <ToastContainer position={'top-end'} className={'position-fixed d-flex flex-column'}>
+            <ToastContainer
+                position={'top-end'}
+                className={'position-fixed d-flex flex-column'}
+            >
                 {teasers.map((teaser: TeaserData, idx: number) => (
                     <Teaser {...teaser} key={idx} />
                 ))}

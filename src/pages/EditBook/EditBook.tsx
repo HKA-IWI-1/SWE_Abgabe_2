@@ -17,14 +17,11 @@
  *
  */
 
+import { type BookId } from '../../dataTypes/bookId.ts';
 import { useLoaderData } from 'react-router-dom';
 
-export const editBookLoader = async ({ params } : any) => {
-  return { book: params.bookId };
-};
-
 export const EditBook = () => {
-    const { book } = useLoaderData() as any;
+    const { book } = useLoaderData() as BookId;
 
     return <>edit book {book}</>;
 };

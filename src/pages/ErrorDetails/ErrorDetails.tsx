@@ -17,4 +17,21 @@
  *
  */
 
-export const CreateBook = () => <>create books</>;
+import { useRouteError } from 'react-router-dom';
+
+export const ErrorDetails = () => {
+    const error = useRouteError();
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const errorComponent =
+        error instanceof Error ? error.message : (error as any).statusText;
+
+    return (
+        <div id="error-page">
+            <h1>Oops!</h1>
+            <p>
+                <i>{errorComponent}</i>
+            </p>
+        </div>
+    );
+};

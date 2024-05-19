@@ -17,9 +17,10 @@
  *
  */
 
-import { useLoaderData } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
+import { type BookId } from '../../dataTypes/bookId.ts';
 import Spinner from 'react-bootstrap/Spinner';
+import { useLoaderData } from 'react-router-dom';
 
 interface DisplayBookProps {
     id: number;
@@ -82,12 +83,8 @@ const DisplayBook = ({ id }: DisplayBookProps) => {
     );
 };
 
-export const bookDetailsLoader = async ({ params }: any) => {
-    return { book: params.bookId };
-};
-
 export const BookDetails = () => {
-    const { book } = useLoaderData() as any;
+    const { book } = useLoaderData() as BookId;
 
     return <DisplayBook id={book} />;
 };

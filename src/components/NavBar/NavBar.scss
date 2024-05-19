@@ -18,6 +18,10 @@
  */
 @import '../../global';
 
+.navbar-toggler-icon {
+  filter: invert(100%);
+}
+
 .custom-navbar {
   background-color: $blue-900;
   color: $white;
@@ -26,6 +30,7 @@
   .dropdown.show > .dropdown-toggle {
     color: $gray-600 !important;
   }
+
 
   .navbar-brand,
   .nav-link,
@@ -43,6 +48,7 @@
     }
   }
 
+
   .dropdown-item {
     color: $black;
 
@@ -58,11 +64,8 @@
     }
   }
 
+
   .custom-navbar .nav-dropdown .dropdown-item {
     color: $white;
-  }
-
-  .navbar-toggler-icon {
-    filter: invert(100%);
   }
 }

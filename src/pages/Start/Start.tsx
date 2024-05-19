@@ -17,10 +17,10 @@
  *
  */
 
-import Button from 'react-bootstrap/Button';
-import { useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
+import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
+import { useState } from 'react';
 
 interface DisplayBookProps {
     id: number;

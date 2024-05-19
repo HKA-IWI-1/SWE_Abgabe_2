@@ -21,17 +21,18 @@ import './src/App.scss';
 import {
     ApolloClient,
     ApolloProvider,
-    createHttpLink,
     InMemoryCache,
+    createHttpLink,
 } from '@apollo/client';
-import { useState } from 'react';
-import { TeaserContext } from './src/contexts/teaserContext.ts';
-import { NavBar } from './src/components/NavBar/NavBar.tsx';
-import { GlobalToast } from './src/components/GlobalToast/GlobalToast.tsx';
-import type { TeaserData } from './src/dataTypes/teaserData';
-import { setContext } from '@apollo/client/link/context';
 import { Outlet, useNavigation } from 'react-router-dom';
+import { GlobalToast } from './src/components/GlobalToast/GlobalToast.tsx';
+import { NavBar } from './src/components/NavBar/NavBar.tsx';
+import { TeaserContext } from './src/contexts/teaserContext.ts';
+import { type TeaserData } from './src/dataTypes/teaserData';
+import { setContext } from '@apollo/client/link/context';
+import { useState } from 'react';
 
+// eslint-disable-next-line max-lines-per-function
 export const App = () => {
     const [teasers, setTeasers] = useState([] as TeaserData[]);
 
@@ -61,7 +62,7 @@ export const App = () => {
     });
 
     const httpLink = createHttpLink({
-        //uri: import.meta.env.VITE_GRAPHQL_API_URL ?? 'http://localhost:3000/graphql',
+        // uri: import.meta.env.VITE_GRAPHQL_API_URL ?? 'http://localhost:3000/graphql',
         uri: 'http://localhost:3000/graphql',
     });
 
@@ -79,7 +80,8 @@ export const App = () => {
             >
                 <ApolloProvider client={apolloClient}>
                     <NavBar />
-                    <div id={'main-content-wrapper'}
+                    <div
+                        id={'main-content-wrapper'}
                         className={
                             navigation.state === 'loading' ? 'loading' : ''
                         }
