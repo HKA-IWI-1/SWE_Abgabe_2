@@ -18,7 +18,6 @@
   },
   "dependencies": {
     "@apollo/client": "^3.10.4",
-    "@react-buddy/ide-toolbox": "^2.4.0",
     "bootstrap": "^5.3.3",
     "graphql": "^16.8.1",
     "react": "^18.2.0",

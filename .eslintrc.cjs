@@ -29,6 +29,7 @@ module.exports = {
     env: { browser: true, es2022: true },
     extends: [
         'plugin:react/recommended',
+        'plugin:react/jsx-runtime',
         'eslint:recommended',
         'plugin:react-hooks/recommended',
         'plugin:@typescript-eslint/recommended-type-checked',
@@ -46,7 +47,7 @@ module.exports = {
     ignorePatterns: ['dist', '.eslintrc.cjs'],
     parser: '@typescript-eslint/parser',
     parserOptions: {
-        project: true,
+        project: ['./tsconfig.json'],
         ecmaVersion: '2022',
         sourceType: 'module',
         ecmaFeatures: {
