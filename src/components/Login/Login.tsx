@@ -18,66 +18,40 @@
  */
 
 import './Login.scss';
-import { type ChangeEvent, useCallback, useContext, useEffect } from 'react';
-import { type FetchResult, gql, useMutation } from '@apollo/client';
+import { AUTH, REFRESH } from './queries.ts';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { FormErrors } from './elements/FormError.tsx';
 import Stack from 'react-bootstrap/Stack';
+import { type SubmitHandler } from 'react-hook-form';
 import { TeaserContext } from '../../contexts/teaserContext.ts';
-import { useState } from 'react';
+import { persistTokenData } from './helper.ts';
+import { useForm } from 'react-hook-form';
+import { useMutation } from '@apollo/client';
 
-const AUTH = gql`
-    mutation ($username: String!, $password: String!) {
-        login(username: $username, password: $password) {
-            access_token
-            expires_in
-            refresh_token
-            refresh_expires_in
-            roles
-        }
-    }
-`;
-
-const REFRESH = gql`
-    mutation ($refreshToken: String!) {
-        refresh(refresh_token: $refreshToken) {
-            access_token
-            expires_in
-            refresh_token
-            refresh_expires_in
-            roles
-        }
-    }
-`;
-
-const persistTokenData = (result: FetchResult<any>) => {
-    localStorage.setItem(
-        'access_token',
-        result.data.login.access_token as string,
-    );
-    localStorage.setItem(
-        'refresh_token',
-        result.data.login.refresh_token as string,
-    );
-    localStorage.setItem('expires_in', result.data.login.expires_in as string);
-};
+interface Inputs {
+    username: string;
+    password: string;
+}
 
 // eslint-disable-next-line max-lines-per-function
 export const Login = () => {
-    const [validated, setValidated] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
-    const [password, setPassword] = useState('');
-    const [username, setUsername] = useState('');
     const { addTeaser } = useContext(TeaserContext);
+    const {
+        reset,
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<Inputs>({
+        defaultValues: {
+            username: '',
+            password: '',
+        },
+    });
 
     const [authenticateUser, { client }] = useMutation(AUTH);
-    const doAuthentication = async () =>
-        authenticateUser({
-            variables: {
-                username,
-                password,
-            },
-        });
 
     const [refreshToken] = useMutation(REFRESH);
     const doTokenRefresh = useCallback(
@@ -92,28 +66,27 @@ export const Login = () => {
         [refreshToken],
     );
 
-    const logIn = (event: ChangeEvent<any>) => {
-        event.preventDefault();
-        event.stopPropagation();
-        setValidated(true);
-        if (username !== '' && password !== '') {
-            doAuthentication() // don't use await in order to handle login errors
-                .then((res) => {
-                    persistTokenData(res);
-                    setLoggedIn(true);
-                    setUsername('');
-                    setPassword('');
-                    return true;
-                })
-                .catch((err) => {
-                    console.error(err);
-                    addTeaser({
-                        messageType: 'Danger',
-                        message: err.message as string,
-                        timestamp: Date.now(),
-                    });
+    const logIn: SubmitHandler<Inputs> = (data: Inputs) => {
+        authenticateUser({
+            variables: {
+                username: data.username,
+                password: data.password,
+            },
+        }) // don't use await in order to handle login errors
+            .then((res) => {
+                persistTokenData(res);
+                setLoggedIn(true);
+                reset();
+                return true;
+            })
+            .catch((err) => {
+                console.error(err);
+                addTeaser({
+                    messageType: 'Danger',
+                    message: err.message as string,
+                    timestamp: Date.now(),
                 });
-        }
+            });
     };
 
     const logOut = useCallback(async () => {
@@ -147,7 +120,7 @@ export const Login = () => {
     return (
         <>
             {!loggedIn && (
-                <Form noValidate validated={validated} onSubmit={logIn}>
+                <Form onSubmit={handleSubmit(logIn)}>
                     {/* todo: use form validation library */}
                     <Stack direction="horizontal" gap={3}>
                         <Form.Control
@@ -155,19 +128,21 @@ export const Login = () => {
                             type="text"
                             placeholder="Username"
                             required
-                            onChange={(event) =>
-                                setUsername(event.target.value)
-                            }
+                            {...register('username', { required: true })}
                         />
+                        {errors.username && (
+                            <FormErrors message={'Benutzername fehlt'} />
+                        )}
                         <Form.Control
                             className="mr-1"
                             type="password"
                             placeholder="Password"
                             required
-                            onChange={(event) =>
-                                setPassword(event.target.value)
-                            }
+                            {...register('password', { required: true })}
                         />
+                        {errors.password && (
+                            <FormErrors message={'Passwort fehlt'} />
+                        )}
                         <div className="vr" />
                         <Button variant="primary" type="submit">
                             Login
