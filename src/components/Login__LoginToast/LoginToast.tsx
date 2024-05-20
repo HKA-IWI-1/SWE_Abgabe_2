@@ -17,8 +17,50 @@
  *
  */
 
+import './LoginToast.scss';
+import { Toast, ToastContainer } from 'react-bootstrap';
+import { type Key } from 'react';
+
 export interface TeaserData {
     messageType: string;
     message: string;
     timestamp: number;
 }
+
+interface LoginToastProps {
+    deleteTeaser: (timestamp: number) => void;
+    teasers: TeaserData[];
+}
+
+export const LoginToast = ({ deleteTeaser, teasers }: LoginToastProps) => {
+    const Teaser = (
+        { message, messageType, timestamp }: TeaserData,
+        key: Key,
+    ) => (
+        <Toast
+            className="d-inline-block m-1"
+            bg={messageType.toLowerCase()}
+            key={key}
+            onClose={() => deleteTeaser(timestamp)}
+        >
+            <Toast.Header>
+                <strong className="me-auto">{messageType}</strong>
+                <small>{new Date(timestamp).toLocaleTimeString()}</small>
+            </Toast.Header>
+            <Toast.Body>{message}</Toast.Body>
+        </Toast>
+    );
+
+    return (
+        <>
+            <ToastContainer
+                position={'top-end'}
+                className={'position-fixed d-flex flex-column'}
+            >
+                {teasers.map((teaser: TeaserData, idx: number) => (
+                    <Teaser {...teaser} key={idx} />
+                ))}
+            </ToastContainer>
+        </>
+    );
+};

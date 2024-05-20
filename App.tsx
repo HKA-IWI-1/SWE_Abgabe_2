@@ -27,31 +27,10 @@ import {
     createHttpLink,
 } from '@apollo/client';
 import { Outlet, useNavigation } from 'react-router-dom';
-import { GlobalToast } from './src/components/GlobalToast/GlobalToast.tsx';
 import { NavBar } from './src/components/NavBar/NavBar.tsx';
-import { TeaserContext } from './src/contexts/teaserContext.ts';
-import { type TeaserData } from './src/dataTypes/teaserData';
 import { setContext } from '@apollo/client/link/context';
-import { useState } from 'react';
 
-// eslint-disable-next-line max-lines-per-function
 export const App = () => {
-    const [teasers, setTeasers] = useState([] as TeaserData[]);
-
-    const addTeaser = (teaser: TeaserData) => {
-        const updatedTeasers = [...teasers, teaser];
-        setTeasers(updatedTeasers);
-    };
-
-    const deleteTeaser = (timestamp: number) => {
-        const updatedTeasers = teasers.filter((teaser) => {
-            if (timestamp !== teaser.timestamp) {
-                return teaser;
-            }
-        });
-        setTeasers(updatedTeasers);
-    };
-
     const authLink = setContext((_, { headers }) => {
         const token = localStorage.getItem('access_token');
         return {
@@ -77,26 +56,15 @@ export const App = () => {
 
     return (
         <>
-            <TeaserContext.Provider
-                value={{
-                    teasers,
-                    addTeaser,
-                    deleteTeaser,
-                }} // todo move into login component
-            >
-                <ApolloProvider client={apolloClient}>
-                    <NavBar />
-                    <div
-                        id={'main-content-wrapper'}
-                        className={
-                            navigation.state === 'loading' ? 'loading' : ''
-                        }
-                    >
-                        <Outlet />
-                    </div>
-                    <GlobalToast></GlobalToast>
-                </ApolloProvider>
-            </TeaserContext.Provider>
+            <ApolloProvider client={apolloClient}>
+                <NavBar />
+                <div
+                    id={'main-content-wrapper'}
+                    className={navigation.state === 'loading' ? 'loading' : ''}
+                >
+                    <Outlet />
+                </div>
+            </ApolloProvider>
         </>
     );
 };

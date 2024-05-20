@@ -19,13 +19,16 @@
 
 import './Login.scss';
 import { AUTH, REFRESH } from './queries_mutations.ts';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import {
+    LoginToast,
+    type TeaserData,
+} from '../Login__LoginToast/LoginToast.tsx';
+import { useCallback, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from './elements/FormError.tsx';
 import Stack from 'react-bootstrap/Stack';
 import { type SubmitHandler } from 'react-hook-form';
-import { TeaserContext } from '../../contexts/teaserContext.ts';
 import { persistTokenData } from './helper.ts';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@apollo/client';
@@ -38,7 +41,6 @@ interface Inputs {
 // eslint-disable-next-line max-lines-per-function
 export const Login = () => {
     const [loggedIn, setLoggedIn] = useState(false);
-    const { addTeaser } = useContext(TeaserContext);
     const {
         reset,
         register,
@@ -51,9 +53,23 @@ export const Login = () => {
         },
     });
 
-    const [authenticateUser, { client }] = useMutation(AUTH);
+    const [teasers, setTeasers] = useState([] as TeaserData[]);
+    const addTeaser = (teaser: TeaserData) => {
+        setTeasers([...teasers, teaser]);
+    };
 
+    const deleteTeaser = (timestamp: number) => {
+        const updatedTeasers = teasers.filter((teaser) => {
+            if (timestamp !== teaser.timestamp) {
+                return teaser;
+            }
+        });
+        setTeasers(updatedTeasers);
+    };
+
+    const [authenticateUser, { client }] = useMutation(AUTH);
     const [refreshToken] = useMutation(REFRESH);
+
     const doTokenRefresh = useCallback(
         async (token: string) => {
             const result = await refreshToken({
@@ -119,6 +135,7 @@ export const Login = () => {
 
     return (
         <>
+            <LoginToast teasers={teasers} deleteTeaser={deleteTeaser} />
             {!loggedIn && (
                 <Form onSubmit={handleSubmit(logIn)}>
                     {/* todo: use form validation library */}
