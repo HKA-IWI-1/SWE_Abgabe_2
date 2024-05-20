@@ -36,7 +36,7 @@ export const NavBar = () => (
                     alt="logo"
                     width="40"
                     height="35"
-                    className="d-inline-block align-middle"
+                    className="d-inline-block align-middle me-2"
                 />
                 Buch-Frontend
             </Navbar.Brand>

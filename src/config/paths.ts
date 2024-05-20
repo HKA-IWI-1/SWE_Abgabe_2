@@ -16,14 +16,16 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import { useLoaderData } from 'react-router-dom';
 
-export interface BookId {
-    book: number;
-}
+const bookDetails = 'buch/:bookId';
+const edit = 'bearbeiten';
 
-export const EditBook = () => {
-    const { book } = useLoaderData() as BookId;
-
-    return <>edit book {book}</>;
+export const paths = {
+    root: '/',
+    search: 'suchen',
+    createBook: 'neues_buch',
+    diagrams: 'diagramme',
+    bookDetails,
+    editBook: `${bookDetails}/${edit}`,
+    edit,
 };

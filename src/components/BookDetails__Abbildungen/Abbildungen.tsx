@@ -17,6 +17,27 @@
  *
  */
 
-export interface BookId {
-    book: number;
+interface Abbildung {
+    beschriftung: string;
+    contentType: string;
 }
+
+interface AbbildungenProps {
+    abbildungen: Abbildung[];
+}
+
+export const Abbildungen = ({ abbildungen }: AbbildungenProps) => (
+    <>
+        <h2>Abbildungen</h2>
+        {abbildungen.length > 0 &&
+            abbildungen.map((abbildung: Abbildung, idx: number) => (
+                <tr key={idx}>{abbildung.beschriftung}</tr>
+            ))}
+        {abbildungen.length === 0 && (
+            <p>
+                Keine Abbildungen vorhanden oder es konnten keine geladen
+                werden.
+            </p>
+        )}
+    </>
+);

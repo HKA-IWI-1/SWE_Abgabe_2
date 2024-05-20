@@ -18,6 +18,8 @@
  */
 
 import './src/App.scss';
+import 'bootstrap/scss/bootstrap.scss';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import {
     ApolloClient,
     ApolloProvider,
@@ -76,7 +78,11 @@ export const App = () => {
     return (
         <>
             <TeaserContext.Provider
-                value={{ teasers, addTeaser, deleteTeaser }}
+                value={{
+                    teasers,
+                    addTeaser,
+                    deleteTeaser,
+                }} // todo move into login component
             >
                 <ApolloProvider client={apolloClient}>
                     <NavBar />

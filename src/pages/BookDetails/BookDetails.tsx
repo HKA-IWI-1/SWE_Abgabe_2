@@ -16,12 +16,82 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import { type BookId } from '../../dataTypes/bookId.ts';
-import { DisplayBook } from './DisplayBook.tsx';
-import { useLoaderData } from 'react-router-dom';
+import './BookDetails.scss';
+import { Col, Row } from 'react-bootstrap';
+import { useLoaderData, useNavigate } from 'react-router-dom';
+import { Abbildungen } from '../../components/BookDetails__Abbildungen/Abbildungen.tsx';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import { InfoBar } from '../../components/BookDetails__InfoBar/InfoBar.tsx';
+import { MainData } from '../../components/BookDetails__MainData/MainData.tsx';
+import { READ_BOOK } from './queries.ts';
+import Spinner from 'react-bootstrap/Spinner';
+import { paths } from '../../config/paths.ts';
+import { useQuery } from '@apollo/client';
 
+interface BookId {
+    book: number;
+}
+
+// eslint-disable-next-line max-lines-per-function
 export const BookDetails = () => {
     const { book } = useLoaderData() as BookId;
+    const navigate = useNavigate();
 
-    return <DisplayBook id={book} />;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const { loading, error, data } = useQuery(READ_BOOK, {
+        variables: { id: book },
+    });
+
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    return (
+        <Container>
+            {loading && (
+                <Row>
+                    <Spinner variant="primary" animation="border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                </Row>
+            )}
+            {!loading && (
+                <>
+                    <Row className={'mb-4 pt-1'}>
+                        <Col>
+                            <h1>{data?.buch?.titel?.titel ?? 'N/A'}</h1>
+                        </Col>
+                        <Col md={{ span: 2 }}>
+                            <Button
+                                variant="outline-dark"
+                                onClick={() => {
+                                    navigate(paths.edit);
+                                }}
+                            >
+                                <i className="bi bi-pencil-fill"></i>
+                            </Button>
+                        </Col>
+                        <Row>
+                            <InfoBar {...data.buch} />
+                        </Row>
+                    </Row>
+                    <Row className={'mb-5'}>
+                        <MainData {...data.buch} />
+                    </Row>
+                    <Row>
+                        <Abbildungen
+                            abbildungen={
+                                (
+                                    data as {
+                                        buch?: { abbildungen?: [] };
+                                    }
+                                ).buch?.abbildungen ?? []
+                            }
+                        />
+                    </Row>
+                </>
+            )}
+        </Container>
+    );
 };

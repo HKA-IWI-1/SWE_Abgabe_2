@@ -26,10 +26,6 @@
     filter: invert(100%);
   }
 
-  .navbar-brand > img {
-    margin-right: $spacer;
-  }
-
   .nav-link.active,
   .dropdown.show > .dropdown-toggle {
     color: $gray-600 !important;

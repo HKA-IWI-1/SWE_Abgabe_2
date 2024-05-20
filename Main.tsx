@@ -28,6 +28,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { SearchBook } from './src/pages/SearchBook/SearchBook';
 import { Start } from './src/pages/Start/Start';
+import { paths } from './src/config/paths.ts';
 
 const bookDetailsLoader = ({ params }: any) => ({
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -41,7 +42,7 @@ const editBookLoader = ({ params }: any) => ({
 
 const router = createBrowserRouter([
     {
-        path: '/',
+        path: paths.root,
         element: <App />,
         errorElement: <ErrorDetails />,
         children: [
@@ -53,24 +54,24 @@ const router = createBrowserRouter([
                         element: <Start />,
                     },
                     {
-                        path: 'suchen',
+                        path: paths.search,
                         element: <SearchBook />,
                     },
                     {
-                        path: 'neues_buch',
+                        path: paths.createBook,
                         element: <CreateBook />,
                     },
                     {
-                        path: ' diagramme',
+                        path: paths.diagrams,
                         element: <Diagrams />,
                     },
                     {
-                        path: 'buch/:bookId',
+                        path: paths.bookDetails,
                         element: <BookDetails />,
                         loader: bookDetailsLoader,
                     },
                     {
-                        path: 'buch/:bookId/bearbeiten', // https://reactrouter.com/en/main/start/tutorial#updating-data
+                        path: paths.editBook, // https://reactrouter.com/en/main/start/tutorial#updating-data
                         element: <EditBook />,
                         loader: editBookLoader,
                     },
