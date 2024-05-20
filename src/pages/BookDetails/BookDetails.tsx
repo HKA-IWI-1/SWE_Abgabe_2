@@ -17,7 +17,7 @@
  *
  */
 import './BookDetails.scss';
-import { Col, Row } from 'react-bootstrap';
+import { Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { Abbildungen } from '../../components/BookDetails__Abbildungen/Abbildungen.tsx';
 import Button from 'react-bootstrap/Button';
@@ -47,6 +47,22 @@ export const BookDetails = () => {
         throw new Error(error.message);
     }
 
+    const editBookButton = (
+        <OverlayTrigger
+            placement={'left'}
+            overlay={<Tooltip id={'tooltip-left'}>Bearbeiten</Tooltip>}
+        >
+            <Button
+                variant="outline-dark"
+                onClick={() => {
+                    navigate(paths.edit);
+                }}
+            >
+                <i className="bi bi-pencil-fill"></i>
+            </Button>
+        </OverlayTrigger>
+    );
+
     return (
         <Container>
             {loading && (
@@ -62,16 +78,7 @@ export const BookDetails = () => {
                         <Col>
                             <h1>{data?.buch?.titel?.titel ?? 'N/A'}</h1>
                         </Col>
-                        <Col md={{ span: 2 }}>
-                            <Button
-                                variant="outline-dark"
-                                onClick={() => {
-                                    navigate(paths.edit);
-                                }}
-                            >
-                                <i className="bi bi-pencil-fill"></i>
-                            </Button>
-                        </Col>
+                        <Col md={{ span: 2 }}>{editBookButton}</Col>
                         <Row>
                             <InfoBar {...data.buch} />
                         </Row>
