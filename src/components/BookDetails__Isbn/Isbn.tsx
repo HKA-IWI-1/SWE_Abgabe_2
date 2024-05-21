@@ -20,7 +20,7 @@
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import { type BookDTO } from '../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../Login/elements/FormError.tsx';
+import { FormErrors } from '../FormError/elements/FormError.tsx';
 import { InputGroup } from 'react-bootstrap';
 
 interface IsbnProps {

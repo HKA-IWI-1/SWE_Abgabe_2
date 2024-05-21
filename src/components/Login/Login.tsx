@@ -26,7 +26,7 @@ import {
 import { useCallback, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from './elements/FormError.tsx';
+import { FormErrors } from '../FormError/elements/FormError.tsx';
 import Stack from 'react-bootstrap/Stack';
 import { type SubmitHandler } from 'react-hook-form';
 import { persistTokenData } from './helper.ts';

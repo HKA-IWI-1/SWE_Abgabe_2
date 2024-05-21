@@ -25,7 +25,7 @@ import {
 import { type BookDTO } from '../../entities/BookDTO.ts';
 import { type BookInput } from '../../pages/EditBook/EditBook.tsx';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../Login/elements/FormError.tsx';
+import { FormErrors } from '../FormError/elements/FormError.tsx';
 
 interface RatingProps {
     register: UseFormRegister<any>;
