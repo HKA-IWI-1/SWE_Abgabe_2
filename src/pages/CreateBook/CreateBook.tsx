@@ -16,5 +16,12 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
+import { CreateInput } from '../../components/CreateBook/CreateBook';
 
-export const CreateBook = () => <>create books</>;
+export const CreateBook = () => {
+    return (
+        <>
+            <CreateInput />
+        </>
+    );
+};
