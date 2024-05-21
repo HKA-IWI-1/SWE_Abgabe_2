@@ -43,10 +43,10 @@ export const App = () => {
     });
 
     const httpLink = createHttpLink({
-        // uri: import.meta.env.VITE_GRAPHQL_API_URL ?? 'http://localhost:3000/graphql',
-        uri: 'http://localhost:3000/graphql',
+        uri:
+            (import.meta.env.VITE_GRAPHQL_API_URL as string | null) ??
+            'http://localhost:3000/graphql',
     });
-
     const apolloClient = new ApolloClient({
         cache: new InMemoryCache(),
         link: authLink.concat(httpLink),
