@@ -29,6 +29,8 @@ interface DatumProps {
     errors: FieldErrors;
 }
 
+const ISO8601_REGEX = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/u;
+
 export const Datum = ({ register, buch, errors }: DatumProps) => (
     <>
         <Form.Group className="mb-3">
@@ -41,6 +43,7 @@ export const Datum = ({ register, buch, errors }: DatumProps) => (
                     type="date"
                     {...register('datum', {
                         required: true,
+                        pattern: ISO8601_REGEX,
                     })}
                     defaultValue={buch.datum}
                 />

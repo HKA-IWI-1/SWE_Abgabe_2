@@ -34,16 +34,21 @@ interface RatingProps {
     watch: UseFormWatch<BookInput>;
 }
 
+const MIN_RATING = 0;
+const MAX_RATING = 5;
+
 export const Rating = ({ watch, register, buch, errors }: RatingProps) => (
     <>
         <Form.Group className="mb-3">
             {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
             <Form.Label>Rating: {watch('rating') ?? buch.rating}</Form.Label>
             <Form.Range
-                min={1}
-                max={5}
+                min={MIN_RATING}
+                max={MAX_RATING}
                 {...register('rating', {
                     required: true,
+                    min: MIN_RATING,
+                    max: MAX_RATING,
                 })}
                 defaultValue={buch.rating}
             />

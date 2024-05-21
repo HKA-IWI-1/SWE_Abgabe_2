@@ -17,12 +17,8 @@
  *
  */
 
-import Form from 'react-bootstrap/Form';
-
 interface ErrorMessage {
     message: string;
 }
 
-export const FormErrors = ({ message }: ErrorMessage) => (
-    <Form.Control.Feedback type="invalid">{message}</Form.Control.Feedback>
-);
+export const FormErrors = ({ message }: ErrorMessage) => <p>{message}</p>;

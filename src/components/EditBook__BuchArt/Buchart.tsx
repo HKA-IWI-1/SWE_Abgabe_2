@@ -44,6 +44,7 @@ export const Buchart = ({ register, buch, errors }: BuchartProps) => (
                         value={type}
                         {...register('art', {
                             required: true,
+                            pattern: /^DRUCKAUSGABE$|^KINDLE$/u,
                         })}
                         defaultChecked={buch.art === type}
                     />

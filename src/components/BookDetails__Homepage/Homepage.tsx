@@ -29,6 +29,9 @@ interface HomepageProps {
     errors: FieldErrors;
 }
 
+const URL_PATTERN =
+    /^https?:\/\/(www\.)?[-\w@:%.+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-\w()@:%+.~#?&/=]*)$/u;
+
 export const Homepage = ({ register, buch, errors }: HomepageProps) => (
     <>
         <Form.Group className="mb-3">
@@ -42,6 +45,7 @@ export const Homepage = ({ register, buch, errors }: HomepageProps) => (
                     aria-label="homepage"
                     {...register('homepage', {
                         required: true,
+                        pattern: URL_PATTERN,
                     })}
                     defaultValue={buch.homepage}
                 />

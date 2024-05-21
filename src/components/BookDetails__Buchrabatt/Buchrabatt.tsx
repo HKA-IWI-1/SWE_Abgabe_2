@@ -29,6 +29,9 @@ interface BuchrabattProps {
     errors: FieldErrors;
 }
 
+const RABATT_MIN = 0;
+const RABATT_MAX = 100;
+
 export const Buchrabatt = ({ register, buch, errors }: BuchrabattProps) => (
     <>
         <Form.Group className="mb-3">
@@ -41,11 +44,15 @@ export const Buchrabatt = ({ register, buch, errors }: BuchrabattProps) => (
                     aria-label="Rabatt"
                     {...register('rabatt', {
                         required: true,
+                        min: RABATT_MIN,
+                        max: RABATT_MAX,
                     })}
                     step=".001"
-                    defaultValue={buch.rabatt
-                        .slice(0, Math.max(0, buch.rabatt.length - 1))
-                        .trim()}
+                    defaultValue={Number.parseFloat(
+                        buch.rabatt
+                            .slice(0, Math.max(0, buch.rabatt.length - 1))
+                            .trim(),
+                    )}
                 />
                 {errors.rabatt && (
                     <FormErrors

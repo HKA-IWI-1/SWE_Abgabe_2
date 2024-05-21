@@ -29,6 +29,8 @@ interface BuchpreisProps {
     errors: FieldErrors;
 }
 
+const PREIS_MIN = 0;
+
 export const Buchpreis = ({ register, buch, errors }: BuchpreisProps) => (
     <>
         <Form.Group className="mb-3">
@@ -41,6 +43,7 @@ export const Buchpreis = ({ register, buch, errors }: BuchpreisProps) => (
                     aria-label="Preis"
                     {...register('preis', {
                         required: true,
+                        min: PREIS_MIN,
                     })}
                     defaultValue={buch.preis}
                 />

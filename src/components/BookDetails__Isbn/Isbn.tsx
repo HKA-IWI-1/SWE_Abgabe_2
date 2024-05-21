@@ -29,6 +29,9 @@ interface IsbnProps {
     errors: FieldErrors;
 }
 
+const ISBN13_PATTERN =
+    /^(?:ISBN(?:-13)?:? )?(?=\d{13}$|(?=(?:\d+[- ]){4})[- 0-9]{17}$)97[89][- ]?\d{1,5}[- ]?(?:\d+[- ]\d+|\d{2,})[- ]?\d$/u;
+
 export const Isbn = ({ register, buch, errors }: IsbnProps) => (
     <>
         <Form.Group className="mb-3">
@@ -39,6 +42,7 @@ export const Isbn = ({ register, buch, errors }: IsbnProps) => (
                     placeholder="ISBN"
                     {...register('isbn', {
                         required: true,
+                        pattern: ISBN13_PATTERN,
                     })}
                     defaultValue={buch.isbn}
                 />
