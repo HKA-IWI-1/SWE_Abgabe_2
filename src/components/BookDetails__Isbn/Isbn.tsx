@@ -20,7 +20,7 @@
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import { type BookDTO } from '../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/elements/FormError.tsx';
+import { FormErrors } from '../FormError/FormError.tsx';
 import { InputGroup } from 'react-bootstrap';
 
 interface IsbnProps {
@@ -45,10 +45,13 @@ export const Isbn = ({ register, buch, errors }: IsbnProps) => (
                         pattern: ISBN13_PATTERN,
                     })}
                     defaultValue={buch.isbn}
+                    isValid={!errors.isbn}
+                    isInvalid={Boolean(errors.isbn)}
                 />
-                {errors.isbn && (
-                    <FormErrors message={'Die ISBN fehlt oder ist ungültig'} />
-                )}
+                <FormErrors
+                    isError={Boolean(errors.isbn)}
+                    errorMessage={'Die ISBN fehlt oder ist ungültig'}
+                />
             </InputGroup>
         </Form.Group>
     </>

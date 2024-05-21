@@ -17,8 +17,29 @@
  *
  */
 
+import { Form } from 'react-bootstrap';
+
 interface ErrorMessage {
-    message: string;
+    errorMessage: string;
+    successMessage?: string;
+    isError: boolean;
 }
 
-export const FormErrors = ({ message }: ErrorMessage) => <p>{message}</p>;
+export const FormErrors = ({
+    errorMessage,
+    successMessage,
+    isError,
+}: ErrorMessage) => (
+    <>
+        {isError && (
+            <Form.Control.Feedback type="invalid">
+                {errorMessage}
+            </Form.Control.Feedback>
+        )}
+        {!isError && successMessage !== undefined && (
+            <Form.Control.Feedback type="valid">
+                {successMessage}
+            </Form.Control.Feedback>
+        )}
+    </>
+);

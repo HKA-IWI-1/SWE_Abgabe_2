@@ -20,7 +20,7 @@
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import { type BookDTO } from '../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/elements/FormError.tsx';
+import { FormErrors } from '../FormError/FormError.tsx';
 import { InputGroup } from 'react-bootstrap';
 
 interface BuchartProps {
@@ -47,13 +47,14 @@ export const Buchart = ({ register, buch, errors }: BuchartProps) => (
                             pattern: /^DRUCKAUSGABE$|^KINDLE$/u,
                         })}
                         defaultChecked={buch.art === type}
+                        isValid={!errors.art}
+                        isInvalid={Boolean(errors.art)}
                     />
                 ))}
-                {errors.art && (
-                    <FormErrors
-                        message={'Die Buchart fehlt oder ist ungültig'}
-                    />
-                )}
+                <FormErrors
+                    isError={Boolean(errors.art)}
+                    errorMessage={'Die Buchart fehlt oder ist ungültig'}
+                />
             </InputGroup>
         </Form.Group>
     </>

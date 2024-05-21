@@ -20,7 +20,7 @@
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import { type BookDTO } from '../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/elements/FormError.tsx';
+import { FormErrors } from '../FormError/FormError.tsx';
 import { InputGroup } from 'react-bootstrap';
 
 interface BuchpreisProps {
@@ -43,13 +43,18 @@ export const Buchpreis = ({ register, buch, errors }: BuchpreisProps) => (
                     aria-label="Preis"
                     {...register('preis', {
                         required: true,
+                        valueAsNumber: true,
                         min: PREIS_MIN,
                     })}
+                    step=".001"
                     defaultValue={buch.preis}
+                    isValid={!errors.preis}
+                    isInvalid={Boolean(errors.preis)}
                 />
-                {errors.preis && (
-                    <FormErrors message={'Der Preis fehlt oder ist ungültig'} />
-                )}
+                <FormErrors
+                    isError={Boolean(errors.preis)}
+                    errorMessage={'Der Preis fehlt oder ist ungültig'}
+                />
             </InputGroup>
         </Form.Group>
     </>

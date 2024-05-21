@@ -20,7 +20,7 @@
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import { type BookDTO } from '../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/elements/FormError.tsx';
+import { FormErrors } from '../FormError/FormError.tsx';
 import { InputGroup } from 'react-bootstrap';
 
 interface DatumProps {
@@ -46,10 +46,13 @@ export const Datum = ({ register, buch, errors }: DatumProps) => (
                         pattern: ISO8601_REGEX,
                     })}
                     defaultValue={buch.datum}
+                    isValid={!errors.datum}
+                    isInvalid={Boolean(errors.datum)}
                 />
-                {errors.datum && (
-                    <FormErrors message={errors.datum.message as string} />
-                )}
+                <FormErrors
+                    isError={Boolean(errors.datum)}
+                    errorMessage={'Das Datum fehlt oder ist ungültig'}
+                />
             </InputGroup>
         </Form.Group>
     </>

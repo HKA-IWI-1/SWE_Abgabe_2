@@ -20,7 +20,7 @@
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import { type BookDTO } from '../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/elements/FormError.tsx';
+import { FormErrors } from '../FormError/FormError.tsx';
 import { InputGroup } from 'react-bootstrap';
 
 interface LieferbarProps {
@@ -38,12 +38,15 @@ export const Lieferbar = ({ register, buch, errors }: LieferbarProps) => (
                     label="Lieferbar"
                     {...register('lieferbar')}
                     defaultChecked={buch.lieferbar}
+                    isValid={!errors.lieferbar}
+                    isInvalid={Boolean(errors.lieferbar)}
                 />
-                {errors.lieferbar && (
-                    <FormErrors
-                        message={'Der Lieferbar-Status fehlt oder ist ungültig'}
-                    />
-                )}
+                <FormErrors
+                    isError={Boolean(errors.lieferbar)}
+                    errorMessage={
+                        'Der Lieferbar-Status fehlt oder ist ungültig'
+                    }
+                />
             </InputGroup>
         </Form.Group>
     </>

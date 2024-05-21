@@ -25,7 +25,7 @@ import {
 import { type BookDTO } from '../../entities/BookDTO.ts';
 import { type BookInput } from '../../pages/EditBook/EditBook.tsx';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/elements/FormError.tsx';
+import { FormErrors } from '../FormError/FormError.tsx';
 
 interface RatingProps {
     register: UseFormRegister<any>;
@@ -52,9 +52,10 @@ export const Rating = ({ watch, register, buch, errors }: RatingProps) => (
                 })}
                 defaultValue={buch.rating}
             />
-            {errors.rating && (
-                <FormErrors message={'Das Rating fehlt oder ist ungültig'} />
-            )}
+            <FormErrors
+                isError={Boolean(errors.rating)}
+                errorMessage={'Das Rating fehlt oder ist ungültig'}
+            />
         </Form.Group>
     </>
 );

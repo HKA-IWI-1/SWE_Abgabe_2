@@ -26,7 +26,6 @@ import {
 import { useCallback, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/elements/FormError.tsx';
 import Stack from 'react-bootstrap/Stack';
 import { type SubmitHandler } from 'react-hook-form';
 import { persistTokenData } from './helper.ts';
@@ -41,12 +40,7 @@ interface Inputs {
 // eslint-disable-next-line max-lines-per-function
 export const Login = () => {
     const [loggedIn, setLoggedIn] = useState(false);
-    const {
-        reset,
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<Inputs>({
+    const { reset, register, handleSubmit } = useForm<Inputs>({
         defaultValues: {
             username: '',
             password: '',
@@ -138,28 +132,25 @@ export const Login = () => {
             <LoginToast teasers={teasers} deleteTeaser={deleteTeaser} />
             {!loggedIn && (
                 <Form onSubmit={handleSubmit(logIn)}>
-                    {/* todo: use form validation library */}
                     <Stack direction="horizontal" gap={3}>
                         <Form.Control
                             className="mr-1"
                             type="text"
                             placeholder="Username"
                             required
-                            {...register('username', { required: true })}
+                            {...register('username', {
+                                required: true,
+                            })}
                         />
-                        {errors.username && (
-                            <FormErrors message={'Benutzername fehlt'} />
-                        )}
                         <Form.Control
                             className="mr-1"
                             type="password"
                             placeholder="Password"
                             required
-                            {...register('password', { required: true })}
+                            {...register('password', {
+                                required: true,
+                            })}
                         />
-                        {errors.password && (
-                            <FormErrors message={'Passwort fehlt'} />
-                        )}
                         <div className="vr" />
                         <Button variant="primary" type="submit">
                             Login

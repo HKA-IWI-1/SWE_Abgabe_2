@@ -20,7 +20,7 @@
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import { type BookDTO } from '../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/elements/FormError.tsx';
+import { FormErrors } from '../FormError/FormError.tsx';
 import { InputGroup } from 'react-bootstrap';
 
 interface TitleProps {
@@ -42,10 +42,13 @@ export const Title = ({ register, buch, errors }: TitleProps) => (
                         required: true,
                     })}
                     defaultValue={buch.titel.titel}
+                    isValid={!errors.titel}
+                    isInvalid={Boolean(errors.titel)}
                 />
-                {errors.titel && (
-                    <FormErrors message={'Der Titel fehlt oder ist ungültig'} />
-                )}
+                <FormErrors
+                    isError={Boolean(errors.titel)}
+                    errorMessage={'Der Titel fehlt oder ist ungültig'}
+                />
             </InputGroup>
         </Form.Group>
     </>

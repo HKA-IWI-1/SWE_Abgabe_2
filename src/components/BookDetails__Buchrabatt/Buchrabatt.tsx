@@ -20,7 +20,7 @@
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import { type BookDTO } from '../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/elements/FormError.tsx';
+import { FormErrors } from '../FormError/FormError.tsx';
 import { InputGroup } from 'react-bootstrap';
 
 interface BuchrabattProps {
@@ -53,12 +53,13 @@ export const Buchrabatt = ({ register, buch, errors }: BuchrabattProps) => (
                             .slice(0, Math.max(0, buch.rabatt.length - 1))
                             .trim(),
                     )}
+                    isValid={!errors.rabatt}
+                    isInvalid={Boolean(errors.rabatt)}
                 />
-                {errors.rabatt && (
-                    <FormErrors
-                        message={'Der Rabatt fehlt oder ist ungültig'}
-                    />
-                )}
+                <FormErrors
+                    isError={Boolean(errors.rabatt)}
+                    errorMessage={'Der Rabatt fehlt oder ist ungültig'}
+                />
             </InputGroup>
         </Form.Group>
     </>
