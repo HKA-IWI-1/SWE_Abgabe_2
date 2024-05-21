@@ -40,7 +40,7 @@ export const InfoBar = ({ datum, lieferbar, homepage }: BookProps) => {
     );
 
     return (
-        <Row xs={2} md={4} lg={6}>
+        <Row xs={3} md={3} lg={4}>
             <Col className={'border-black border-end border-2'}>
                 <i className="bi bi-calendar-date pe-2"></i>
                 <span>{datum ?? 'N/A'}</span>

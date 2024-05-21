@@ -1,4 +1,4 @@
-/*
+/*!
  * Copyright (c) 2024 - present Florian Sauer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
@@ -16,10 +16,10 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import { CreateInput } from '../../components/CreateBook/CreateBook';
 
-export const CreateBook = () => (
-    <>
-        <CreateInput />
-    </>
-);
+@import '../../global';
+
+.custom-date-picker .react-datepicker__input-container,
+.custom-date-picker .react-datepicker__input-container > input {
+  height: 100% !important;
+}

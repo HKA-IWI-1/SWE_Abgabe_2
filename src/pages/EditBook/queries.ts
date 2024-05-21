@@ -16,10 +16,25 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import { CreateInput } from '../../components/CreateBook/CreateBook';
 
-export const CreateBook = () => (
-    <>
-        <CreateInput />
-    </>
-);
+import { gql } from '@apollo/client';
+
+export const READ_BOOK = gql`
+    query ($id: ID! = "1") {
+        buch(id: $id) {
+            isbn
+            version
+            rating
+            art
+            preis
+            lieferbar
+            datum
+            homepage
+            schlagwoerter
+            titel {
+                titel
+            }
+            rabatt(short: true)
+        }
+    }
+`;

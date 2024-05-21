@@ -16,10 +16,38 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import { CreateInput } from '../../components/CreateBook/CreateBook';
 
-export const CreateBook = () => (
+import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
+import { type BookDTO } from '../../entities/BookDTO.ts';
+import Form from 'react-bootstrap/Form';
+import { FormErrors } from '../Login/elements/FormError.tsx';
+import { InputGroup } from 'react-bootstrap';
+
+interface DatumProps {
+    register: UseFormRegister<any>;
+    buch: BookDTO;
+    errors: FieldErrors;
+}
+
+export const Datum = ({ register, buch, errors }: DatumProps) => (
     <>
-        <CreateInput />
+        <Form.Group className="mb-3">
+            <Form.Label>Datum</Form.Label>
+            <InputGroup className="mb-3 custom-date-picker">
+                <InputGroup.Text>
+                    <i className="bi bi-calendar-date pe-2"></i>
+                </InputGroup.Text>
+                <Form.Control
+                    type="date"
+                    {...register('datum', {
+                        required: true,
+                    })}
+                    defaultValue={buch.datum}
+                />
+                {errors.datum && (
+                    <FormErrors message={errors.datum.message as string} />
+                )}
+            </InputGroup>
+        </Form.Group>
     </>
 );

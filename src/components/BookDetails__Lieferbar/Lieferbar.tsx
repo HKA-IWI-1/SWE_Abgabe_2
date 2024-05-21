@@ -16,10 +16,35 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import { CreateInput } from '../../components/CreateBook/CreateBook';
 
-export const CreateBook = () => (
+import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
+import { type BookDTO } from '../../entities/BookDTO.ts';
+import Form from 'react-bootstrap/Form';
+import { FormErrors } from '../Login/elements/FormError.tsx';
+import { InputGroup } from 'react-bootstrap';
+
+interface LieferbarProps {
+    register: UseFormRegister<any>;
+    buch: BookDTO;
+    errors: FieldErrors;
+}
+
+export const Lieferbar = ({ register, buch, errors }: LieferbarProps) => (
     <>
-        <CreateInput />
+        <Form.Group className="mb-3">
+            <InputGroup className="mb-3">
+                <Form.Check
+                    type="switch"
+                    label="Lieferbar"
+                    {...register('lieferbar')}
+                    defaultChecked={buch.lieferbar}
+                />
+                {errors.lieferbar && (
+                    <FormErrors
+                        message={'Der Lieferbar-Status fehlt oder ist ungültig'}
+                    />
+                )}
+            </InputGroup>
+        </Form.Group>
     </>
 );

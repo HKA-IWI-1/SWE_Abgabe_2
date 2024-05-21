@@ -16,10 +16,36 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import { CreateInput } from '../../components/CreateBook/CreateBook';
 
-export const CreateBook = () => (
+import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
+import { type BookDTO } from '../../entities/BookDTO.ts';
+import Form from 'react-bootstrap/Form';
+import { FormErrors } from '../Login/elements/FormError.tsx';
+import { InputGroup } from 'react-bootstrap';
+
+interface IsbnProps {
+    register: UseFormRegister<any>;
+    buch: BookDTO;
+    errors: FieldErrors;
+}
+
+export const Isbn = ({ register, buch, errors }: IsbnProps) => (
     <>
-        <CreateInput />
+        <Form.Group className="mb-3">
+            <Form.Label>ISBN</Form.Label>
+            <InputGroup className="mb-3">
+                <Form.Control
+                    type="text"
+                    placeholder="ISBN"
+                    {...register('isbn', {
+                        required: true,
+                    })}
+                    defaultValue={buch.isbn}
+                />
+                {errors.isbn && (
+                    <FormErrors message={'Die ISBN fehlt oder ist ungültig'} />
+                )}
+            </InputGroup>
+        </Form.Group>
     </>
 );

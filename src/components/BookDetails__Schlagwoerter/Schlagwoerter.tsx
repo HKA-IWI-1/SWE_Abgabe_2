@@ -16,10 +16,12 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import { CreateInput } from '../../components/CreateBook/CreateBook';
 
-export const CreateBook = () => (
+import { Col } from 'react-bootstrap';
+
+export const Schlagwoerter = () => (
     <>
-        <CreateInput />
+        {/* https://react-hook-form.com/docs/usefieldarray */}
+        <Col>TODO: Schlagwörter</Col>
     </>
 );

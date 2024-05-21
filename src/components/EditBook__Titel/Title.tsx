@@ -16,10 +16,37 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import { CreateInput } from '../../components/CreateBook/CreateBook';
 
-export const CreateBook = () => (
+import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
+import { type BookDTO } from '../../entities/BookDTO.ts';
+import Form from 'react-bootstrap/Form';
+import { FormErrors } from '../Login/elements/FormError.tsx';
+import { InputGroup } from 'react-bootstrap';
+
+interface TitleProps {
+    register: UseFormRegister<any>;
+    buch: BookDTO;
+    errors: FieldErrors;
+}
+
+export const Title = ({ register, buch, errors }: TitleProps) => (
     <>
-        <CreateInput />
+        <Form.Group className="mb-3">
+            <InputGroup className="mb-3">
+                <InputGroup.Text>Titel</InputGroup.Text>
+                <Form.Control
+                    size="lg"
+                    type="text"
+                    placeholder="Titel"
+                    {...register('titel', {
+                        required: true,
+                    })}
+                    defaultValue={buch.titel.titel}
+                />
+                {errors.titel && (
+                    <FormErrors message={'Der Titel fehlt oder ist ungültig'} />
+                )}
+            </InputGroup>
+        </Form.Group>
     </>
 );

@@ -16,10 +16,39 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import { CreateInput } from '../../components/CreateBook/CreateBook';
 
-export const CreateBook = () => (
+import {
+    type FieldErrors,
+    type UseFormRegister,
+    type UseFormWatch,
+} from 'react-hook-form';
+import { type BookDTO } from '../../entities/BookDTO.ts';
+import { type FieldValues } from 'react-hook-form/dist/types/fields';
+import Form from 'react-bootstrap/Form';
+import { FormErrors } from '../Login/elements/FormError.tsx';
+
+interface RatingProps {
+    register: UseFormRegister<any>;
+    buch: BookDTO;
+    errors: FieldErrors;
+    watch: UseFormWatch<FieldValues>;
+}
+
+export const Rating = ({ watch, register, buch, errors }: RatingProps) => (
     <>
-        <CreateInput />
+        <Form.Group className="mb-3">
+            <Form.Label>Rating: {watch('rating') ?? buch.rating}</Form.Label>
+            <Form.Range
+                min={1}
+                max={5}
+                {...register('rating', {
+                    required: true,
+                })}
+                defaultValue={buch.rating}
+            />
+            {errors.rating && (
+                <FormErrors message={'Das Rating fehlt oder ist ungültig'} />
+            )}
+        </Form.Group>
     </>
 );
