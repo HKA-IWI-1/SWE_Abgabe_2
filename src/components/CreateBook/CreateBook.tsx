@@ -1,17 +1,13 @@
-import { Button, Form, InputGroup } from 'react-bootstrap';
+/* eslint-disable max-lines-per-function */
+import { Form, InputGroup } from 'react-bootstrap';
 import { Globe } from 'react-bootstrap-icons';
 import Table from 'react-bootstrap/Table';
+// eslint-disable-next-line sort-imports
+import { Schlagwoerter } from './Schlagwoerter';
 
 export const CreateInput = () => (
     <Table>
-        <thead>
-            <tr>
-                <th>
-                    {' '}
-                    <Button> </Button>{' '}
-                </th>
-            </tr>
-        </thead>
+        <thead />
         <tbody>
             <tr>
                 <th>
@@ -85,17 +81,18 @@ export const CreateInput = () => (
             </tr>
             <tr>
                 <th>
-                    <Form.Check
-                        type="checkbox"
-                        label="Lieferbar"
-                    />
+                    <Form.Check type="checkbox" label="Lieferbar" />
                 </th>
                 <th></th>
             </tr>
             <tr>
-                <th>Schlagwörter</th>
+                <th>
+                    <Schlagwoerter />
+                </th>
                 <th>Abbildung</th>
             </tr>
         </tbody>
     </Table>
 );
+
+/* eslint-enable max-lines-per-function */
