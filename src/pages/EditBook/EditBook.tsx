@@ -44,7 +44,7 @@ export interface BookId {
     book: number;
 }
 
-interface BookInput {
+export interface BookInput {
     titel: string;
     rating: number;
     art: 'Kindle' | 'Druckausgabe';

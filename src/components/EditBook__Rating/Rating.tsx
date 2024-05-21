@@ -23,7 +23,7 @@ import {
     type UseFormWatch,
 } from 'react-hook-form';
 import { type BookDTO } from '../../entities/BookDTO.ts';
-import { type FieldValues } from 'react-hook-form/dist/types/fields';
+import { type BookInput } from '../../pages/EditBook/EditBook.tsx';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../Login/elements/FormError.tsx';
 
@@ -31,12 +31,13 @@ interface RatingProps {
     register: UseFormRegister<any>;
     buch: BookDTO;
     errors: FieldErrors;
-    watch: UseFormWatch<FieldValues>;
+    watch: UseFormWatch<BookInput>;
 }
 
 export const Rating = ({ watch, register, buch, errors }: RatingProps) => (
     <>
         <Form.Group className="mb-3">
+            {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
             <Form.Label>Rating: {watch('rating') ?? buch.rating}</Form.Label>
             <Form.Range
                 min={1}

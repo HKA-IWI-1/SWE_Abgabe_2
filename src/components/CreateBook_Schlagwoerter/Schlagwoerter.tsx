@@ -1,4 +1,3 @@
-import { Trash } from 'react-bootstrap-icons';
 import { useState } from 'react';
 // eslint-disable-next-line sort-imports
 import { Button, Container, Form, InputGroup, Row } from 'react-bootstrap';

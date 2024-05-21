@@ -19,7 +19,10 @@
 
 @import '../../global';
 
+/* stylelint-disable */
 .custom-date-picker .react-datepicker__input-container,
 .custom-date-picker .react-datepicker__input-container > input {
   height: 100% !important;
 }
+
+/* stylelint-enable */
