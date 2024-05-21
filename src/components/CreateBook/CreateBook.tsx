@@ -1,13 +1,18 @@
-/* eslint-disable max-lines-per-function */
-import { Form, InputGroup } from 'react-bootstrap';
-import { Globe } from 'react-bootstrap-icons';
+import { Button, Form, InputGroup } from 'react-bootstrap';
+import { Schlagwoerter } from '../CreateBook_Schlagwoerter/Schlagwoerter';
 import Table from 'react-bootstrap/Table';
-// eslint-disable-next-line sort-imports
-import { Schlagwoerter } from './Schlagwoerter';
 
+/* eslint-disable max-lines-per-function */
 export const CreateInput = () => (
     <Table>
-        <thead />
+        <thead>
+            <tr>
+                <th>
+                    {' '}
+                    <Button> </Button>{' '}
+                </th>
+            </tr>
+        </thead>
         <tbody>
             <tr>
                 <th>
@@ -69,7 +74,7 @@ export const CreateInput = () => (
                     <Form.Label> Homepage </Form.Label>
                     <InputGroup>
                         <InputGroup.Text>
-                            <Globe />
+                            <i className="bi bi-globe"> </i>
                         </InputGroup.Text>
                         <Form.Control type="url" />
                     </InputGroup>
@@ -94,5 +99,4 @@ export const CreateInput = () => (
         </tbody>
     </Table>
 );
-
 /* eslint-enable max-lines-per-function */
