@@ -17,7 +17,7 @@
  *
  */
 
-import './src/App.scss';
+import './App.scss';
 import 'bootstrap/scss/bootstrap.scss';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import {

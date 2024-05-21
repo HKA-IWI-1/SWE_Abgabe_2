@@ -17,11 +17,11 @@
  *
  */
 
+import { Col, InputGroup } from 'react-bootstrap';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import { type BookDTO } from '../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../FormError/FormError.tsx';
-import { InputGroup } from 'react-bootstrap';
 
 interface HomepageProps {
     register: UseFormRegister<any>;
@@ -32,9 +32,12 @@ interface HomepageProps {
 const URL_PATTERN =
     /^https?:\/\/(www\.)?[-\w@:%.+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-\w()@:%+.~#?&/=]*)$/u;
 
-export const Homepage = ({ register, buch, errors }: HomepageProps) => (
+export const Homepage = ({ register, errors }: HomepageProps) => (
     <>
-        <Form.Group className="mb-3">
+        {/* https://stackoverflow.com/questions/36835615/difference-between-input-group-and-form-group */}
+        {/* form group: wrap labels and form controls in a div to get optimum spacing between the label and the control */}
+        {/* Input groups: extended Form Controls. Using input groups you can easily prepend and append text or buttons to the text-based inputs. */}
+        <Form.Group as={Col} className="mb-3">
             <Form.Label>Homepage</Form.Label>
             <InputGroup className="mb-3">
                 <InputGroup.Text>
@@ -47,7 +50,6 @@ export const Homepage = ({ register, buch, errors }: HomepageProps) => (
                         required: true,
                         pattern: URL_PATTERN,
                     })}
-                    defaultValue={buch.homepage}
                     isValid={!errors.homepage}
                     isInvalid={Boolean(errors.homepage)}
                 />

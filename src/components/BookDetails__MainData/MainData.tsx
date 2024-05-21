@@ -1,15 +1,7 @@
+import { type BookDTO } from '../../entities/BookDTO.ts';
 import { Table } from 'react-bootstrap';
 
-interface BookProps {
-    isbn: string;
-    rating?: number;
-    art?: string;
-    preis: number;
-    rabatt?: number;
-    schlagwoerter?: string;
-}
-
-export const MainData = (buch: BookProps) => (
+export const MainData = (buch: BookDTO) => (
     <Table>
         <thead style={{ display: 'none' }}>
             <tr>
@@ -24,11 +16,11 @@ export const MainData = (buch: BookProps) => (
             </tr>
             <tr>
                 <td>Rating</td>
-                <td>{buch.rating ?? 'N/A'}</td>
+                <td>{buch.rating}</td>
             </tr>
             <tr>
                 <td>Art</td>
-                <td>{buch.art ?? 'N/A'}</td>
+                <td>{buch.art}</td>
             </tr>
             <tr>
                 <td>Preis</td>
@@ -36,11 +28,13 @@ export const MainData = (buch: BookProps) => (
             </tr>
             <tr>
                 <td>Rabatt</td>
-                <td>{buch.rabatt ?? 'N/A'}</td>
+                <td>{buch.rabatt}</td>
             </tr>
             <tr>
                 <td>Schlagwörter</td>
-                <td>{buch.schlagwoerter ?? 'N/A'}</td>
+                <td>
+                    {buch.schlagwoerter ? buch.schlagwoerter.join(', ') : ''}
+                </td>
             </tr>
         </tbody>
     </Table>

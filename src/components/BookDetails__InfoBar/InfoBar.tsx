@@ -19,20 +19,17 @@
 
 import '../../pages/BookDetails/BookDetails.scss';
 import { Col, Row } from 'react-bootstrap';
+import { type BookDTO } from '../../entities/BookDTO.ts';
 
-interface BookProps {
-    datum?: string;
-    lieferbar?: boolean;
-    homepage?: string;
-}
-
-export const InfoBar = ({ datum, lieferbar, homepage }: BookProps) => {
-    const lieferElement = lieferbar !== undefined && (
+export const InfoBar = ({ datum, lieferbar, homepage }: BookDTO) => {
+    const lieferElement = lieferbar === true && (
         <Col className={'border-black border-end border-2'}>
             <span className={'pe-2'}>Lieferbar</span>
+            {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
             {lieferbar && (
                 <i className="bi bi-check-circle" style={{ color: 'green' }} />
             )}
+            {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
             {!lieferbar && (
                 <i className="bi bi-x-octagon" style={{ color: 'red' }} />
             )}

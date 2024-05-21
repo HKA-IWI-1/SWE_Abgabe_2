@@ -17,11 +17,11 @@
  *
  */
 
+import { Col, InputGroup } from 'react-bootstrap';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import { type BookDTO } from '../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../FormError/FormError.tsx';
-import { InputGroup } from 'react-bootstrap';
 
 interface TitleProps {
     register: UseFormRegister<any>;
@@ -29,9 +29,9 @@ interface TitleProps {
     errors: FieldErrors;
 }
 
-export const Title = ({ register, buch, errors }: TitleProps) => (
+export const Title = ({ register, errors }: TitleProps) => (
     <>
-        <Form.Group className="mb-3">
+        <Form.Group as={Col} className="mb-3">
             <InputGroup className="mb-3">
                 <InputGroup.Text>Titel</InputGroup.Text>
                 <Form.Control
@@ -41,7 +41,6 @@ export const Title = ({ register, buch, errors }: TitleProps) => (
                     {...register('titel', {
                         required: true,
                     })}
-                    defaultValue={buch.titel.titel}
                     isValid={!errors.titel}
                     isInvalid={Boolean(errors.titel)}
                 />

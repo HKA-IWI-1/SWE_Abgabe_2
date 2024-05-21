@@ -17,11 +17,11 @@
  *
  */
 
+import { Col, InputGroup } from 'react-bootstrap';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import { type BookDTO } from '../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../FormError/FormError.tsx';
-import { InputGroup } from 'react-bootstrap';
 
 interface BuchartProps {
     register: UseFormRegister<any>;
@@ -31,7 +31,7 @@ interface BuchartProps {
 
 export const Buchart = ({ register, buch, errors }: BuchartProps) => (
     <>
-        <Form.Group className="mb-3">
+        <Form.Group as={Col} className="mb-3">
             <Form.Label>Buchart</Form.Label>
             <InputGroup>
                 {['KINDLE', 'DRUCKAUSGABE'].map((type) => (

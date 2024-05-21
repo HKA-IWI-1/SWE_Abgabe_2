@@ -21,13 +21,13 @@ export interface BookDTO {
     id: number;
     version: string;
     isbn: string;
-    rating: number;
-    art: string;
+    rating?: number;
+    art?: 'KINDLE' | 'DRUCKAUSGABE';
     preis: number;
-    rabatt: string;
-    lieferbar: boolean;
-    datum: string;
-    homepage: string;
-    schlagwoerter: string;
+    rabatt?: string;
+    lieferbar?: boolean;
+    datum?: string;
+    homepage?: string;
+    schlagwoerter?: string[];
     titel: { titel: string };
 }

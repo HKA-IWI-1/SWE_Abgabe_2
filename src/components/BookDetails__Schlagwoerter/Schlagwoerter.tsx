@@ -17,11 +17,64 @@
  *
  */
 
-import { Col } from 'react-bootstrap';
+import { Col, InputGroup, Row } from 'react-bootstrap';
+import {
+    type FieldArrayWithId,
+    type UseFieldArrayAppend,
+    type UseFieldArrayRemove,
+    type UseFormRegister,
+    type UseFormUnregister,
+} from 'react-hook-form';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import { type FormValues } from '../EditBook__BookForm/EditBookForm.tsx';
 
-export const Schlagwoerter = () => (
+interface SwProps {
+    unregister: UseFormUnregister<any>;
+    register: UseFormRegister<any>;
+    fields: FieldArrayWithId<any>[];
+    append: UseFieldArrayAppend<FormValues, never>;
+    remove: UseFieldArrayRemove;
+}
+
+export const Schlagwoerter = ({
+    register,
+    fields,
+    append,
+    remove,
+}: SwProps) => (
     <>
-        {/* https://react-hook-form.com/docs/usefieldarray */}
-        <Col>TODO: Schlagwörter</Col>
+        <Row xs={1} md={1} lg={1}>
+            <Form.Label>Schlagwort</Form.Label>
+            {fields.map((_, index) => (
+                <Form.Group as={Col} className="mb-3" key={index}>
+                    {/* <Form.Label>Schlagwort</Form.Label> */}
+                    <InputGroup className="mb-3">
+                        <Form.Control
+                            {...register(`schlagwoerter.${index}`)}
+                            type="text"
+                            placeholder="Schlagwort"
+                        />
+                        <Button
+                            variant="primary"
+                            type="button"
+                            onClick={() => remove(index)}
+                        >
+                            DEL
+                        </Button>
+                    </InputGroup>
+                </Form.Group>
+            ))}
+        </Row>
+        <Row xs={1} md={1} lg={1} className={'mb-2'}>
+            <Button
+                type="button"
+                onClick={() => {
+                    append('Schlagwort');
+                }}
+            >
+                Neues Schlagwort hinzufügen.
+            </Button>
+        </Row>
     </>
 );

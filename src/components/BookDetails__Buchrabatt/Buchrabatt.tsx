@@ -17,11 +17,11 @@
  *
  */
 
+import { Col, InputGroup } from 'react-bootstrap';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import { type BookDTO } from '../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../FormError/FormError.tsx';
-import { InputGroup } from 'react-bootstrap';
 
 interface BuchrabattProps {
     register: UseFormRegister<any>;
@@ -32,9 +32,9 @@ interface BuchrabattProps {
 const RABATT_MIN = 0;
 const RABATT_MAX = 100;
 
-export const Buchrabatt = ({ register, buch, errors }: BuchrabattProps) => (
+export const Buchrabatt = ({ register, errors }: BuchrabattProps) => (
     <>
-        <Form.Group className="mb-3">
+        <Form.Group as={Col} className="mb-3">
             <Form.Label>Rabatt</Form.Label>
             <InputGroup className="mb-3">
                 <InputGroup.Text>%</InputGroup.Text>
@@ -48,11 +48,6 @@ export const Buchrabatt = ({ register, buch, errors }: BuchrabattProps) => (
                         max: RABATT_MAX,
                     })}
                     step=".001"
-                    defaultValue={Number.parseFloat(
-                        buch.rabatt
-                            .slice(0, Math.max(0, buch.rabatt.length - 1))
-                            .trim(),
-                    )}
                     isValid={!errors.rabatt}
                     isInvalid={Boolean(errors.rabatt)}
                 />

@@ -17,11 +17,11 @@
  *
  */
 
+import { Col, InputGroup } from 'react-bootstrap';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import { type BookDTO } from '../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../FormError/FormError.tsx';
-import { InputGroup } from 'react-bootstrap';
 
 interface BuchpreisProps {
     register: UseFormRegister<any>;
@@ -31,9 +31,9 @@ interface BuchpreisProps {
 
 const PREIS_MIN = 0;
 
-export const Buchpreis = ({ register, buch, errors }: BuchpreisProps) => (
+export const Buchpreis = ({ register, errors }: BuchpreisProps) => (
     <>
-        <Form.Group className="mb-3">
+        <Form.Group as={Col} className="mb-3">
             <Form.Label>Preis</Form.Label>
             <InputGroup className="mb-3">
                 <InputGroup.Text>€</InputGroup.Text>
@@ -47,7 +47,6 @@ export const Buchpreis = ({ register, buch, errors }: BuchpreisProps) => (
                         min: PREIS_MIN,
                     })}
                     step=".001"
-                    defaultValue={buch.preis}
                     isValid={!errors.preis}
                     isInvalid={Boolean(errors.preis)}
                 />

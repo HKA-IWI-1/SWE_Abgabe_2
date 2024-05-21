@@ -17,11 +17,11 @@
  *
  */
 
+import { Col, InputGroup } from 'react-bootstrap';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import { type BookDTO } from '../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../FormError/FormError.tsx';
-import { InputGroup } from 'react-bootstrap';
 
 interface IsbnProps {
     register: UseFormRegister<any>;
@@ -32,9 +32,9 @@ interface IsbnProps {
 const ISBN13_PATTERN =
     /^(?:ISBN(?:-13)?:? )?(?=\d{13}$|(?=(?:\d+[- ]){4})[- 0-9]{17}$)97[89][- ]?\d{1,5}[- ]?(?:\d+[- ]\d+|\d{2,})[- ]?\d$/u;
 
-export const Isbn = ({ register, buch, errors }: IsbnProps) => (
+export const Isbn = ({ register, errors }: IsbnProps) => (
     <>
-        <Form.Group className="mb-3">
+        <Form.Group as={Col} className="mb-3">
             <Form.Label>ISBN</Form.Label>
             <InputGroup className="mb-3">
                 <Form.Control
@@ -44,7 +44,6 @@ export const Isbn = ({ register, buch, errors }: IsbnProps) => (
                         required: true,
                         pattern: ISBN13_PATTERN,
                     })}
-                    defaultValue={buch.isbn}
                     isValid={!errors.isbn}
                     isInvalid={Boolean(errors.isbn)}
                 />
