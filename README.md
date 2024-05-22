@@ -1,6 +1,6 @@
 # Book Frontend
 
-SPA Web application for managing books.
+SPA for managing books.
 
 ## Installation
 
