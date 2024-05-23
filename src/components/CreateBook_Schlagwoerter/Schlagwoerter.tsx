@@ -1,56 +1,57 @@
+import { Button, Form, FormLabel, InputGroup } from 'react-bootstrap';
+import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-// eslint-disable-next-line sort-imports
-import { Button, Container, Form, InputGroup, Row } from 'react-bootstrap';
+
+interface SchlagwoerterProps {
+    keyword: string;
+}
 
 export const Schlagwoerter = () => {
-    const [schlagwoerter, setSchlagwoerter] = useState<string[]>([]);
-    const [inputValue, setInputValue] = useState('');
+    const { register, handleSubmit, reset } = useForm<SchlagwoerterProps>();
+    const [keywords, setKeywords] = useState<string[]>([]);
 
-    // Funktion zum Hinzufügen eines neuen Schlagworts
-    const addSchlagwort = () => {
-        const trimmedValue = inputValue.trimStart();
-        if (trimmedValue !== '') {
-            setSchlagwoerter([...schlagwoerter, trimmedValue]);
-            setInputValue('');
+    const onSubmit = ({ keyword }: SchlagwoerterProps) => {
+        const trimmedKeyword = keyword.trimStart();
+        if (trimmedKeyword !== '') {
+            setKeywords((prevKeywords) => [...prevKeywords, trimmedKeyword]);
+            reset();
         }
     };
 
-    // Funktion zum Löschen eines Schlagworts
-    const deleteSchlagwort = (indexToDelete: number) => {
-        const updatedSchlagwoerter = schlagwoerter.filter(
-            (_, index) => index !== indexToDelete,
+    const removeKeyword = (index: number) => {
+        setKeywords((prevKeywords) =>
+            prevKeywords.filter((_, i) => i !== index),
         );
-        setSchlagwoerter(updatedSchlagwoerter);
     };
 
     return (
-        <Container>
-            <Row>
-                <div>
-                    <div>
-                        <Form.Label> Schlagwörter </Form.Label>
-                        <InputGroup>
-                            <Form.Control
-                                type="text"
-                                value={inputValue}
-                                onChange={(e) => setInputValue(e.target.value)}
-                                placeholder="Neues Schlagwort"
-                            />
-                            <Button onClick={addSchlagwort}>Hinzufügen</Button>
-                        </InputGroup>
+        <div>
+            <Form onSubmit={handleSubmit(onSubmit)}>
+                <FormLabel>Schlagwörter</FormLabel>
+                <InputGroup>
+                    <Form.Control
+                        type="text"
+                        {...register('keyword', {
+                            required: true,
+                        })}
+                        placeholder="Schlagwort eingeben"
+                    />
+                    <Button type="submit">Hinzufügen</Button>
+                </InputGroup>
+            </Form>
+            <div>
+                {keywords.map((keyword, index) => (
+                    <div
+                        key={index}
+                        className="d-flex align-items-center justify-content-between"
+                    >
+                        {keyword}
+                        <Button onClick={() => removeKeyword(index)}>
+                            <i className="bi bi-trash"></i>
+                        </Button>
                     </div>
-                    <div>
-                        {schlagwoerter.map((wort, index) => (
-                            <div key={index}>
-                                <span>{wort}</span>
-                                <Button onClick={() => deleteSchlagwort(index)}>
-                                    <i className="bi bi-trash"></i>
-                                </Button>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </Row>
-        </Container>
+                ))}
+            </div>
+        </div>
     );
 };
