@@ -19,33 +19,41 @@
 
 import { Col, InputGroup } from 'react-bootstrap';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
-import { type BookDTO } from '../../entities/BookDTO.ts';
+import { type BookDTO } from '../../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/FormError.tsx';
+import { FormErrors } from '../../FormError/FormError.tsx';
 
-interface LieferbarProps {
+interface BuchrabattProps {
     register: UseFormRegister<any>;
     buch: BookDTO;
     errors: FieldErrors;
 }
 
-export const Lieferbar = ({ register, buch, errors }: LieferbarProps) => (
+const RABATT_MIN = 0;
+const RABATT_MAX = 100;
+
+export const Buchrabatt = ({ register, errors }: BuchrabattProps) => (
     <>
         <Form.Group as={Col} className="mb-3">
+            <Form.Label>Rabatt</Form.Label>
             <InputGroup className="mb-3">
-                <Form.Check
-                    type="switch"
-                    label="Lieferbar"
-                    {...register('lieferbar')}
-                    defaultChecked={buch.lieferbar}
-                    isValid={!errors.lieferbar}
-                    isInvalid={Boolean(errors.lieferbar)}
+                <InputGroup.Text>%</InputGroup.Text>
+                <Form.Control
+                    type={'number'}
+                    placeholder={'Rabatt'}
+                    aria-label="Rabatt"
+                    {...register('rabatt', {
+                        required: true,
+                        min: RABATT_MIN,
+                        max: RABATT_MAX,
+                    })}
+                    step=".001"
+                    isValid={!errors.rabatt}
+                    isInvalid={Boolean(errors.rabatt)}
                 />
                 <FormErrors
-                    isError={Boolean(errors.lieferbar)}
-                    errorMessage={
-                        'Der Lieferbar-Status fehlt oder ist ungültig'
-                    }
+                    isError={Boolean(errors.rabatt)}
+                    errorMessage={'Der Rabatt fehlt oder ist ungültig'}
                 />
             </InputGroup>
         </Form.Group>

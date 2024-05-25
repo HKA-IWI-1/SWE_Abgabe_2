@@ -19,38 +19,40 @@
 
 import { Col, InputGroup } from 'react-bootstrap';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
-import { type BookDTO } from '../../entities/BookDTO.ts';
+import { type BookDTO } from '../../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/FormError.tsx';
+import { FormErrors } from '../../FormError/FormError.tsx';
 
-interface DatumProps {
+interface BuchpreisProps {
     register: UseFormRegister<any>;
     buch: BookDTO;
     errors: FieldErrors;
 }
 
-const ISO8601_REGEX = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/u;
+const PREIS_MIN = 0;
 
-export const Datum = ({ register, errors }: DatumProps) => (
+export const Buchpreis = ({ register, errors }: BuchpreisProps) => (
     <>
         <Form.Group as={Col} className="mb-3">
-            <Form.Label>Datum</Form.Label>
-            <InputGroup className="mb-3 custom-date-picker">
-                <InputGroup.Text>
-                    <i className="bi bi-calendar-date pe-2"></i>
-                </InputGroup.Text>
+            <Form.Label>Preis</Form.Label>
+            <InputGroup className="mb-3">
+                <InputGroup.Text>€</InputGroup.Text>
                 <Form.Control
-                    type="date"
-                    {...register('datum', {
+                    type={'number'}
+                    placeholder={'Preis'}
+                    aria-label="Preis"
+                    {...register('preis', {
                         required: true,
-                        pattern: ISO8601_REGEX,
+                        valueAsNumber: true,
+                        min: PREIS_MIN,
                     })}
-                    isValid={!errors.datum}
-                    isInvalid={Boolean(errors.datum)}
+                    step=".001"
+                    isValid={!errors.preis}
+                    isInvalid={Boolean(errors.preis)}
                 />
                 <FormErrors
-                    isError={Boolean(errors.datum)}
-                    errorMessage={'Das Datum fehlt oder ist ungültig'}
+                    isError={Boolean(errors.preis)}
+                    errorMessage={'Der Preis fehlt oder ist ungültig'}
                 />
             </InputGroup>
         </Form.Group>

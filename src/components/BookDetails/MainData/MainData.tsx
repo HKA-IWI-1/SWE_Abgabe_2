@@ -1,4 +1,4 @@
-import { type BookDTO } from '../../entities/BookDTO.ts';
+import { type BookDTO } from '../../../entities/BookDTO.ts';
 import { Table } from 'react-bootstrap';
 
 export const MainData = (buch: BookDTO) => (

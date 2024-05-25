@@ -19,43 +19,38 @@
 
 import { Col, InputGroup } from 'react-bootstrap';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
-import { type BookDTO } from '../../entities/BookDTO.ts';
+import { type BookDTO } from '../../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/FormError.tsx';
+import { FormErrors } from '../../FormError/FormError.tsx';
 
-interface HomepageProps {
+interface DatumProps {
     register: UseFormRegister<any>;
     buch: BookDTO;
     errors: FieldErrors;
 }
 
-const URL_PATTERN =
-    /^https?:\/\/(www\.)?[-\w@:%.+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-\w()@:%+.~#?&/=]*)$/u;
+const ISO8601_REGEX = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/u;
 
-export const Homepage = ({ register, errors }: HomepageProps) => (
+export const Datum = ({ register, errors }: DatumProps) => (
     <>
-        {/* https://stackoverflow.com/questions/36835615/difference-between-input-group-and-form-group */}
-        {/* form group: wrap labels and form controls in a div to get optimum spacing between the label and the control */}
-        {/* Input groups: extended Form Controls. Using input groups you can easily prepend and append text or buttons to the text-based inputs. */}
         <Form.Group as={Col} className="mb-3">
-            <Form.Label>Homepage</Form.Label>
-            <InputGroup className="mb-3">
+            <Form.Label>Datum</Form.Label>
+            <InputGroup className="mb-3 custom-date-picker">
                 <InputGroup.Text>
-                    <i className="bi bi-globe pe-2"></i>
+                    <i className="bi bi-calendar-date pe-2"></i>
                 </InputGroup.Text>
                 <Form.Control
-                    placeholder={'Homepage'}
-                    aria-label="homepage"
-                    {...register('homepage', {
+                    type="date"
+                    {...register('datum', {
                         required: true,
-                        pattern: URL_PATTERN,
+                        pattern: ISO8601_REGEX,
                     })}
-                    isValid={!errors.homepage}
-                    isInvalid={Boolean(errors.homepage)}
+                    isValid={!errors.datum}
+                    isInvalid={Boolean(errors.datum)}
                 />
                 <FormErrors
-                    isError={Boolean(errors.homepage)}
-                    errorMessage={'Die Homepage fehlt oder ist ungültig'}
+                    isError={Boolean(errors.datum)}
+                    errorMessage={'Das Datum fehlt oder ist ungültig'}
                 />
             </InputGroup>
         </Form.Group>

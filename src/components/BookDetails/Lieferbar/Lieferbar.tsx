@@ -19,40 +19,33 @@
 
 import { Col, InputGroup } from 'react-bootstrap';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
-import { type BookDTO } from '../../entities/BookDTO.ts';
+import { type BookDTO } from '../../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/FormError.tsx';
+import { FormErrors } from '../../FormError/FormError.tsx';
 
-interface BuchpreisProps {
+interface LieferbarProps {
     register: UseFormRegister<any>;
     buch: BookDTO;
     errors: FieldErrors;
 }
 
-const PREIS_MIN = 0;
-
-export const Buchpreis = ({ register, errors }: BuchpreisProps) => (
+export const Lieferbar = ({ register, buch, errors }: LieferbarProps) => (
     <>
         <Form.Group as={Col} className="mb-3">
-            <Form.Label>Preis</Form.Label>
             <InputGroup className="mb-3">
-                <InputGroup.Text>€</InputGroup.Text>
-                <Form.Control
-                    type={'number'}
-                    placeholder={'Preis'}
-                    aria-label="Preis"
-                    {...register('preis', {
-                        required: true,
-                        valueAsNumber: true,
-                        min: PREIS_MIN,
-                    })}
-                    step=".001"
-                    isValid={!errors.preis}
-                    isInvalid={Boolean(errors.preis)}
+                <Form.Check
+                    type="switch"
+                    label="Lieferbar"
+                    {...register('lieferbar')}
+                    defaultChecked={buch.lieferbar}
+                    isValid={!errors.lieferbar}
+                    isInvalid={Boolean(errors.lieferbar)}
                 />
                 <FormErrors
-                    isError={Boolean(errors.preis)}
-                    errorMessage={'Der Preis fehlt oder ist ungültig'}
+                    isError={Boolean(errors.lieferbar)}
+                    errorMessage={
+                        'Der Lieferbar-Status fehlt oder ist ungültig'
+                    }
                 />
             </InputGroup>
         </Form.Group>

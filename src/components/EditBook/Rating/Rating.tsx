@@ -17,41 +17,45 @@
  *
  */
 
-import { Col, InputGroup } from 'react-bootstrap';
-import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
-import { type BookDTO } from '../../entities/BookDTO.ts';
+import {
+    type FieldErrors,
+    type UseFormRegister,
+    type UseFormWatch,
+} from 'react-hook-form';
+import { type BookDTO } from '../../../entities/BookDTO.ts';
+import { Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/FormError.tsx';
+import { FormErrors } from '../../FormError/FormError.tsx';
+import { type FormValues } from '../BookForm/EditBookForm.tsx';
 
-interface IsbnProps {
+interface RatingProps {
     register: UseFormRegister<any>;
     buch: BookDTO;
     errors: FieldErrors;
+    watch: UseFormWatch<FormValues>;
 }
 
-const ISBN13_PATTERN =
-    /^(?:ISBN(?:-13)?:? )?(?=\d{13}$|(?=(?:\d+[- ]){4})[- 0-9]{17}$)97[89][- ]?\d{1,5}[- ]?(?:\d+[- ]\d+|\d{2,})[- ]?\d$/u;
+const MIN_RATING = 0;
+const MAX_RATING = 5;
 
-export const Isbn = ({ register, errors }: IsbnProps) => (
+export const Rating = ({ watch, register, buch, errors }: RatingProps) => (
     <>
         <Form.Group as={Col} className="mb-3">
-            <Form.Label>ISBN</Form.Label>
-            <InputGroup className="mb-3">
-                <Form.Control
-                    type="text"
-                    placeholder="ISBN"
-                    {...register('isbn', {
-                        required: true,
-                        pattern: ISBN13_PATTERN,
-                    })}
-                    isValid={!errors.isbn}
-                    isInvalid={Boolean(errors.isbn)}
-                />
-                <FormErrors
-                    isError={Boolean(errors.isbn)}
-                    errorMessage={'Die ISBN fehlt oder ist ungültig'}
-                />
-            </InputGroup>
+            {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
+            <Form.Label>Rating: {watch('rating') ?? buch.rating}</Form.Label>
+            <Form.Range
+                min={MIN_RATING}
+                max={MAX_RATING}
+                {...register('rating', {
+                    required: true,
+                    min: MIN_RATING,
+                    max: MAX_RATING,
+                })}
+            />
+            <FormErrors
+                isError={Boolean(errors.rating)}
+                errorMessage={'Das Rating fehlt oder ist ungültig'}
+            />
         </Form.Group>
     </>
 );

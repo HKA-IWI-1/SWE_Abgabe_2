@@ -18,17 +18,17 @@
  */
 
 import './Login.scss';
-import { AUTH, REFRESH } from './queries_mutations.ts';
+import { AUTH, REFRESH } from '../queries_mutations.ts';
 import {
     LoginToast,
     type TeaserData,
-} from '../Login__LoginToast/LoginToast.tsx';
+} from '../LoginToast/LoginToast.tsx';
 import { useCallback, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack';
 import { type SubmitHandler } from 'react-hook-form';
-import { persistTokenData } from './helper.ts';
+import { persistTokenData } from '../helper.ts';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@apollo/client';
 
@@ -90,7 +90,9 @@ export const Login = () => {
                 return true;
             })
             .catch((err) => {
-                console.error(err);
+                if (err instanceof Error) {
+                    console.error(err);
+                }
                 addTeaser({
                     messageType: 'Danger',
                     message: err.message as string,

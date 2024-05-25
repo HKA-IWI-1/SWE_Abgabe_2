@@ -19,11 +19,11 @@
 import './BookDetails.scss';
 import { Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import { useLoaderData, useNavigate } from 'react-router-dom';
-import { Abbildungen } from '../../components/BookDetails__Abbildungen/Abbildungen.tsx';
+import { Abbildungen } from '../../components/BookDetails/Abbildungen/Abbildungen.tsx';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import { InfoBar } from '../../components/BookDetails__InfoBar/InfoBar.tsx';
-import { MainData } from '../../components/BookDetails__MainData/MainData.tsx';
+import { InfoBar } from '../../components/BookDetails/InfoBar/InfoBar.tsx';
+import { MainData } from '../../components/BookDetails/MainData/MainData.tsx';
 import { READ_BOOK } from './queries.ts';
 import Spinner from 'react-bootstrap/Spinner';
 import { paths } from '../../config/paths.ts';

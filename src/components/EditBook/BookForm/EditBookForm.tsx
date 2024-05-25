@@ -19,23 +19,23 @@
 
 import { Col, Modal, Row } from 'react-bootstrap';
 import { type SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
-import { BackButton } from '../EditForm__BackButton/BackButton.tsx';
-import { type BookDTO } from '../../entities/BookDTO.ts';
-import { Buchart } from '../EditBook__BuchArt/Buchart.tsx';
-import { Buchpreis } from '../EditBook__Buchpreis/Buchpreis.tsx';
-import { Buchrabatt } from '../BookDetails__Buchrabatt/Buchrabatt.tsx';
+import { BackButton } from '../BackButton/BackButton.tsx';
+import { type BookDTO } from '../../../entities/BookDTO.ts';
+import { Buchart } from '../BuchArt/Buchart.tsx';
+import { Buchpreis } from '../Buchpreis/Buchpreis.tsx';
+import { Buchrabatt } from '../../BookDetails/Buchrabatt/Buchrabatt.tsx';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import { Datum } from '../BookDetails__Datum/Datum.tsx';
+import { Datum } from '../../BookDetails/Datum/Datum.tsx';
 import Form from 'react-bootstrap/Form';
-import { Homepage } from '../BookDetails__Homepage/Homepage.tsx';
-import { Isbn } from '../BookDetails__Isbn/Isbn.tsx';
-import { Lieferbar } from '../BookDetails__Lieferbar/Lieferbar.tsx';
-import { Rating } from '../EditBook__Rating/Rating.tsx';
-import { Schlagwoerter } from '../BookDetails__Schlagwoerter/Schlagwoerter.tsx';
-import { Title } from '../EditBook__Titel/Title.tsx';
-import { UPDATE_MUTATION } from '../Login/queries_mutations.ts';
-import { paths } from '../../config/paths.ts';
+import { Homepage } from '../../BookDetails/Homepage/Homepage.tsx';
+import { Isbn } from '../../BookDetails/Isbn/Isbn.tsx';
+import { Lieferbar } from '../../BookDetails/Lieferbar/Lieferbar.tsx';
+import { Rating } from '../Rating/Rating.tsx';
+import { Schlagwoerter } from '../../BookDetails/Schlagwoerter/Schlagwoerter.tsx';
+import { Title } from '../Titel/Title.tsx';
+import { UPDATE_MUTATION } from '../../Login/queries_mutations.ts';
+import { paths } from '../../../config/paths.ts';
 import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -96,7 +96,9 @@ export const EditBookForm = ({ buch, id }: { buch: BookDTO; id: number }) => {
                         'Beim Aktualisieren ist ein unbekannter Fehler aufgetreten.',
                     error: true,
                 });
-                console.log(err);
+                if (err instanceof Error) {
+                    console.error(err);
+                }
             });
     };
 

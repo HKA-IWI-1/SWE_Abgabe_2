@@ -19,41 +19,43 @@
 
 import { Col, InputGroup } from 'react-bootstrap';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
-import { type BookDTO } from '../../entities/BookDTO.ts';
+import { type BookDTO } from '../../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/FormError.tsx';
+import { FormErrors } from '../../FormError/FormError.tsx';
 
-interface BuchartProps {
+interface HomepageProps {
     register: UseFormRegister<any>;
     buch: BookDTO;
     errors: FieldErrors;
 }
 
-export const Buchart = ({ register, buch, errors }: BuchartProps) => (
+const URL_PATTERN =
+    /^https?:\/\/(www\.)?[-\w@:%.+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-\w()@:%+.~#?&/=]*)$/u;
+
+export const Homepage = ({ register, errors }: HomepageProps) => (
     <>
+        {/* https://stackoverflow.com/questions/36835615/difference-between-input-group-and-form-group */}
+        {/* form group: wrap labels and form controls in a div to get optimum spacing between the label and the control */}
+        {/* Input groups: extended Form Controls. Using input groups you can easily prepend and append text or buttons to the text-based inputs. */}
         <Form.Group as={Col} className="mb-3">
-            <Form.Label>Buchart</Form.Label>
-            <InputGroup>
-                {['KINDLE', 'DRUCKAUSGABE'].map((type) => (
-                    <Form.Check
-                        key={type}
-                        inline
-                        label={type}
-                        type={'radio'}
-                        id={type}
-                        value={type}
-                        {...register('art', {
-                            required: true,
-                            pattern: /^DRUCKAUSGABE$|^KINDLE$/u,
-                        })}
-                        defaultChecked={buch.art === type}
-                        isValid={!errors.art}
-                        isInvalid={Boolean(errors.art)}
-                    />
-                ))}
+            <Form.Label>Homepage</Form.Label>
+            <InputGroup className="mb-3">
+                <InputGroup.Text>
+                    <i className="bi bi-globe pe-2"></i>
+                </InputGroup.Text>
+                <Form.Control
+                    placeholder={'Homepage'}
+                    aria-label="homepage"
+                    {...register('homepage', {
+                        required: true,
+                        pattern: URL_PATTERN,
+                    })}
+                    isValid={!errors.homepage}
+                    isInvalid={Boolean(errors.homepage)}
+                />
                 <FormErrors
-                    isError={Boolean(errors.art)}
-                    errorMessage={'Die Buchart fehlt oder ist ungültig'}
+                    isError={Boolean(errors.homepage)}
+                    errorMessage={'Die Homepage fehlt oder ist ungültig'}
                 />
             </InputGroup>
         </Form.Group>

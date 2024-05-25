@@ -17,9 +17,9 @@
  *
  */
 
-import '../../pages/BookDetails/BookDetails.scss';
+import '../../../pages/BookDetails/BookDetails.scss';
 import { Col, Row } from 'react-bootstrap';
-import { type BookDTO } from '../../entities/BookDTO.ts';
+import { type BookDTO } from '../../../entities/BookDTO.ts';
 
 export const InfoBar = ({ datum, lieferbar, homepage }: BookDTO) => {
     const lieferElement = lieferbar === true && (

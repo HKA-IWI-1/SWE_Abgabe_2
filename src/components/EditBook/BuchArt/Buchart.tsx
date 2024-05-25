@@ -19,34 +19,41 @@
 
 import { Col, InputGroup } from 'react-bootstrap';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
-import { type BookDTO } from '../../entities/BookDTO.ts';
+import { type BookDTO } from '../../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/FormError.tsx';
+import { FormErrors } from '../../FormError/FormError.tsx';
 
-interface TitleProps {
+interface BuchartProps {
     register: UseFormRegister<any>;
     buch: BookDTO;
     errors: FieldErrors;
 }
 
-export const Title = ({ register, errors }: TitleProps) => (
+export const Buchart = ({ register, buch, errors }: BuchartProps) => (
     <>
         <Form.Group as={Col} className="mb-3">
-            <InputGroup className="mb-3">
-                <InputGroup.Text>Titel</InputGroup.Text>
-                <Form.Control
-                    size="lg"
-                    type="text"
-                    placeholder="Titel"
-                    {...register('titel', {
-                        required: true,
-                    })}
-                    isValid={!errors.titel}
-                    isInvalid={Boolean(errors.titel)}
-                />
+            <Form.Label>Buchart</Form.Label>
+            <InputGroup>
+                {['KINDLE', 'DRUCKAUSGABE'].map((type) => (
+                    <Form.Check
+                        key={type}
+                        inline
+                        label={type}
+                        type={'radio'}
+                        id={type}
+                        value={type}
+                        {...register('art', {
+                            required: true,
+                            pattern: /^DRUCKAUSGABE$|^KINDLE$/u,
+                        })}
+                        defaultChecked={buch.art === type}
+                        isValid={!errors.art}
+                        isInvalid={Boolean(errors.art)}
+                    />
+                ))}
                 <FormErrors
-                    isError={Boolean(errors.titel)}
-                    errorMessage={'Der Titel fehlt oder ist ungültig'}
+                    isError={Boolean(errors.art)}
+                    errorMessage={'Die Buchart fehlt oder ist ungültig'}
                 />
             </InputGroup>
         </Form.Group>
