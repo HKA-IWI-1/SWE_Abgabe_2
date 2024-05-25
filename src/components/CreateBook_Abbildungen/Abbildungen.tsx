@@ -32,7 +32,6 @@ export const Abbildungen: React.FC<AbbildungenProps> = ({
         );
     };
 
-    // Call the prop function to pass the updated array to the parent component
     React.useEffect(() => {
         onAbbildungenChange(abbildungen);
     }, [abbildungen, onAbbildungenChange]);
