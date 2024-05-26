@@ -22,7 +22,6 @@ import {
     type UseFormRegister,
     type UseFormWatch,
 } from 'react-hook-form';
-import { type BookDTO } from '../../../entities/BookDTO.ts';
 import { Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
@@ -30,7 +29,7 @@ import { type FormValues } from '../BookForm/EditBookForm.tsx';
 
 interface RatingProps {
     register: UseFormRegister<any>;
-    buch: BookDTO;
+    rating: string;
     errors: FieldErrors;
     watch: UseFormWatch<FormValues>;
 }
@@ -38,11 +37,11 @@ interface RatingProps {
 const MIN_RATING = 0;
 const MAX_RATING = 5;
 
-export const Rating = ({ watch, register, buch, errors }: RatingProps) => (
+export const Rating = ({ watch, register, rating, errors }: RatingProps) => (
     <>
         <Form.Group as={Col} className="mb-3">
             {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
-            <Form.Label>Rating: {watch('rating') ?? buch.rating}</Form.Label>
+            <Form.Label>Rating: {watch('rating') ?? rating}</Form.Label>
             <Form.Range
                 min={MIN_RATING}
                 max={MAX_RATING}

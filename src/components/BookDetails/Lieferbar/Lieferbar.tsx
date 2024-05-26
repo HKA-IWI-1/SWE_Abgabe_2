@@ -19,17 +19,16 @@
 
 import { Col, InputGroup } from 'react-bootstrap';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
-import { type BookDTO } from '../../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
 
 interface LieferbarProps {
     register: UseFormRegister<any>;
-    buch: BookDTO;
+    lieferbar: boolean;
     errors: FieldErrors;
 }
 
-export const Lieferbar = ({ register, buch, errors }: LieferbarProps) => (
+export const Lieferbar = ({ register, lieferbar, errors }: LieferbarProps) => (
     <>
         <Form.Group as={Col} className="mb-3">
             <InputGroup className="mb-3">
@@ -37,7 +36,7 @@ export const Lieferbar = ({ register, buch, errors }: LieferbarProps) => (
                     type="switch"
                     label="Lieferbar"
                     {...register('lieferbar')}
-                    defaultChecked={buch.lieferbar}
+                    defaultChecked={lieferbar}
                     isValid={!errors.lieferbar}
                     isInvalid={Boolean(errors.lieferbar)}
                 />

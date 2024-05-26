@@ -19,10 +19,7 @@
 
 import './Login.scss';
 import { AUTH, REFRESH } from '../queries_mutations.ts';
-import {
-    LoginToast,
-    type TeaserData,
-} from '../LoginToast/LoginToast.tsx';
+import { LoginToast, type TeaserData } from '../LoginToast/LoginToast.tsx';
 import { useCallback, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';

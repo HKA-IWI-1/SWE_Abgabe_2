@@ -33,6 +33,7 @@ export const READ_BOOK = gql`
             schlagwoerter
             titel {
                 titel
+                untertitel
             }
             rabatt(short: true)
         }

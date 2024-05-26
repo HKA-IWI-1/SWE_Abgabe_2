@@ -17,17 +17,17 @@
  *
  */
 
-const bookDetails = 'buch';
-const bookDetailsRouting = `${bookDetails}/:bookId`;
-const edit = 'bearbeiten';
-
-export const paths = {
-    root: '/',
-    search: 'suchen',
-    createBook: 'neues_buch',
-    diagrams: 'diagramme',
-    bookDetails,
-    bookDetailsRouting,
-    editBook: `${bookDetailsRouting}/${edit}`,
-    edit,
-};
+export interface BuchDTO {
+    id: number;
+    version: string;
+    isbn: string;
+    rating?: string;
+    art?: 'KINDLE' | 'DRUCKAUSGABE';
+    preis: number;
+    rabatt?: string;
+    lieferbar?: boolean;
+    datum?: string;
+    homepage?: string;
+    schlagwoerter?: string[];
+    titel: { titel: string; untertitel: string };
+}

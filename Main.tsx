@@ -66,7 +66,7 @@ const router = createBrowserRouter([
                         element: <Diagrams />,
                     },
                     {
-                        path: paths.bookDetails,
+                        path: paths.bookDetailsRouting,
                         element: <BookDetails />,
                         loader: bookDetailsLoader,
                     },

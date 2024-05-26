@@ -19,17 +19,16 @@
 
 import { Col, InputGroup } from 'react-bootstrap';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
-import { type BookDTO } from '../../../entities/BookDTO.ts';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
 
 interface BuchartProps {
     register: UseFormRegister<any>;
-    buch: BookDTO;
+    art?: 'KINDLE' | 'DRUCKAUSGABE';
     errors: FieldErrors;
 }
 
-export const Buchart = ({ register, buch, errors }: BuchartProps) => (
+export const Buchart = ({ register, art, errors }: BuchartProps) => (
     <>
         <Form.Group as={Col} className="mb-3">
             <Form.Label>Buchart</Form.Label>
@@ -46,7 +45,7 @@ export const Buchart = ({ register, buch, errors }: BuchartProps) => (
                             required: true,
                             pattern: /^DRUCKAUSGABE$|^KINDLE$/u,
                         })}
-                        defaultChecked={buch.art === type}
+                        defaultChecked={art === type}
                         isValid={!errors.art}
                         isInvalid={Boolean(errors.art)}
                     />

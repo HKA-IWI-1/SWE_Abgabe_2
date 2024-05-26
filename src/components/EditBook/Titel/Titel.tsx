@@ -17,38 +17,20 @@
  *
  */
 
-import { Col, InputGroup } from 'react-bootstrap';
-import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
-import { type BookDTO } from '../../../entities/BookDTO.ts';
-import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../../FormError/FormError.tsx';
+import { Col } from 'react-bootstrap';
 
 interface TitleProps {
-    register: UseFormRegister<any>;
-    buch: BookDTO;
-    errors: FieldErrors;
+    titel: string;
+    untertitel: string;
 }
 
-export const Title = ({ register, errors }: TitleProps) => (
+export const Titel = ({ titel, untertitel }: TitleProps) => (
     <>
-        <Form.Group as={Col} className="mb-3">
-            <InputGroup className="mb-3">
-                <InputGroup.Text>Titel</InputGroup.Text>
-                <Form.Control
-                    size="lg"
-                    type="text"
-                    placeholder="Titel"
-                    {...register('titel', {
-                        required: true,
-                    })}
-                    isValid={!errors.titel}
-                    isInvalid={Boolean(errors.titel)}
-                />
-                <FormErrors
-                    isError={Boolean(errors.titel)}
-                    errorMessage={'Der Titel fehlt oder ist ungültig'}
-                />
-            </InputGroup>
-        </Form.Group>
+        <Col>
+            <h1>{titel}</h1>
+        </Col>
+        <Col>
+            <h2>{untertitel}</h2>
+        </Col>
     </>
 );

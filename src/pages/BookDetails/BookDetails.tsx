@@ -78,6 +78,9 @@ export const BookDetails = () => {
                         <Col>
                             <h1>{data?.buch?.titel?.titel ?? 'N/A'}</h1>
                         </Col>
+                        <Col>
+                            <h2>{data?.buch?.titel?.untertitel ?? 'N/A'}</h2>
+                        </Col>
                         <Col md={{ span: 2 }}>{editBookButton}</Col>
                         <Row>
                             <InfoBar {...data.buch} />

@@ -17,10 +17,10 @@
  *
  */
 
-import { Col, Modal, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import { type SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { BackButton } from '../BackButton/BackButton.tsx';
-import { type BookDTO } from '../../../entities/BookDTO.ts';
+import { type BuchDTO } from '../../../entities/BuchDTO.ts';
 import { Buchart } from '../BuchArt/Buchart.tsx';
 import { Buchpreis } from '../Buchpreis/Buchpreis.tsx';
 import { Buchrabatt } from '../../BookDetails/Buchrabatt/Buchrabatt.tsx';
@@ -33,17 +33,16 @@ import { Isbn } from '../../BookDetails/Isbn/Isbn.tsx';
 import { Lieferbar } from '../../BookDetails/Lieferbar/Lieferbar.tsx';
 import { Rating } from '../Rating/Rating.tsx';
 import { Schlagwoerter } from '../../BookDetails/Schlagwoerter/Schlagwoerter.tsx';
-import { Title } from '../Titel/Title.tsx';
-import { UPDATE_MUTATION } from '../../Login/queries_mutations.ts';
+import { StatusModal } from '../StatusModal/StatusModal.tsx';
+import { Titel } from '../Titel/Titel.tsx';
+import { UPDATE_MUTATION } from './mutations.ts';
 import { paths } from '../../../config/paths.ts';
 import { useMutation } from '@apollo/client';
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 export interface FormValues {
     version: string;
-    titel: string;
-    rating: number;
+    rating: string;
     art: 'KINDLE' | 'DRUCKAUSGABE';
     preis: number;
     rabatt: number;
@@ -57,8 +56,7 @@ export interface FormValues {
 const RABATT_TEILER = 100;
 
 // eslint-disable-next-line max-lines-per-function
-export const EditBookForm = ({ buch, id }: { buch: BookDTO; id: number }) => {
-    const navigate = useNavigate();
+export const EditBookForm = ({ buch, id }: { buch: BuchDTO; id: number }) => {
     const [updateBook] = useMutation(UPDATE_MUTATION);
     const [updateMessage, setUpdateMessage] = useState({
         visible: false,
@@ -67,12 +65,13 @@ export const EditBookForm = ({ buch, id }: { buch: BookDTO; id: number }) => {
     });
 
     const UpdateBook: SubmitHandler<FormValues> = (bookData) => {
+        console.log(bookData);
         updateBook({
             variables: {
                 id,
                 version: bookData.version,
                 isbn: bookData.isbn,
-                rating: bookData.rating,
+                rating: Number.parseInt(bookData.rating, 10),
                 art: bookData.art,
                 preis: bookData.preis,
                 rabatt: bookData.rabatt / RABATT_TEILER,
@@ -121,7 +120,6 @@ export const EditBookForm = ({ buch, id }: { buch: BookDTO; id: number }) => {
     } = useForm<FormValues>({
         defaultValues: {
             version: buch.version,
-            titel: buch.titel.titel,
             rating: buch.rating,
             art: buch.art,
             preis: buch.preis,
@@ -144,20 +142,19 @@ export const EditBookForm = ({ buch, id }: { buch: BookDTO; id: number }) => {
         <>
             <Container>
                 <Form onSubmit={handleSubmit(UpdateBook)}>
-                    <Row className={'pt-2'} xs={2} md={2} lg={2}>
+                    <Row className={'pt-2'} xs={3} md={3} lg={3}>
                         <Col md={{ span: 2 }} style={{ width: '4rem' }}>
                             <BackButton isDirty={isDirty} />
                         </Col>
-                        <Title
-                            register={register}
-                            buch={buch}
-                            errors={errors}
+                        <Titel
+                            titel={buch.titel.titel}
+                            untertitel={buch.titel.untertitel}
                         />
                     </Row>
                     <Row>
                         <Rating
                             register={register}
-                            buch={buch}
+                            rating={buch.rating ?? 'N/A'}
                             errors={errors}
                             watch={watch}
                         />
@@ -165,45 +162,29 @@ export const EditBookForm = ({ buch, id }: { buch: BookDTO; id: number }) => {
                     <Row>
                         <Buchart
                             register={register}
-                            buch={buch}
+                            art={buch.art}
                             errors={errors}
                         />
                     </Row>
                     <Row>
-                        <Buchpreis
-                            register={register}
-                            buch={buch}
-                            errors={errors}
-                        />
-                        <Buchrabatt
-                            register={register}
-                            buch={buch}
-                            errors={errors}
-                        />
+                        <Buchpreis register={register} errors={errors} />
+                        <Buchrabatt register={register} errors={errors} />
                     </Row>
                     <Row>
                         <Lieferbar
                             register={register}
-                            buch={buch}
+                            lieferbar={buch.lieferbar ?? false}
                             errors={errors}
                         />
                     </Row>
                     <Row>
-                        <Homepage
-                            register={register}
-                            buch={buch}
-                            errors={errors}
-                        />
+                        <Homepage register={register} errors={errors} />
                     </Row>
                     <Row>
-                        <Isbn register={register} buch={buch} errors={errors} />
+                        <Isbn register={register} errors={errors} />
                     </Row>
                     <Row>
-                        <Datum
-                            register={register}
-                            buch={buch}
-                            errors={errors}
-                        />
+                        <Datum register={register} errors={errors} />
                     </Row>
                     <Schlagwoerter
                         register={register}
@@ -218,35 +199,11 @@ export const EditBookForm = ({ buch, id }: { buch: BookDTO; id: number }) => {
                 </Form>
             </Container>
             {updateMessage.visible && (
-                <Modal
-                    show={updateMessage.visible}
-                    size="lg"
-                    aria-labelledby="contained-modal-title-vcenter"
-                    centered
-                >
-                    <Modal.Header closeButton>
-                        <Modal.Title id="contained-modal-title-vcenter">
-                            {updateMessage.nachricht}
-                        </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Footer>
-                        <Button
-                            onClick={() => {
-                                if (updateMessage.error) {
-                                    setUpdateMessage({
-                                        visible: false,
-                                        nachricht: 'N/A',
-                                        error: updateMessage.error,
-                                    });
-                                } else {
-                                    navigate(paths.root);
-                                }
-                            }}
-                        >
-                            Okay
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+                <StatusModal
+                    updateMessage={updateMessage}
+                    setUpdateMessage={setUpdateMessage}
+                    routingPath={`/${paths.bookDetails}/${id}`}
+                />
             )}
         </>
     );

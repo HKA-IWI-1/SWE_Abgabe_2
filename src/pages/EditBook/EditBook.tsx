@@ -18,7 +18,7 @@
  */
 import './EditBook.scss';
 import { type ApolloError } from '@apollo/client/errors';
-import { type BookDTO } from '../../entities/BookDTO.ts';
+import { type BuchDTO } from '../../entities/BuchDTO.ts';
 import Container from 'react-bootstrap/Container';
 import { EditBookForm } from '../../components/EditBook/BookForm/EditBookForm.tsx';
 import { READ_BOOK } from './queries.ts';
@@ -34,7 +34,7 @@ export interface BookId {
 interface QueryTypes {
     loading: boolean;
     error?: ApolloError | undefined;
-    data: { buch: BookDTO } | undefined;
+    data: { buch: BuchDTO } | undefined;
 }
 
 export const EditBook = () => {
