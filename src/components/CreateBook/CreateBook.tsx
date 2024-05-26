@@ -1,16 +1,19 @@
 import { useFieldArray, useForm } from 'react-hook-form';
-import { Abbildungen } from '../CreateBook_Abbildungen/Abbildungen';
-import { Buchart } from '../CreateBook_Buchart/Buchart';
-import { Datum } from '../CreateBook_Datum/Datum';
-import { Homepage } from '../CreateBook_Homepage/Homepage';
-import { Isbn } from '../CreateBook_Isbn/Isbn';
-import { Lieferbar } from '../CreateBook_Lieferbar/Lieferbar';
-import { Preis } from '../CreateBook_Preis/Preis';
-import { Rabatt } from '../CreateBook_Rabatt/Rabatt';
-import { Rating } from '../CreateBook_Rating/Rating';
-import { Schlagwoerter } from '../CreateBook_Schlagwoerter/Schlagwoerter';
+// eslint-disable-next-line no-lone-blocks
+{
+    /* import { type Abbildungen } from './Abbildungen/Abbildungen'; */
+}
+import { Buchart } from './Buchart/Buchart';
+import { Datum } from './Datum/Datum';
+import { Homepage } from './Homepage/Homepage';
+import { Isbn } from './Isbn/Isbn';
+import { Lieferbar } from './Lieferbar/Lieferbar';
+import { Preis } from './Preis/Preis';
+import { Rabatt } from './Rabatt/Rabatt';
+import { Rating } from './Rating/Rating';
+import { Schlagwoerter } from './Schlagwoerter/Schlagwoerter';
 import Table from 'react-bootstrap/Table';
-import { Titel } from '../CreateBook_Titel/Titel';
+import { Titel } from './Titel/Titel';
 
 export interface Abbildungen {
     beschriftung: string;
@@ -29,7 +32,6 @@ export interface FormValues {
     isbn: string;
     datum: string;
     schlagwoerter: string[];
-    abbildungen: Abbildungen[];
 }
 
 /* eslint-disable max-lines-per-function */
@@ -51,14 +53,17 @@ export const CreateInput = () => {
         // @ts-expect-error
         name: 'schlagwoerter',
     });
-    const {
+    // eslint-disable-next-line no-lone-blocks
+    {
+        /* const {
         fields: abbildungenFields,
         append: abbildungenAppend,
         remove: abbildungenRemove,
     } = useFieldArray({
         control,
         name: 'abbildungen',
-    });
+    }); */
+    }
 
     return (
         <>
@@ -118,13 +123,13 @@ export const CreateInput = () => {
                             />
                         </th>
                         <th>
-                            <Abbildungen
+                            {/* <Abbildungen
                                 register={register}
                                 unregister={unregister}
                                 fields={abbildungenFields}
                                 append={abbildungenAppend}
                                 remove={abbildungenRemove}
-                            />
+                            /> */}
                         </th>
                     </tr>
                 </tbody>

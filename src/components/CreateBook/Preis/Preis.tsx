@@ -18,38 +18,38 @@
  */
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/FormError.tsx';
+import { FormErrors } from '../../FormError/FormError.tsx';
 import { InputGroup } from 'react-bootstrap';
 
-interface HomepageProps {
+interface BuchpreisProps {
     register: UseFormRegister<any>;
     errors: FieldErrors;
 }
 
-const URL_PATTERN =
-    /^https?:\/\/(www\.)?[-\w@:%.+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-\w()@:%+.~#?&/=]*)$/u;
+const PREIS_MIN = 0;
 
-export const Homepage = ({ register, errors }: HomepageProps) => (
+export const Preis = ({ register, errors }: BuchpreisProps) => (
     <>
         <Form.Group>
-            <Form.Label>Homepage</Form.Label>
+            <Form.Label>Preis</Form.Label>
             <InputGroup>
-                <InputGroup.Text>
-                    <i className="bi bi-globe"></i>
-                </InputGroup.Text>
+                <InputGroup.Text>€</InputGroup.Text>
                 <Form.Control
-                    type="text"
-                    placeholder="homepage"
-                    {...register('homepage', {
+                    type={'number'}
+                    placeholder={'Preis'}
+                    aria-label="Preis"
+                    {...register('preis', {
                         required: true,
-                        pattern: URL_PATTERN,
+                        valueAsNumber: true,
+                        min: PREIS_MIN,
                     })}
-                    isValid={!errors.homepage}
-                    isInvalid={Boolean(errors.homepage)}
+                    step=".001"
+                    isValid={!errors.preis}
+                    isInvalid={Boolean(errors.preis)}
                 />
                 <FormErrors
-                    isError={Boolean(errors.homepage)}
-                    errorMessage={'Die Homepage fehlt oder ist ungültig'}
+                    isError={Boolean(errors.preis)}
+                    errorMessage={'Der Preis fehlt oder ist ungültig'}
                 />
             </InputGroup>
         </Form.Group>

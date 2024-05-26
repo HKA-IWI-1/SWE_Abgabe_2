@@ -18,35 +18,38 @@
  */
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/FormError.tsx';
+import { FormErrors } from '../../FormError/FormError.tsx';
 import { InputGroup } from 'react-bootstrap';
 
-interface IsbnProps {
+interface HomepageProps {
     register: UseFormRegister<any>;
     errors: FieldErrors;
 }
 
-const ISBN13_PATTERN =
-    /^(?:ISBN(?:-13)?:? )?(?=\d{13}$|(?=(?:\d+[- ]){4})[- 0-9]{17}$)97[89][- ]?\d{1,5}[- ]?(?:\d+[- ]\d+|\d{2,})[- ]?\d$/u;
+const URL_PATTERN =
+    /^https?:\/\/(www\.)?[-\w@:%.+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-\w()@:%+.~#?&/=]*)$/u;
 
-export const Isbn = ({ register, errors }: IsbnProps) => (
+export const Homepage = ({ register, errors }: HomepageProps) => (
     <>
         <Form.Group>
-            <Form.Label>ISBN</Form.Label>
+            <Form.Label>Homepage</Form.Label>
             <InputGroup>
+                <InputGroup.Text>
+                    <i className="bi bi-globe"></i>
+                </InputGroup.Text>
                 <Form.Control
                     type="text"
-                    placeholder="ISBN"
-                    {...register('isbn', {
+                    placeholder="homepage"
+                    {...register('homepage', {
                         required: true,
-                        pattern: ISBN13_PATTERN,
+                        pattern: URL_PATTERN,
                     })}
-                    isValid={!errors.isbn}
-                    isInvalid={Boolean(errors.isbn)}
+                    isValid={!errors.homepage}
+                    isInvalid={Boolean(errors.homepage)}
                 />
                 <FormErrors
-                    isError={Boolean(errors.isbn)}
-                    errorMessage={'Die ISBN fehlt oder ist ungültig'}
+                    isError={Boolean(errors.homepage)}
+                    errorMessage={'Die Homepage fehlt oder ist ungültig'}
                 />
             </InputGroup>
         </Form.Group>

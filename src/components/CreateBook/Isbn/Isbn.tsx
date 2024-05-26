@@ -18,38 +18,35 @@
  */
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/FormError.tsx';
+import { FormErrors } from '../../FormError/FormError.tsx';
 import { InputGroup } from 'react-bootstrap';
 
-interface BuchpreisProps {
+interface IsbnProps {
     register: UseFormRegister<any>;
     errors: FieldErrors;
 }
 
-const PREIS_MIN = 0;
+const ISBN13_PATTERN =
+    /^(?:ISBN(?:-13)?:? )?(?=\d{13}$|(?=(?:\d+[- ]){4})[- 0-9]{17}$)97[89][- ]?\d{1,5}[- ]?(?:\d+[- ]\d+|\d{2,})[- ]?\d$/u;
 
-export const Preis = ({ register, errors }: BuchpreisProps) => (
+export const Isbn = ({ register, errors }: IsbnProps) => (
     <>
         <Form.Group>
-            <Form.Label>Preis</Form.Label>
+            <Form.Label>ISBN</Form.Label>
             <InputGroup>
-                <InputGroup.Text>€</InputGroup.Text>
                 <Form.Control
-                    type={'number'}
-                    placeholder={'Preis'}
-                    aria-label="Preis"
-                    {...register('preis', {
+                    type="text"
+                    placeholder="ISBN"
+                    {...register('isbn', {
                         required: true,
-                        valueAsNumber: true,
-                        min: PREIS_MIN,
+                        pattern: ISBN13_PATTERN,
                     })}
-                    step=".001"
-                    isValid={!errors.preis}
-                    isInvalid={Boolean(errors.preis)}
+                    isValid={!errors.isbn}
+                    isInvalid={Boolean(errors.isbn)}
                 />
                 <FormErrors
-                    isError={Boolean(errors.preis)}
-                    errorMessage={'Der Preis fehlt oder ist ungültig'}
+                    isError={Boolean(errors.isbn)}
+                    errorMessage={'Die ISBN fehlt oder ist ungültig'}
                 />
             </InputGroup>
         </Form.Group>

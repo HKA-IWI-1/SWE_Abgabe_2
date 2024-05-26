@@ -18,40 +18,31 @@
  */
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/FormError.tsx';
+import { FormErrors } from '../../FormError/FormError.tsx';
 import { InputGroup } from 'react-bootstrap';
 
-interface RabattProps {
+interface TitleProps {
     register: UseFormRegister<any>;
     errors: FieldErrors;
 }
 
-const RABATT_MIN = 0;
-const RABATT_MAX = 100;
-
-export const Rabatt = ({ register, errors }: RabattProps) => (
+export const Titel = ({ register, errors }: TitleProps) => (
     <>
         <Form.Group>
-            <Form.Label>Rabatt</Form.Label>
+            <Form.Label>Titel</Form.Label>
             <InputGroup>
-                <InputGroup.Text>%</InputGroup.Text>
                 <Form.Control
-                    type={'number'}
-                    placeholder={'Rabatt'}
-                    aria-label="Rabatt"
-                    {...register('rabatt', {
+                    type="text"
+                    placeholder="Titel"
+                    {...register('titel', {
                         required: true,
-                        valueAsNumber: true,
-                        min: RABATT_MIN,
-                        max: RABATT_MAX,
                     })}
-                    step="0.01"
-                    isValid={!errors.rabatt}
-                    isInvalid={Boolean(errors.rabatt)}
+                    isValid={!errors.titel}
+                    isInvalid={Boolean(errors.titel)}
                 />
                 <FormErrors
-                    isError={Boolean(errors.rabatt)}
-                    errorMessage={'Der Rabatt fehlt oder ist ungültig'}
+                    isError={Boolean(errors.titel)}
+                    errorMessage={'Der Titel fehlt oder ist ungültig'}
                 />
             </InputGroup>
         </Form.Group>

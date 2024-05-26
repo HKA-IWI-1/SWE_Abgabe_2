@@ -18,7 +18,7 @@
  */
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/FormError.tsx';
+import { FormErrors } from '../../FormError/FormError.tsx';
 import { InputGroup } from 'react-bootstrap';
 
 interface DatumProps {

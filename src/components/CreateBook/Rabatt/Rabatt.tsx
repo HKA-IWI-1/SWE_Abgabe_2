@@ -18,38 +18,40 @@
  */
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/FormError.tsx';
+import { FormErrors } from '../../FormError/FormError.tsx';
 import { InputGroup } from 'react-bootstrap';
 
-interface BuchartProps {
+interface RabattProps {
     register: UseFormRegister<any>;
     errors: FieldErrors;
 }
 
-export const Buchart = ({ register, errors }: BuchartProps) => (
+const RABATT_MIN = 0;
+const RABATT_MAX = 100;
+
+export const Rabatt = ({ register, errors }: RabattProps) => (
     <>
         <Form.Group>
-            <Form.Label>Buchart</Form.Label>
+            <Form.Label>Rabatt</Form.Label>
             <InputGroup>
-                {['KINDLE', 'DRUCKAUSGABE'].map((type) => (
-                    <Form.Check
-                        key={type}
-                        inline
-                        label={type}
-                        type={'radio'}
-                        id={type}
-                        value={type}
-                        {...register('art', {
-                            required: true,
-                            pattern: /^DRUCKAUSGABE$|^KINDLE$/u,
-                        })}
-                        isValid={!errors.art}
-                        isInvalid={Boolean(errors.art)}
-                    />
-                ))}
+                <InputGroup.Text>%</InputGroup.Text>
+                <Form.Control
+                    type={'number'}
+                    placeholder={'Rabatt'}
+                    aria-label="Rabatt"
+                    {...register('rabatt', {
+                        required: true,
+                        valueAsNumber: true,
+                        min: RABATT_MIN,
+                        max: RABATT_MAX,
+                    })}
+                    step="0.01"
+                    isValid={!errors.rabatt}
+                    isInvalid={Boolean(errors.rabatt)}
+                />
                 <FormErrors
-                    isError={Boolean(errors.art)}
-                    errorMessage={'Die Buchart fehlt oder ist ungültig'}
+                    isError={Boolean(errors.rabatt)}
+                    errorMessage={'Der Rabatt fehlt oder ist ungültig'}
                 />
             </InputGroup>
         </Form.Group>

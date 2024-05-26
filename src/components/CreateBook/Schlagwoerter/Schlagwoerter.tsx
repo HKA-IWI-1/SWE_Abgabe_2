@@ -27,7 +27,7 @@ import {
 } from 'react-hook-form';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { type FormValues } from '../CreateBook/CreateBook.tsx';
+import { type FormValues } from '../CreateBook.tsx';
 
 interface SwProps {
     unregister: UseFormUnregister<any>;

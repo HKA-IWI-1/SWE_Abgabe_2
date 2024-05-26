@@ -16,35 +16,41 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
+import {
+    type FieldErrors,
+    type UseFormRegister,
+    type UseFormWatch,
+} from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../FormError/FormError.tsx';
-import { InputGroup } from 'react-bootstrap';
+import { FormErrors } from '../../FormError/FormError.tsx';
+import { type FormValues } from '../../CreateBook/CreateBook.tsx';
 
-interface TitleProps {
+interface RatingProps {
     register: UseFormRegister<any>;
     errors: FieldErrors;
+    watch: UseFormWatch<FormValues>;
 }
 
-export const Titel = ({ register, errors }: TitleProps) => (
+const MIN_RATING = 0;
+const MAX_RATING = 5;
+
+export const Rating = ({ watch, register, errors }: RatingProps) => (
     <>
         <Form.Group>
-            <Form.Label>Titel</Form.Label>
-            <InputGroup>
-                <Form.Control
-                    type="text"
-                    placeholder="Titel"
-                    {...register('titel', {
-                        required: true,
-                    })}
-                    isValid={!errors.titel}
-                    isInvalid={Boolean(errors.titel)}
-                />
-                <FormErrors
-                    isError={Boolean(errors.titel)}
-                    errorMessage={'Der Titel fehlt oder ist ungültig'}
-                />
-            </InputGroup>
+            <Form.Label>Rating: {watch('rating')}</Form.Label>
+            <Form.Range
+                min={MIN_RATING}
+                max={MAX_RATING}
+                {...register('rating', {
+                    required: true,
+                    min: MIN_RATING,
+                    max: MAX_RATING,
+                })}
+            />
+            <FormErrors
+                isError={Boolean(errors.rating)}
+                errorMessage={'Das Rating fehlt oder ist ungültig'}
+            />
         </Form.Group>
     </>
 );
