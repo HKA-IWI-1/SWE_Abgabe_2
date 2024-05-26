@@ -1,4 +1,4 @@
-import { Button, Form, InputGroup } from 'react-bootstrap';
+import { Button, Form, FormLabel, InputGroup } from 'react-bootstrap';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -40,6 +40,7 @@ export const Abbildungen: React.FC<AbbildungenProps> = ({
     return (
         <div>
             <Form onSubmit={handleSubmit(onSubmit)}>
+                <FormLabel>Schlagwörter</FormLabel>
                 <InputGroup>
                     <Form.Control
                         type="text"
