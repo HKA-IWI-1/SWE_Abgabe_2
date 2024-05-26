@@ -20,7 +20,7 @@ import './EditBook.scss';
 import { type ApolloError } from '@apollo/client/errors';
 import { type BookDTO } from '../../entities/BookDTO.ts';
 import Container from 'react-bootstrap/Container';
-import { EditBookForm } from '../../components/EditBook__BookForm/EditBookForm.tsx';
+import { EditBookForm } from '../../components/EditBook/BookForm/EditBookForm.tsx';
 import { READ_BOOK } from './queries.ts';
 import { Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';

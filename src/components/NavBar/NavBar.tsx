@@ -19,7 +19,7 @@
 import './NavBar.scss';
 import Container from 'react-bootstrap/Container';
 import { Link } from 'react-router-dom';
-import { Login } from '../Login/Login.tsx';
+import { Login } from '../Login/Login/Login.tsx';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Navbar from 'react-bootstrap/Navbar';
