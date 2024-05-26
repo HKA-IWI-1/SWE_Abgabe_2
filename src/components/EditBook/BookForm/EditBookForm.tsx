@@ -65,7 +65,6 @@ export const EditBookForm = ({ buch, id }: { buch: BuchDTO; id: number }) => {
     });
 
     const UpdateBook: SubmitHandler<FormValues> = (bookData) => {
-        console.log(bookData);
         updateBook({
             variables: {
                 id,
@@ -89,14 +88,19 @@ export const EditBookForm = ({ buch, id }: { buch: BuchDTO; id: number }) => {
                 }),
             )
             .catch((err) => {
-                setUpdateMessage({
-                    visible: true,
-                    nachricht:
-                        'Beim Aktualisieren ist ein unbekannter Fehler aufgetreten.',
-                    error: true,
-                });
                 if (err instanceof Error) {
-                    console.error(err);
+                    console.log(err);
+                    setUpdateMessage({
+                        visible: true,
+                        nachricht: `Fehler: ${err.message}`,
+                        error: true,
+                    });
+                } else {
+                    setUpdateMessage({
+                        visible: true,
+                        nachricht: 'Ein unbekannter Fehler ist aufgetreten.',
+                        error: true,
+                    });
                 }
             });
     };
@@ -130,6 +134,7 @@ export const EditBookForm = ({ buch, id }: { buch: BuchDTO; id: number }) => {
             datum: buch.datum,
             schlagwoerter: buch.schlagwoerter,
         },
+        reValidateMode: 'onBlur',
     });
     const { fields, append, remove } = useFieldArray({
         control,

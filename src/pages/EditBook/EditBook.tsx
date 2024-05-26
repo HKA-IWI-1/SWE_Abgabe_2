@@ -51,7 +51,6 @@ export const EditBook = () => {
     if (loading) {
         return (
             <Container>
-                {' '}
                 <Row>
                     <Spinner variant="primary" animation="border" role="status">
                         <span className="visually-hidden">Loading...</span>
