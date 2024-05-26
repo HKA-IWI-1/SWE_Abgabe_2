@@ -1,3 +1,4 @@
+import { useFieldArray, useForm } from 'react-hook-form';
 import { Abbildungen } from '../CreateBook_Abbildungen/Abbildungen';
 import { Buchart } from '../CreateBook_Buchart/Buchart';
 import { Datum } from '../CreateBook_Datum/Datum';
@@ -10,8 +11,11 @@ import { Rating } from '../CreateBook_Rating/Rating';
 import { Schlagwoerter } from '../CreateBook_Schlagwoerter/Schlagwoerter';
 import Table from 'react-bootstrap/Table';
 import { Titel } from '../CreateBook_Titel/Titel';
-import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+
+export interface Abbildungen {
+    beschriftung: string;
+    contentType: string;
+}
 
 export interface FormValues {
     version: string;
@@ -28,24 +32,33 @@ export interface FormValues {
     abbildungen: Abbildungen[];
 }
 
-export interface Abbildungen {
-    beschriftung: string;
-    contentType: string;
-}
-
 /* eslint-disable max-lines-per-function */
 export const CreateInput = () => {
-    const [abbildungen, setAbbildungen] = useState<Abbildungen[]>([]);
-
-    const handleAbbildungenChange = (updatedAbbildungen: Abbildungen[]) => {
-        setAbbildungen(updatedAbbildungen);
-    };
-
     const {
+        control,
         watch,
         register,
+        unregister,
         formState: { errors },
     } = useForm<FormValues>();
+    const {
+        fields: schlagwoerterFields,
+        append: schlagwoerterAppend,
+        remove: schlagwoerterRemove,
+    } = useFieldArray({
+        control,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        name: 'schlagwoerter',
+    });
+    const {
+        fields: abbildungenFields,
+        append: abbildungenAppend,
+        remove: abbildungenRemove,
+    } = useFieldArray({
+        control,
+        name: 'abbildungen',
+    });
 
     return (
         <>
@@ -96,22 +109,22 @@ export const CreateInput = () => {
                     </tr>
                     <tr>
                         <th>
-                            <Schlagwoerter />
+                            <Schlagwoerter
+                                register={register}
+                                unregister={unregister}
+                                fields={schlagwoerterFields}
+                                append={schlagwoerterAppend}
+                                remove={schlagwoerterRemove}
+                            />
                         </th>
                         <th>
                             <Abbildungen
-                                onAbbildungenChange={handleAbbildungenChange}
+                                register={register}
+                                unregister={unregister}
+                                fields={abbildungenFields}
+                                append={abbildungenAppend}
+                                remove={abbildungenRemove}
                             />
-                        </th>
-                    </tr>
-                    <tr>
-                        <th />
-                        <th>
-                            {}
-                            <pre>
-                                {/* eslint-disable-next-line @typescript-eslint/no-magic-numbers */}
-                                {JSON.stringify(abbildungen, undefined, 2)}
-                            </pre>
                         </th>
                     </tr>
                 </tbody>

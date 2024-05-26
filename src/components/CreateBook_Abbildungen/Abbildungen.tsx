@@ -17,81 +17,66 @@
  *
  */
 
-import { Button, Form, FormLabel, InputGroup } from 'react-bootstrap';
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-
-interface Abbildung {
-    beschriftung: string;
-    contentType: string;
-}
+import { Col, Form, InputGroup, Row } from 'react-bootstrap';
+import {
+    type FieldArrayWithId,
+    type UseFieldArrayAppend,
+    type UseFieldArrayRemove,
+    type UseFormRegister,
+    type UseFormUnregister,
+} from 'react-hook-form';
+import Button from 'react-bootstrap/Button';
 
 interface AbbildungenProps {
-    onAbbildungenChange: (abbildungen: Abbildung[]) => void;
+    register: UseFormRegister<any>;
+    unregister: UseFormUnregister<any>;
+    fields: FieldArrayWithId<any>[];
+    append: UseFieldArrayAppend<any, never>;
+    remove: UseFieldArrayRemove;
 }
 
-// eslint-disable-next-line max-lines-per-function
-export const Abbildungen: React.FC<AbbildungenProps> = ({
-    onAbbildungenChange,
-}) => {
-    const { register, handleSubmit, reset } = useForm<Abbildung>();
-    const [abbildungen, setAbbildungen] = useState<Abbildung[]>([]);
-
-    const onSubmit = (data: Abbildung) => {
-        const trimmedBeschriftung = data.beschriftung.trim();
-        if (trimmedBeschriftung !== '' && data.contentType !== '') {
-            setAbbildungen((prevAbbildungen) => [...prevAbbildungen, data]);
-            reset();
-        }
-    };
-
-    const removeAbbildung = (index: number) => {
-        setAbbildungen((prevAbbildungen) =>
-            prevAbbildungen.filter((_, i) => i !== index),
-        );
-    };
-
-    React.useEffect(() => {
-        onAbbildungenChange(abbildungen);
-    }, [abbildungen, onAbbildungenChange]);
-
-    return (
-        <div>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-                <FormLabel>Schlagwörter</FormLabel>
-                <InputGroup>
-                    <Form.Control
-                        type="text"
-                        {...register('beschriftung', {
-                            required: true,
-                        })}
-                        placeholder="Beschriftung eingeben"
-                    />
-                    <Form.Control
-                        type="text"
-                        {...register('contentType', {
-                            required: true,
-                        })}
-                        placeholder="Content Type eingeben"
-                    />
-                    <Button type="submit">Hinzufügen</Button>
-                </InputGroup>
-            </Form>
-            <div>
-                {abbildungen.map((abbildung, index) => (
-                    <div
-                        key={index}
-                        className="d-flex align-items-center justify-content-between"
-                    >
-                        {abbildung.beschriftung} | {abbildung.contentType}
-                        <Button onClick={() => removeAbbildung(index)}>
-                            <i className="bi bi-trash"></i>
+export const Abbildungen = ({
+    register,
+    fields,
+    append,
+    remove,
+}: AbbildungenProps) => (
+    <>
+        <Row xs={1} md={1} lg={1}>
+            <Form.Label>Abbildungen</Form.Label>
+            {fields.map((_, index) => (
+                <Form.Group as={Col} className="mb-3" key={index}>
+                    <InputGroup className="mb-3">
+                        <Form.Control
+                            {...register(`abbildungen.${index}.beschriftung`)}
+                            type="text"
+                            placeholder="Beschriftung"
+                        />
+                        <Form.Control
+                            {...register(`abbildungen.${index}.contentType`)}
+                            type="text"
+                            placeholder="ContentType"
+                        />
+                        <Button onClick={() => remove(index)}>
+                            <i className="bi bi-trash" />
                         </Button>
-                    </div>
-                ))}
-            </div>
-            {/* eslint-disable-next-line @typescript-eslint/no-magic-numbers */}
-            <pre>{JSON.stringify(abbildungen, undefined, 2)}</pre>
-        </div>
-    );
-};
+                    </InputGroup>
+                </Form.Group>
+            ))}
+        </Row>
+        <Row xs={1} md={1} lg={1} className={'mb-2'}>
+            <Button
+                type="button"
+                className="w-75 mx-auto"
+                onClick={() => {
+                    append({
+                        beschriftung: 'Beschriftung',
+                        contentType: 'ContentType',
+                    });
+                }}
+            >
+                Neue Abbildung hinzufügen.
+            </Button>
+        </Row>
+    </>
+);

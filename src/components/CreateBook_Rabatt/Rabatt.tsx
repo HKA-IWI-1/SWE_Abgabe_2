@@ -27,7 +27,7 @@ interface RabattProps {
 }
 
 const RABATT_MIN = 0;
-const RABATT_MAX = 1;
+const RABATT_MAX = 100;
 
 export const Rabatt = ({ register, errors }: RabattProps) => (
     <>

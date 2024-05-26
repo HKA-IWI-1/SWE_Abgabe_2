@@ -16,60 +16,65 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import { Button, Form, FormLabel, InputGroup } from 'react-bootstrap';
-import { useForm } from 'react-hook-form';
-import { useState } from 'react';
 
-interface SchlagwoerterProps {
-    keyword: string;
+import { Col, InputGroup, Row } from 'react-bootstrap';
+import {
+    type FieldArrayWithId,
+    type UseFieldArrayAppend,
+    type UseFieldArrayRemove,
+    type UseFormRegister,
+    type UseFormUnregister,
+} from 'react-hook-form';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import { type FormValues } from '../CreateBook/CreateBook.tsx';
+
+interface SwProps {
+    unregister: UseFormUnregister<any>;
+    register: UseFormRegister<any>;
+    fields: FieldArrayWithId<any>[];
+    append: UseFieldArrayAppend<FormValues, never>;
+    remove: UseFieldArrayRemove;
 }
 
-export const Schlagwoerter = () => {
-    const { register, handleSubmit, reset } = useForm<SchlagwoerterProps>();
-    const [keywords, setKeywords] = useState<string[]>([]);
-
-    const onSubmit = ({ keyword }: SchlagwoerterProps) => {
-        const trimmedKeyword = keyword.trimStart();
-        if (trimmedKeyword !== '') {
-            setKeywords((prevKeywords) => [...prevKeywords, trimmedKeyword]);
-            reset();
-        }
-    };
-
-    const removeKeyword = (index: number) => {
-        setKeywords((prevKeywords) =>
-            prevKeywords.filter((_, i) => i !== index),
-        );
-    };
-
-    return (
-        <div>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-                <FormLabel>Schlagwörter</FormLabel>
-                <InputGroup>
-                    <Form.Control
-                        type="text"
-                        {...register('keyword', {
-                            required: true,
-                        })}
-                        placeholder="Schlagwort eingeben"
-                    />
-                    <Button type="submit">Hinzufügen</Button>
-                </InputGroup>
-            </Form>
-            <div>
-                {keywords.map((keyword, index) => (
-                    <div
-                        key={index}
-                        className="d-flex align-items-center justify-content-between"
-                    >
-                        {keyword}
-                        <Button onClick={() => removeKeyword(index)}>
-                            <i className="bi bi-trash"></i>
+export const Schlagwoerter = ({
+    register,
+    fields,
+    append,
+    remove,
+}: SwProps) => (
+    <>
+        <Row xs={1} md={1} lg={1}>
+            <Form.Label>Schlagwoerter</Form.Label>
+            {fields.map((_, index) => (
+                <Form.Group as={Col} className="mb-3" key={index}>
+                    <InputGroup className="mb-3">
+                        <Form.Control
+                            {...register(`schlagwoerter.${index}`)}
+                            type="text"
+                            placeholder="Schlagwort"
+                        />
+                        <Button
+                            variant="primary"
+                            type="button"
+                            onClick={() => remove(index)}
+                        >
+                            <i className="bi bi-trash" />
                         </Button>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-};
+                    </InputGroup>
+                </Form.Group>
+            ))}
+        </Row>
+        <Row xs={1} md={1} lg={1} className={'mb-2'}>
+            <Button
+                type="button"
+                className="w-75 mx-auto"
+                onClick={() => {
+                    append('Schlagwort');
+                }}
+            >
+                Neues Schlagwort hinzufügen.
+            </Button>
+        </Row>
+    </>
+);
