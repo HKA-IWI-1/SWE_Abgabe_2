@@ -1,9 +1,6 @@
 import { Button, Form } from 'react-bootstrap';
 import { useFieldArray, useForm } from 'react-hook-form';
-// eslint-disable-next-line no-lone-blocks
-{
-    /* import { type Abbildungen } from './Abbildungen/Abbildungen'; */
-}
+import { Abbildungen } from './Abbildungen/Abbildungen';
 import { Buchart } from './Buchart/Buchart';
 import { Datum } from './Datum/Datum';
 import { Homepage } from './Homepage/Homepage';
@@ -44,6 +41,12 @@ export interface FormValues {
     isbn: string;
     datum: string;
     schlagwoerter: string[];
+    abbildungen: [
+        {
+            titel: string;
+            untertitel: string;
+        },
+    ];
 }
 
 const RABATT_TEILER = 100;
@@ -58,6 +61,7 @@ export const CreateInput = () => {
     });
 
     const CreateBook: SubmitHandler<FormValues> = (bookData) => {
+        console.log(bookData);
         createBook({
             variables: {
                 id,
@@ -116,17 +120,15 @@ export const CreateInput = () => {
         // @ts-expect-error
         name: 'schlagwoerter',
     });
-    // eslint-disable-next-line no-lone-blocks
-    {
-        /* const {
+
+    const {
         fields: abbildungenFields,
         append: abbildungenAppend,
         remove: abbildungenRemove,
     } = useFieldArray({
         control,
         name: 'abbildungen',
-    }); */
-    }
+    });
 
     return (
         <>
@@ -187,13 +189,13 @@ export const CreateInput = () => {
                                 />
                             </th>
                             <th>
-                                {/* <Abbildungen
-                                register={register}
-                                unregister={unregister}
-                                fields={abbildungenFields}
-                                append={abbildungenAppend}
-                                remove={abbildungenRemove}
-                            /> */}
+                                <Abbildungen
+                                    register={register}
+                                    unregister={unregister}
+                                    fields={abbildungenFields}
+                                    append={abbildungenAppend}
+                                    remove={abbildungenRemove}
+                                />
                             </th>
                         </tr>
                     </tbody>
