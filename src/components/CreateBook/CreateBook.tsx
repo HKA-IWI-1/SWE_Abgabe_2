@@ -31,7 +31,10 @@ export interface Titel {
 
 export interface FormValues {
     version: string;
-    titel: Titel;
+    titel: {
+        titel: string;
+        untertitel: string;
+    };
     rating: string;
     art: 'KINDLE' | 'DRUCKAUSGABE';
     preis: number;
@@ -64,8 +67,6 @@ export const CreateInput = () => {
         console.log(bookData);
         createBook({
             variables: {
-                id,
-                version: bookData.version,
                 isbn: bookData.isbn,
                 rating: Number.parseInt(bookData.rating, 10),
                 art: bookData.art,
@@ -75,6 +76,7 @@ export const CreateInput = () => {
                 datum: bookData.datum,
                 homepage: bookData.homepage,
                 schlagwoerter: bookData.schlagwoerter,
+                abbildungen: bookData.abbildungen,
             },
         })
             .then(() =>
