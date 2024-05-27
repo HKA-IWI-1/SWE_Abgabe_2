@@ -27,7 +27,7 @@ import {
 } from 'react-hook-form';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { type FormValues } from '../../EditBook/BookForm/EditBookForm.tsx';
+import { type FormValues } from '../BookForm/EditBookForm.tsx';
 
 interface SwProps {
     unregister: UseFormUnregister<any>;
@@ -68,6 +68,7 @@ export const Schlagwoerter = ({
         </Row>
         <Row xs={1} md={1} lg={1} className={'mb-2'}>
             <Button
+                className={'mx-2'}
                 type="button"
                 onClick={() => {
                     append('Schlagwort');

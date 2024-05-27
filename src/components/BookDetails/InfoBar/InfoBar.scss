@@ -17,18 +17,12 @@
  *
  */
 
-@import '../../global';
+@import '../../../global';
 
-body[data-bs-theme='dark'] {
-  .edit-book {
-    border-color: $white !important;
+body[data-bs-theme="dark"] .infobar .homepage {
+  color: $white;
+}
 
-    &:hover {
-      background-color: $white;
-    }
-
-    i {
-      filter: invert(100%);
-    }
-  }
+body:not([data-bs-theme="dark"]) .infobar .homepage {
+  color: $black;
 }

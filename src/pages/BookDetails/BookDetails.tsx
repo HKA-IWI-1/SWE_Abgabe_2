@@ -53,6 +53,7 @@ export const BookDetails = () => {
             overlay={<Tooltip id={'tooltip-left'}>Bearbeiten</Tooltip>}
         >
             <Button
+                className={'edit-book'}
                 variant="outline-dark"
                 onClick={() => {
                     navigate(paths.edit);

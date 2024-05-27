@@ -15,7 +15,6 @@ import { type SubmitHandler } from 'react-hook-form';
 import Table from 'react-bootstrap/Table';
 import { Titel } from './Titel/Titel';
 import { UPDATE_MUTATION } from '../EditBook/BookForm/mutations';
-import { id } from 'date-fns/locale';
 import { useMutation } from '@apollo/client';
 import { useState } from 'react';
 

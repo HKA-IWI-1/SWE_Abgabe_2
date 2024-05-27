@@ -17,4 +17,18 @@
  *
  */
 
-@import '../../../global';
+@import "../../../global";
+
+body[data-bs-theme='dark'] {
+  .back-button {
+    border-color: $white !important;
+
+    &:hover {
+      background-color: $white;
+    }
+
+    i {
+      filter: invert(100%);
+    }
+  }
+}

@@ -17,6 +17,7 @@
  *
  */
 
+import './BackButton.scss';
 import { Modal, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
@@ -33,6 +34,7 @@ export const BackButton = ({ isDirty }: { isDirty: boolean }) => {
                 overlay={<Tooltip id={'tooltip-right'}>Zurück</Tooltip>}
             >
                 <Button
+                    className={'back-button'}
                     variant="outline-dark"
                     onClick={() => {
                         if (isDirty) {

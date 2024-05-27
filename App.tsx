@@ -27,7 +27,7 @@ import {
     createHttpLink,
 } from '@apollo/client';
 import { Outlet, useNavigation } from 'react-router-dom';
-import { NavBar } from './src/components/NavBar/NavBar.tsx';
+import { NavBar } from './src/components/NavBar/NavBar/NavBar.tsx';
 import { setContext } from '@apollo/client/link/context';
 
 export const App = () => {

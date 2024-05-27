@@ -32,7 +32,7 @@ import { Homepage } from '../../BookDetails/Homepage/Homepage.tsx';
 import { Isbn } from '../../BookDetails/Isbn/Isbn.tsx';
 import { Lieferbar } from '../../BookDetails/Lieferbar/Lieferbar.tsx';
 import { Rating } from '../Rating/Rating.tsx';
-import { Schlagwoerter } from '../../BookDetails/Schlagwoerter/Schlagwoerter.tsx';
+import { Schlagwoerter } from '../Schlagwoerter/Schlagwoerter.tsx';
 import { StatusModal } from '../StatusModal/StatusModal.tsx';
 import { Titel } from '../Titel/Titel.tsx';
 import { UPDATE_MUTATION } from './mutations.ts';

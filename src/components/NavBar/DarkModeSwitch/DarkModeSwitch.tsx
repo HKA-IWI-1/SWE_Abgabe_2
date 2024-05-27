@@ -1,4 +1,4 @@
-/*!
+/*
  * Copyright (c) 2024 - present Florian Sauer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
@@ -17,18 +17,24 @@
  *
  */
 
-@import '../../global';
+import Button from 'react-bootstrap/esm/Button';
+import { useState } from 'react';
 
-body[data-bs-theme='dark'] {
-  .edit-book {
-    border-color: $white !important;
+export const DarkModeSwitch = () => {
+    const [darkMode, setDarkMode] = useState(false);
 
-    &:hover {
-      background-color: $white;
-    }
+    const switchDarkMode = () => {
+        setDarkMode(!darkMode);
+        document.body.dataset.bsTheme = darkMode ? 'light' : 'dark';
+    };
 
-    i {
-      filter: invert(100%);
-    }
-  }
-}
+    return (
+        <>
+            <div className="vr ms-3 me-3" />
+            <Button variant="primary" onClick={switchDarkMode}>
+                {darkMode && <i className="bi bi-moon-fill"></i>}
+                {!darkMode && <i className="bi bi-brightness-high-fill"></i>}
+            </Button>
+        </>
+    );
+};

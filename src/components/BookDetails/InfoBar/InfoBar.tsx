@@ -18,6 +18,7 @@
  */
 
 import '../../../pages/BookDetails/BookDetails.scss';
+import './InfoBar.scss';
 import { Col, Row } from 'react-bootstrap';
 import { type BuchDTO } from '../../../entities/BuchDTO.ts';
 
@@ -37,7 +38,7 @@ export const InfoBar = ({ datum, lieferbar, homepage }: BuchDTO) => {
     );
 
     return (
-        <Row xs={3} md={3} lg={4}>
+        <Row xs={3} md={3} lg={4} className={'infobar'}>
             <Col className={'border-black border-end border-2'}>
                 <i className="bi bi-calendar-date pe-2"></i>
                 <span>{datum ?? 'N/A'}</span>
@@ -49,7 +50,7 @@ export const InfoBar = ({ datum, lieferbar, homepage }: BuchDTO) => {
                     target={'_blank'}
                     href={homepage ?? ''}
                     rel="noreferrer"
-                    className={'text-dark'}
+                    className={'homepage'}
                 >
                     {homepage ?? 'N/A'}
                 </a>
