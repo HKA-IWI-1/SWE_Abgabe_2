@@ -1,0 +1,46 @@
+/*
+ * Copyright (c) 2024 - present Luca Breisinger
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the “Software”), to deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions
+ * of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+ * LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ */
+import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
+import Form from 'react-bootstrap/Form';
+import { InputGroup } from 'react-bootstrap';
+
+interface IsbnProps {
+    register: UseFormRegister<any>;
+    errors: FieldErrors;
+}
+
+const ISBN13_PATTERN =
+    /^(?:ISBN(?:-13)?:? )?(?=\d{13}$|(?=(?:\d+[- ]){4})[- 0-9]{17}$)97[89][- ]?\d{1,5}[- ]?(?:\d+[- ]\d+|\d{2,})[- ]?\d$/u;
+
+export const Isbn = ({ register }: IsbnProps) => (
+    <>
+        <Form.Group>
+            <Form.Label>ISBN</Form.Label>
+            <InputGroup>
+                <Form.Control
+                    type="text"
+                    placeholder="ISBN"
+                    {...register('isbn', {
+                        pattern: ISBN13_PATTERN,
+                    })}
+                />
+            </InputGroup>
+        </Form.Group>
+    </>
+);
