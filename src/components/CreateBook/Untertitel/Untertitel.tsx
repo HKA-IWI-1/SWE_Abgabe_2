@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 - present Ronny Friedmann
+ * Copyright (c) 2024 - present Luca Breisinger
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation the
@@ -26,23 +26,23 @@ interface TitleProps {
     errors: FieldErrors;
 }
 
-export const Titel = ({ register, errors }: TitleProps) => (
+export const Untertitel = ({ register, errors }: TitleProps) => (
     <>
         <Form.Group>
-            <Form.Label>Titel</Form.Label>
+            <Form.Label>Untertitel</Form.Label>
             <InputGroup>
                 <Form.Control
                     type="text"
-                    placeholder="Titel"
-                    {...register('titel.titel', {
+                    placeholder="Untertitel"
+                    {...register('titel.untertitel', {
                         required: true,
                     })}
-                    isValid={!errors.titel}
-                    isInvalid={Boolean(errors.titel)}
+                    isValid={!errors.untertitel}
+                    isInvalid={Boolean(errors.untertitel)}
                 />
                 <FormErrors
-                    isError={Boolean(errors.titel)}
-                    errorMessage={'Der Titel fehlt oder ist ungültig'}
+                    isError={Boolean(errors.untertitel)}
+                    errorMessage={'Der Untertitel fehlt oder ist ungültig'}
                 />
             </InputGroup>
         </Form.Group>

@@ -15,6 +15,7 @@ import { type SubmitHandler } from 'react-hook-form';
 import Table from 'react-bootstrap/Table';
 import { Titel } from './Titel/Titel';
 import { UPDATE_MUTATION } from '../EditBook/BookForm/mutations';
+import { Untertitel } from './Untertitel/Untertitel';
 import { useMutation } from '@apollo/client';
 import { useState } from 'react';
 
@@ -45,8 +46,8 @@ export interface FormValues {
     schlagwoerter: string[];
     abbildungen: [
         {
-            titel: string;
-            untertitel: string;
+            beschriftung: string;
+            contentType: string;
         },
     ];
 }
@@ -140,6 +141,10 @@ export const CreateInput = () => {
                         <tr>
                             <th>
                                 <Titel register={register} errors={errors} />
+                                <Untertitel
+                                    register={register}
+                                    errors={errors}
+                                />
                             </th>
                             <th>
                                 <Isbn register={register} errors={errors} />
