@@ -20,6 +20,9 @@ import './BookDetails.scss';
 import { Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { Abbildungen } from '../../components/BookDetails/Abbildungen/Abbildungen.tsx';
+import { type ApolloError } from '@apollo/client/errors';
+import { type Buch } from '../../entities/Buch.ts';
+import { BuchEmptyData } from '../../entities/BuchEmptyData.ts';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import { InfoBar } from '../../components/BookDetails/InfoBar/InfoBar.tsx';
@@ -33,13 +36,18 @@ interface BookId {
     book: number;
 }
 
+interface QueryTypes {
+    loading: boolean;
+    error?: ApolloError | undefined;
+    data: { buch: Buch } | undefined;
+}
+
 // eslint-disable-next-line max-lines-per-function
 export const BookDetails = () => {
     const { book } = useLoaderData() as BookId;
     const navigate = useNavigate();
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const { loading, error, data } = useQuery(READ_BOOK, {
+    const { loading, error, data }: QueryTypes = useQuery(READ_BOOK, {
         variables: { id: book },
     });
 
@@ -77,18 +85,18 @@ export const BookDetails = () => {
                 <>
                     <Row className={'mb-4 pt-1'}>
                         <Col>
-                            <h1>{data?.buch?.titel?.titel ?? 'N/A'}</h1>
+                            <h1>{data?.buch.titel.titel ?? 'N/A'}</h1>
                         </Col>
                         <Col>
-                            <h2>{data?.buch?.titel?.untertitel ?? 'N/A'}</h2>
+                            <h2>{data?.buch.titel.untertitel ?? 'N/A'}</h2>
                         </Col>
                         <Col md={{ span: 2 }}>{editBookButton}</Col>
                         <Row>
-                            <InfoBar {...data.buch} />
+                            <InfoBar {...(data?.buch ?? new BuchEmptyData())} />
                         </Row>
                     </Row>
                     <Row className={'mb-5'}>
-                        <MainData {...data.buch} />
+                        <MainData {...(data?.buch ?? new BuchEmptyData())} />
                     </Row>
                     <Row>
                         <Abbildungen

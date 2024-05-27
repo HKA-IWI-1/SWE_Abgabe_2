@@ -16,49 +16,53 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import './EditBook.scss';
+
 import { type ApolloError } from '@apollo/client/errors';
+import { BOOKS_TYPES } from './queries.ts';
 import { type Buch } from '../../entities/Buch.ts';
 import Container from 'react-bootstrap/Container';
-import { EditBookForm } from '../../components/EditBook/BookForm/EditBookForm.tsx';
-import { READ_BOOK } from './queries.ts';
+import { CustomChart } from '../../components/DiagramTypes/Chart/CustomChart.tsx';
 import { Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
-import { useLoaderData } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-
-export interface BookId {
-    book: number;
-}
 
 interface QueryTypes {
     loading: boolean;
     error?: ApolloError | undefined;
-    data: { buch: Buch } | undefined;
+    data: { buecher: Buch[] } | undefined;
 }
 
-export const EditBook = () => {
-    const { book } = useLoaderData() as BookId;
-
-    const { loading, error, data }: QueryTypes = useQuery(READ_BOOK, {
-        variables: { id: book },
+export const DiagramTypes = () => {
+    const { loading, error, data }: QueryTypes = useQuery(BOOKS_TYPES, {
+        variables: {},
     });
 
     if (error) {
         throw new Error(error.message);
     }
 
-    if (loading) {
-        return (
+    return (
+        <>
             <Container>
-                <Row>
-                    <Spinner variant="primary" animation="border" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                </Row>
+                {loading && (
+                    <Row>
+                        <Spinner
+                            variant="primary"
+                            animation="border"
+                            role="status"
+                        >
+                            <span className="visually-hidden">Loading...</span>
+                        </Spinner>
+                    </Row>
+                )}
+                {!loading && (
+                    <>
+                        <Row className={'mb-4 pt-1'}>
+                            <CustomChart data={data} />
+                        </Row>
+                    </>
+                )}
             </Container>
-        );
-    } else if (data) {
-        return <EditBookForm buch={data.buch} id={book} />;
-    }
+        </>
+    );
 };

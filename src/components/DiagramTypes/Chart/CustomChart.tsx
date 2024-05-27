@@ -17,4 +17,39 @@
  *
  */
 
-export const Diagrams = () => <>diagrams</>;
+import { type Buch } from '../../../entities/Buch.ts';
+import { Chart } from 'react-google-charts';
+
+const options = {
+    legend: 'none',
+    pieSliceText: 'label',
+    title: 'Anzahl der Bücher anhand der Arten',
+    pieStartAngle: 100,
+};
+
+export const CustomChart = ({
+    data,
+}: {
+    data: { buecher: Buch[] } | undefined;
+}) => {
+    const chartData = new Map();
+    chartData.set('Art', 'Anzahl');
+
+    data?.buecher.forEach((buch: Buch) => {
+        if (chartData.has(buch.art)) {
+            chartData.set(buch.art, chartData.get(buch.art) + 1);
+        } else {
+            chartData.set(buch.art, 1);
+        }
+    });
+
+    return (
+        <Chart
+            chartType="PieChart"
+            data={Array.from(chartData)}
+            options={options}
+            width={'100%'}
+            height={'400px'}
+        />
+    );
+};

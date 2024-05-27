@@ -17,17 +17,19 @@
  *
  */
 
-export interface BuchDTO {
-    id: number;
-    version: string;
-    isbn: string;
-    rating?: string;
-    art?: 'KINDLE' | 'DRUCKAUSGABE';
-    preis: number;
-    rabatt?: string;
-    lieferbar?: boolean;
-    datum?: string;
-    homepage?: string;
-    schlagwoerter?: string[];
-    titel: { titel: string; untertitel: string };
+import { type Buch } from './Buch.ts';
+
+export class BuchEmptyData implements Buch {
+    public id = -1;
+    public version = 'N/A';
+    public isbn = 'N/A';
+    public rating = 'N/A';
+    public art = undefined;
+    public preis = -1;
+    public rabatt = 'N/A';
+    public lieferbar = undefined;
+    public datum = 'N/A';
+    public homepage = 'N/A';
+    public schlagwoerter = ['N/A'];
+    public titel = { titel: 'N/A', untertitel: 'N/A' };
 }

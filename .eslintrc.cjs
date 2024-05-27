@@ -44,6 +44,11 @@ module.exports = {
         'plugin:@eslint-community/eslint-comments/recommended',
         'plugin:regexp/recommended',
     ],
+    settings: {
+        react: {
+            version: 'detect',
+        },
+    },
     ignorePatterns: ['dist', '.eslintrc.cjs'],
     parser: '@typescript-eslint/parser',
     parserOptions: {

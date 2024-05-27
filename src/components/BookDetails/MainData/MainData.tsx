@@ -1,7 +1,7 @@
-import { type BuchDTO } from '../../../entities/BuchDTO.ts';
+import { type Buch } from '../../../entities/Buch.ts';
 import { Table } from 'react-bootstrap';
 
-export const MainData = (buch: BuchDTO) => (
+export const MainData = (buch: Buch) => (
     <Table>
         <thead style={{ display: 'none' }}>
             <tr>

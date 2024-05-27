@@ -20,7 +20,7 @@
 import { Col, Row } from 'react-bootstrap';
 import { type SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { BackButton } from '../BackButton/BackButton.tsx';
-import { type BuchDTO } from '../../../entities/BuchDTO.ts';
+import { type Buch } from '../../../entities/Buch.ts';
 import { Buchart } from '../BuchArt/Buchart.tsx';
 import { Buchpreis } from '../Buchpreis/Buchpreis.tsx';
 import { Buchrabatt } from '../../BookDetails/Buchrabatt/Buchrabatt.tsx';
@@ -56,7 +56,7 @@ export interface FormValues {
 const RABATT_TEILER = 100;
 
 // eslint-disable-next-line max-lines-per-function
-export const EditBookForm = ({ buch, id }: { buch: BuchDTO; id: number }) => {
+export const EditBookForm = ({ buch, id }: { buch: Buch; id: number }) => {
     const [updateBook] = useMutation(UPDATE_MUTATION);
     const [updateMessage, setUpdateMessage] = useState({
         visible: false,

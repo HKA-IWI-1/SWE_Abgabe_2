@@ -49,18 +49,8 @@ export const NavBar = () => (
                         Neues Buch
                     </Nav.Link>
                     <NavDropdown title="Diagramme" id="basic-nav-dropdown">
-                        <NavDropdown.Item as={Link} to={`/`}>
-                            Action
-                        </NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to={`/`}>
-                            Another action
-                        </NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to={`/`}>
-                            Something
-                        </NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item as={Link} to={`/`}>
-                            Separated link
+                        <NavDropdown.Item as={Link} to={`diagramme_art`}>
+                            Art
                         </NavDropdown.Item>
                     </NavDropdown>
                 </Nav>

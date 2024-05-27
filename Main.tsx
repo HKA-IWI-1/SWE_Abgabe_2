@@ -21,7 +21,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { App } from './App.tsx';
 import { BookDetails } from './src/pages/BookDetails/BookDetails';
 import { CreateBook } from './src/pages/CreateBook/CreateBook';
-import { Diagrams } from './src/pages/Diagrams/Diagrams';
+import { DiagramTypes } from './src/pages/DiagramTypes/DiagramTypes.tsx';
 import { EditBook } from './src/pages/EditBook/EditBook';
 import { ErrorDetails } from './src/pages/ErrorDetails/ErrorDetails';
 import React from 'react';
@@ -63,7 +63,7 @@ const router = createBrowserRouter([
                     },
                     {
                         path: paths.diagrams,
-                        element: <Diagrams />,
+                        element: <DiagramTypes />,
                     },
                     {
                         path: paths.bookDetailsRouting,
@@ -74,6 +74,10 @@ const router = createBrowserRouter([
                         path: paths.editBook, // https://reactrouter.com/en/main/start/tutorial#updating-data
                         element: <EditBook />,
                         loader: editBookLoader,
+                    },
+                    {
+                        path: paths.diagramsArt,
+                        element: <DiagramTypes />,
                     },
                 ],
             },
