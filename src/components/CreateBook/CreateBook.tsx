@@ -1,7 +1,8 @@
 import { Button, Form } from 'react-bootstrap';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { Abbildungen } from './Abbildungen/Abbildungen';
+/* import { Abbildungen } from './Abbildungen/Abbildungen'; */
 import { Buchart } from './Buchart/Buchart';
+import { CREATE_MUTATION } from './mutations';
 import { Datum } from './Datum/Datum';
 import { Homepage } from './Homepage/Homepage';
 import { Isbn } from './Isbn/Isbn';
@@ -14,20 +15,9 @@ import { StatusModal } from './StatusModal/StatusModal';
 import { type SubmitHandler } from 'react-hook-form';
 import Table from 'react-bootstrap/Table';
 import { Titel } from './Titel/Titel';
-import { UPDATE_MUTATION } from '../EditBook/BookForm/mutations';
 import { Untertitel } from './Untertitel/Untertitel';
 import { useMutation } from '@apollo/client';
 import { useState } from 'react';
-
-export interface Abbildungen {
-    beschriftung: string;
-    contentType: string;
-}
-
-export interface Titel {
-    titel: string;
-    untertitel: string;
-}
 
 export interface FormValues {
     version: string;
@@ -44,19 +34,19 @@ export interface FormValues {
     isbn: string;
     datum: string;
     schlagwoerter: string[];
-    abbildungen: [
+    /* abbildungen: [
         {
             beschriftung: string;
             contentType: string;
         },
-    ];
+    ]; */
 }
 
 const RABATT_TEILER = 100;
 
 /* eslint-disable max-lines-per-function */
 export const CreateInput = () => {
-    const [createBook] = useMutation(UPDATE_MUTATION);
+    const [createBook] = useMutation(CREATE_MUTATION);
     const [createMessage, setCreateMessage] = useState({
         visible: false,
         nachricht: 'N/A',
@@ -76,7 +66,7 @@ export const CreateInput = () => {
                 datum: bookData.datum,
                 homepage: bookData.homepage,
                 schlagwoerter: bookData.schlagwoerter,
-                abbildungen: bookData.abbildungen,
+                /* abbildungen: bookData.abbildungen, */
             },
         })
             .then(() =>
@@ -123,14 +113,14 @@ export const CreateInput = () => {
         name: 'schlagwoerter',
     });
 
-    const {
+    /* const {
         fields: abbildungenFields,
         append: abbildungenAppend,
         remove: abbildungenRemove,
     } = useFieldArray({
         control,
         name: 'abbildungen',
-    });
+    }); */
 
     return (
         <>
@@ -195,13 +185,13 @@ export const CreateInput = () => {
                                 />
                             </th>
                             <th>
-                                <Abbildungen
+                                {/* <Abbildungen
                                     register={register}
                                     unregister={unregister}
                                     fields={abbildungenFields}
                                     append={abbildungenAppend}
                                     remove={abbildungenRemove}
-                                />
+                                /> */}
                             </th>
                         </tr>
                     </tbody>
