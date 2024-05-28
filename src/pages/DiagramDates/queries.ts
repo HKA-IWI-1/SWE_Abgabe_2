@@ -17,19 +17,12 @@
  *
  */
 
-const bookDetails = 'buch';
-const bookDetailsRouting = `${bookDetails}/:bookId`;
-const edit = 'bearbeiten';
+import { gql } from '@apollo/client';
 
-export const paths = {
-    root: '/',
-    search: 'suchen',
-    createBook: 'neues_buch',
-    diagramsArt: 'diagramme_art',
-    diagramsTags: 'diagramme_schlagwoerter',
-    diagramsDates: 'diagramme_datum',
-    bookDetails,
-    bookDetailsRouting,
-    editBook: `${bookDetailsRouting}/${edit}`,
-    edit,
-};
+export const BOOKS_TYPES = gql`
+    query {
+        buecher {
+            datum
+        }
+    }
+`;

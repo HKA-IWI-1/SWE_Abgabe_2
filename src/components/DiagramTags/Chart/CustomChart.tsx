@@ -17,19 +17,32 @@
  *
  */
 
-const bookDetails = 'buch';
-const bookDetailsRouting = `${bookDetails}/:bookId`;
-const edit = 'bearbeiten';
+import { type Buch } from '../../../entities/Buch.ts';
+import { Chart } from 'react-google-charts';
 
-export const paths = {
-    root: '/',
-    search: 'suchen',
-    createBook: 'neues_buch',
-    diagramsArt: 'diagramme_art',
-    diagramsTags: 'diagramme_schlagwoerter',
-    diagramsDates: 'diagramme_datum',
-    bookDetails,
-    bookDetailsRouting,
-    editBook: `${bookDetailsRouting}/${edit}`,
-    edit,
+const options = {
+    wordtree: {
+        format: 'implicit',
+    },
+};
+
+export const CustomChart = ({
+    data,
+}: {
+    data: { buecher: Buch[] } | undefined;
+}) => {
+    let chartData =
+        data?.buecher.map((buch) => [buch.schlagwoerter?.join(' ') ?? '']) ??
+        [];
+
+    chartData = [['Schlagwörter'], ...chartData];
+    return (
+        <Chart
+            chartType="WordTree"
+            data={chartData}
+            options={options}
+            width={'100%'}
+            height={'400px'}
+        />
+    );
 };

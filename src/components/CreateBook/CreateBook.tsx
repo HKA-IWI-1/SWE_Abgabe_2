@@ -1,6 +1,6 @@
 import { Button, Form } from 'react-bootstrap';
 import { useFieldArray, useForm } from 'react-hook-form';
-/* import { Abbildungen } from './Abbildungen/Abbildungen'; */
+import { Abbildungen } from './Abbildungen/Abbildungen';
 import { Buchart } from './Buchart/Buchart';
 import { CREATE_MUTATION } from './mutations';
 import { Datum } from './Datum/Datum';
@@ -33,13 +33,13 @@ export interface FormValues {
     homepage: string;
     isbn: string;
     datum: string;
-    schlagwoerter: string[];
-    /* abbildungen: [
+    abbildungen: [
         {
             beschriftung: string;
             contentType: string;
         },
-    ]; */
+    ];
+    schlagwoerter: string[];
 }
 
 const RABATT_TEILER = 100;
@@ -102,6 +102,7 @@ export const CreateInput = () => {
         handleSubmit,
         formState: { errors },
     } = useForm<FormValues>();
+
     const {
         fields: schlagwoerterFields,
         append: schlagwoerterAppend,
@@ -113,14 +114,14 @@ export const CreateInput = () => {
         name: 'schlagwoerter',
     });
 
-    /* const {
+    const {
         fields: abbildungenFields,
         append: abbildungenAppend,
         remove: abbildungenRemove,
     } = useFieldArray({
         control,
         name: 'abbildungen',
-    }); */
+    });
 
     return (
         <>
@@ -180,18 +181,22 @@ export const CreateInput = () => {
                                     register={register}
                                     unregister={unregister}
                                     fields={schlagwoerterFields}
+                                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                    // @ts-expect-error
                                     append={schlagwoerterAppend}
                                     remove={schlagwoerterRemove}
                                 />
                             </th>
                             <th>
-                                {/* <Abbildungen
+                                <Abbildungen
                                     register={register}
                                     unregister={unregister}
                                     fields={abbildungenFields}
+                                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                    // @ts-expect-error
                                     append={abbildungenAppend}
                                     remove={abbildungenRemove}
-                                /> */}
+                                />
                             </th>
                         </tr>
                     </tbody>

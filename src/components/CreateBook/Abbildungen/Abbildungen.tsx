@@ -26,12 +26,13 @@ import {
     type UseFormUnregister,
 } from 'react-hook-form';
 import Button from 'react-bootstrap/Button';
+import { type FormValues } from '../CreateBook.tsx';
 
 interface AbbildungenProps {
     register: UseFormRegister<any>;
     unregister: UseFormUnregister<any>;
     fields: FieldArrayWithId<any>[];
-    append: UseFieldArrayAppend<any, never>;
+    append: UseFieldArrayAppend<FormValues, never>;
     remove: UseFieldArrayRemove;
 }
 

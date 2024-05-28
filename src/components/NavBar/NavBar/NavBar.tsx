@@ -25,11 +25,12 @@ import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Navbar from 'react-bootstrap/Navbar';
 import logo from '../../../assets/logo.jpg';
+import { paths } from '../../../config/paths.ts';
 
 export const NavBar = () => (
     <Navbar expand="lg" className="custom-navbar">
         <Container fluid>
-            <Navbar.Brand as={Link} to={`/`}>
+            <Navbar.Brand as={Link} to={paths.root}>
                 <img
                     src={logo}
                     alt="logo"
@@ -42,15 +43,21 @@ export const NavBar = () => (
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                    <Nav.Link as={Link} to={`suchen`}>
+                    <Nav.Link as={Link} to={paths.search}>
                         Suchen
                     </Nav.Link>
-                    <Nav.Link as={Link} to={`neues_buch`}>
+                    <Nav.Link as={Link} to={paths.createBook}>
                         Neues Buch
                     </Nav.Link>
                     <NavDropdown title="Diagramme" id="basic-nav-dropdown">
-                        <NavDropdown.Item as={Link} to={`diagramme_art`}>
+                        <NavDropdown.Item as={Link} to={paths.diagramsArt}>
                             Art
+                        </NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to={paths.diagramsTags}>
+                            Tags
+                        </NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to={paths.diagramsDates}>
+                            Datum
                         </NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
