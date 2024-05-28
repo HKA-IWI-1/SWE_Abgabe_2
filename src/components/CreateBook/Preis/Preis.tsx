@@ -17,9 +17,9 @@
  *
  */
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
+import { FormText, InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
-import { InputGroup } from 'react-bootstrap';
 
 interface BuchpreisProps {
     register: UseFormRegister<any>;
@@ -52,6 +52,9 @@ export const Preis = ({ register, errors }: BuchpreisProps) => (
                     errorMessage={'Der Preis fehlt oder ist ungültig'}
                 />
             </InputGroup>
+            <FormText>
+                Bitte geben Sie einen Preis ein, zum Beispiel: 19.99 = 19.99€
+            </FormText>
         </Form.Group>
     </>
 );

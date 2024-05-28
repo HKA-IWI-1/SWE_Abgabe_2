@@ -17,9 +17,9 @@
  *
  */
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
+import { FormText, InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
-import { InputGroup } from 'react-bootstrap';
 
 interface RabattProps {
     register: UseFormRegister<any>;
@@ -54,6 +54,10 @@ export const Rabatt = ({ register, errors }: RabattProps) => (
                     errorMessage={'Der Rabatt fehlt oder ist ungültig'}
                 />
             </InputGroup>
+            <FormText>
+                Bitte geben Sie einen Rabattwert zwischen 0 und 100 ein. 10 =
+                10%
+            </FormText>
         </Form.Group>
     </>
 );

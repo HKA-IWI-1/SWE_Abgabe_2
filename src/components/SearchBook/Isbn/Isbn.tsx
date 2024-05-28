@@ -17,8 +17,8 @@
  *
  */
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
+import { FormText, InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
-import { InputGroup } from 'react-bootstrap';
 
 interface IsbnProps {
     register: UseFormRegister<any>;
@@ -41,6 +41,9 @@ export const Isbn = ({ register }: IsbnProps) => (
                     })}
                 />
             </InputGroup>
+            <FormText>
+                Geben Sie eine ISBN-13 ein, z.B. 978-3-7375-0553-6
+            </FormText>
         </Form.Group>
     </>
 );

@@ -17,9 +17,9 @@
  *
  */
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
+import { FormText, InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
-import { InputGroup } from 'react-bootstrap';
 
 interface HomepageProps {
     register: UseFormRegister<any>;
@@ -52,6 +52,10 @@ export const Homepage = ({ register, errors }: HomepageProps) => (
                     errorMessage={'Die Homepage fehlt oder ist ungültig'}
                 />
             </InputGroup>
+            <FormText className="small-text">
+                Bitte geben Sie eine gültige Homepage ein. <br />
+                Zum Beispiel: https://www.beispiel.com oder http://beispiel.com
+            </FormText>
         </Form.Group>
     </>
 );
