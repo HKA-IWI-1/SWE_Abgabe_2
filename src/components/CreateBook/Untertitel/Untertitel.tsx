@@ -33,10 +33,8 @@ export const Untertitel = ({ register, errors }: TitleProps) => (
             <InputGroup>
                 <Form.Control
                     type="text"
-                    placeholder="Untertitel"
-                    {...register('titel.untertitel', {
-                        required: true,
-                    })}
+                    placeholder="Untertitel (Optional)"
+                    {...register('titel.untertitel', {})}
                     isValid={!errors.untertitel}
                     isInvalid={Boolean(errors.untertitel)}
                 />
