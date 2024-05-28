@@ -16,5 +16,10 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
+import { SearchInput } from '../../components/SearchBook/SearchBook';
 
-export const SearchBook = () => <>suchen</>;
+export const SearchBook = () => (
+    <>
+        <SearchInput />
+    </>
+);

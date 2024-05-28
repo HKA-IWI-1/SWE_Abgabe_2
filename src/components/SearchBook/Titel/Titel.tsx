@@ -29,6 +29,9 @@ export const Titel = ({ register }: TitleProps) => (
         <Form.Group>
             <Form.Label>Titel</Form.Label>
             <InputGroup>
+                <InputGroup.Text>
+                    <i className="bi bi-search"></i>
+                </InputGroup.Text>
                 <Form.Control
                     type="text"
                     placeholder="Titel"

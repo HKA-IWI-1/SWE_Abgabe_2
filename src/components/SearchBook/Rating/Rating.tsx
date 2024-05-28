@@ -18,7 +18,7 @@
  */
 import { type UseFormRegister, type UseFormWatch } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
-import { type FormValues } from '../../CreateBook/CreateBook.tsx';
+import { type FormValues } from '../../SearchBook/SearchBook.tsx';
 
 interface RatingProps {
     register: UseFormRegister<any>;

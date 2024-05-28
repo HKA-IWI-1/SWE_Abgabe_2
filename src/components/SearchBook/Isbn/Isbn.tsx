@@ -16,13 +16,12 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import { FormText, InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
+import { type UseFormRegister } from 'react-hook-form';
 
 interface IsbnProps {
     register: UseFormRegister<any>;
-    errors: FieldErrors;
 }
 
 const ISBN13_PATTERN =
