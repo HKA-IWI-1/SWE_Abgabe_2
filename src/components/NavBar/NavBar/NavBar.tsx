@@ -17,57 +17,73 @@
  *
  */
 import './NavBar.scss';
+import { Link, useOutletContext } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import { DarkModeSwitch } from '../DarkModeSwitch/DarkModeSwitch.tsx';
-import { Link } from 'react-router-dom';
 import { Login } from '../Login/Login/Login.tsx';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Navbar from 'react-bootstrap/Navbar';
+import { type UserDataContext } from '../../../../App.tsx';
 import logo from '../../../assets/logo.jpg';
 import { paths } from '../../../config/paths.ts';
 
-export const NavBar = () => (
-    <Navbar expand="lg" className="custom-navbar">
-        <Container fluid>
-            <Navbar.Brand as={Link} to={paths.root}>
-                <img
-                    src={logo}
-                    alt="logo"
-                    width="40"
-                    height="35"
-                    className="d-inline-block align-middle me-2"
-                />
-                Buch-Frontend
-            </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto">
-                    <Nav.Link as={Link} to={paths.search}>
-                        Suchen
-                    </Nav.Link>
-                    <Nav.Link as={Link} to={paths.createBook}>
-                        Neues Buch
-                    </Nav.Link>
-                    <NavDropdown title="Diagramme" id="basic-nav-dropdown">
-                        <NavDropdown.Item as={Link} to={paths.diagramsArt}>
-                            Art
-                        </NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to={paths.diagramsTags}>
-                            Tags
-                        </NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to={paths.diagramsDates}>
-                            Datum
-                        </NavDropdown.Item>
-                    </NavDropdown>
-                </Nav>
-            </Navbar.Collapse>
-            <Navbar className="Toggle">
-                <Login />
-            </Navbar>
-            <Navbar className="Toggle">
-                <DarkModeSwitch />
-            </Navbar>
-        </Container>
-    </Navbar>
-);
+export const NavBar = () => {
+    const { userData } = useOutletContext<UserDataContext>();
+    const isLoggedIn = userData.roles.length > 0;
+    return (
+        <Navbar expand="lg" className="custom-navbar">
+            <Container fluid>
+                <Navbar.Brand as={Link} to={paths.root}>
+                    <img
+                        src={logo}
+                        alt="logo"
+                        width="40"
+                        height="35"
+                        className="d-inline-block align-middle me-2"
+                    />
+                    Buch-Frontend
+                </Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="me-auto">
+                        <Nav.Link as={Link} to={`/${paths.search}`}>
+                            Suchen
+                        </Nav.Link>
+                        {isLoggedIn && (
+                            <Nav.Link as={Link} to={`/${paths.createBook}`}>
+                                Neues Buch
+                            </Nav.Link>
+                        )}
+                        <NavDropdown title="Diagramme" id="basic-nav-dropdown">
+                            <NavDropdown.Item
+                                as={Link}
+                                to={`/${paths.diagramsArt}`}
+                            >
+                                Art
+                            </NavDropdown.Item>
+                            <NavDropdown.Item
+                                as={Link}
+                                to={`/${paths.diagramsTags}`}
+                            >
+                                Tags
+                            </NavDropdown.Item>
+                            <NavDropdown.Item
+                                as={Link}
+                                to={`/${paths.diagramsDates}`}
+                            >
+                                Datum
+                            </NavDropdown.Item>
+                        </NavDropdown>
+                    </Nav>
+                </Navbar.Collapse>
+                <Navbar className="Toggle">
+                    <Login />
+                </Navbar>
+                <Navbar className="Toggle">
+                    <DarkModeSwitch />
+                </Navbar>
+            </Container>
+        </Navbar>
+    );
+};

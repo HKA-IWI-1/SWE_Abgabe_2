@@ -17,9 +17,11 @@
  *
  */
 import { CreateInput } from '../../components/CreateBook/CreateBook';
+import { NavBar } from '../../components/NavBar/NavBar/NavBar.tsx';
 
 export const CreateBook = () => (
     <>
+        <NavBar />
         <CreateInput />
     </>
 );

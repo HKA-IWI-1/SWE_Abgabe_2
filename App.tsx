@@ -27,10 +27,31 @@ import {
     createHttpLink,
 } from '@apollo/client';
 import { Outlet, useNavigation } from 'react-router-dom';
-import { NavBar } from './src/components/NavBar/NavBar/NavBar.tsx';
+import { readRoles } from './src/components/NavBar/Login/helper.ts';
 import { setContext } from '@apollo/client/link/context';
+import { useState } from 'react';
+
+export interface UserDataType {
+    theme: string;
+    roles: string[];
+}
+
+export interface UserDataContext {
+    userData: UserDataType;
+    setUserData: (
+        oldData: (oldData: UserDataType) => {
+            roles: string[];
+            theme: string;
+        },
+    ) => UserDataType;
+}
 
 export const App = () => {
+    const [userData, setUserData] = useState({
+        theme: 'light',
+        roles: readRoles(),
+    } as UserDataType);
+
     const authLink = setContext((_, { headers }) => {
         const token = localStorage.getItem('access_token');
         return {
@@ -57,12 +78,11 @@ export const App = () => {
     return (
         <>
             <ApolloProvider client={apolloClient}>
-                <NavBar />
                 <div
                     id={'main-content-wrapper'}
                     className={navigation.state === 'loading' ? 'loading' : ''}
                 >
-                    <Outlet />
+                    <Outlet context={{ userData, setUserData }}></Outlet>
                 </div>
             </ApolloProvider>
         </>

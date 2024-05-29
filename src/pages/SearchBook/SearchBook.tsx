@@ -16,10 +16,12 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
+import { NavBar } from '../../components/NavBar/NavBar/NavBar.tsx';
 import { SearchInput } from '../../components/SearchBook/SearchBook';
 
 export const SearchBook = () => (
     <>
+        <NavBar />
         <SearchInput />
     </>
 );

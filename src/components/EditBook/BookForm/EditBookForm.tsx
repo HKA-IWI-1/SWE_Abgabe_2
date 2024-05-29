@@ -89,7 +89,7 @@ export const EditBookForm = ({ buch, id }: { buch: Buch; id: number }) => {
             )
             .catch((err) => {
                 if (err instanceof Error) {
-                    console.log(err);
+                    console.error(err);
                     setUpdateMessage({
                         visible: true,
                         nachricht: `Fehler: ${err.message}`,

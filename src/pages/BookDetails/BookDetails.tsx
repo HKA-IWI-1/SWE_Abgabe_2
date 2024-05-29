@@ -18,7 +18,7 @@
  */
 import './BookDetails.scss';
 import { Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate, useOutletContext } from 'react-router-dom';
 import { Abbildungen } from '../../components/BookDetails/Abbildungen/Abbildungen.tsx';
 import { type ApolloError } from '@apollo/client/errors';
 import { type Buch } from '../../entities/Buch.ts';
@@ -27,8 +27,10 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import { InfoBar } from '../../components/BookDetails/InfoBar/InfoBar.tsx';
 import { MainData } from '../../components/BookDetails/MainData/MainData.tsx';
+import { NavBar } from '../../components/NavBar/NavBar/NavBar.tsx';
 import { READ_BOOK } from './queries.ts';
 import Spinner from 'react-bootstrap/Spinner';
+import { type UserDataContext } from '../../../App.tsx';
 import { paths } from '../../config/paths.ts';
 import { useQuery } from '@apollo/client';
 
@@ -44,6 +46,8 @@ interface QueryTypes {
 
 // eslint-disable-next-line max-lines-per-function
 export const BookDetails = () => {
+    const { userData } = useOutletContext<UserDataContext>();
+    const isAdmin = userData.roles.includes('admin');
     const { book } = useLoaderData() as BookId;
     const navigate = useNavigate();
 
@@ -73,44 +77,57 @@ export const BookDetails = () => {
     );
 
     return (
-        <Container>
-            {loading && (
-                <Row>
-                    <Spinner variant="primary" animation="border" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                </Row>
-            )}
-            {!loading && (
-                <>
-                    <Row className={'mb-4 pt-1'}>
-                        <Col>
-                            <h1>{data?.buch.titel.titel ?? 'N/A'}</h1>
-                        </Col>
-                        <Col>
-                            <h2>{data?.buch.titel.untertitel ?? 'N/A'}</h2>
-                        </Col>
-                        <Col md={{ span: 2 }}>{editBookButton}</Col>
-                        <Row>
-                            <InfoBar {...(data?.buch ?? new BuchEmptyData())} />
-                        </Row>
-                    </Row>
-                    <Row className={'mb-5'}>
-                        <MainData {...(data?.buch ?? new BuchEmptyData())} />
-                    </Row>
+        <>
+            <NavBar />
+            <Container>
+                {loading && (
                     <Row>
-                        <Abbildungen
-                            abbildungen={
-                                (
-                                    data as {
-                                        buch?: { abbildungen?: [] };
-                                    }
-                                ).buch?.abbildungen ?? []
-                            }
-                        />
+                        <Spinner
+                            variant="primary"
+                            animation="border"
+                            role="status"
+                        >
+                            <span className="visually-hidden">Loading...</span>
+                        </Spinner>
                     </Row>
-                </>
-            )}
-        </Container>
+                )}
+                {!loading && (
+                    <>
+                        <Row className={'mb-4 pt-1'}>
+                            <Col>
+                                <h1>{data?.buch.titel.titel ?? 'N/A'}</h1>
+                            </Col>
+                            <Col>
+                                <h2>{data?.buch.titel.untertitel ?? 'N/A'}</h2>
+                            </Col>
+                            <Col md={{ span: 2 }}>
+                                {isAdmin && editBookButton}
+                            </Col>
+                            <Row>
+                                <InfoBar
+                                    {...(data?.buch ?? new BuchEmptyData())}
+                                />
+                            </Row>
+                        </Row>
+                        <Row className={'mb-5'}>
+                            <MainData
+                                {...(data?.buch ?? new BuchEmptyData())}
+                            />
+                        </Row>
+                        <Row>
+                            <Abbildungen
+                                abbildungen={
+                                    (
+                                        data as {
+                                            buch?: { abbildungen?: [] };
+                                        }
+                                    ).buch?.abbildungen ?? []
+                                }
+                            />
+                        </Row>
+                    </>
+                )}
+            </Container>
+        </>
     );
 };

@@ -16,8 +16,11 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
+import { NavBar } from '../../components/NavBar/NavBar/NavBar.tsx';
+
 export const Start = () => (
     <>
+        <NavBar />
         <h1>Hallo!</h1>
     </>
 );

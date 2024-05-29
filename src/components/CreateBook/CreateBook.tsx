@@ -78,7 +78,7 @@ export const CreateInput = () => {
             )
             .catch((err) => {
                 if (err instanceof Error) {
-                    console.log(err);
+                    console.error(err);
                     setCreateMessage({
                         visible: true,
                         nachricht: `Fehler: ${err.message}`,

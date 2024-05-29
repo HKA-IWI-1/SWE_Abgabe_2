@@ -19,14 +19,69 @@
 
 import { type FetchResult } from '@apollo/client';
 
-export const persistTokenData = (result: FetchResult<any>) => {
+const accessTokenIdentifier = 'access_token';
+const refreshTokenIdentifier = 'refresh_token';
+const expiresInIdentifier = 'expires_in';
+const refreshExpiresInIdentifier = 'refresh_expires_in';
+const rolesIdentifier = 'roles';
+
+interface LoginAuthData {
+    /* eslint-disable @typescript-eslint/naming-convention */
+    access_token: string;
+    refresh_token: string;
+    expires_in: string;
+    refresh_expires_in: string;
+    roles: string[];
+    /* eslint-enable @typescript-eslint/naming-convention */
+}
+
+export const persistTokenData = (
+    result: FetchResult<{
+        login: LoginAuthData | null;
+        refresh: LoginAuthData;
+    }>,
+) => {
+    const data = result.data?.login ?? result.data?.refresh;
+    localStorage.setItem(accessTokenIdentifier, data?.access_token ?? '');
+    localStorage.setItem(refreshTokenIdentifier, data?.refresh_token ?? '');
+    const secondsToMilliseconds = 1000;
     localStorage.setItem(
-        'access_token',
-        result.data.login.access_token as string,
+        expiresInIdentifier,
+        (
+            Date.now() +
+            Number.parseInt(data?.expires_in ?? '', 10) * secondsToMilliseconds
+        ).toString(),
     );
     localStorage.setItem(
-        'refresh_token',
-        result.data.login.refresh_token as string,
+        refreshExpiresInIdentifier,
+        (
+            Date.now() +
+            Number.parseInt(data?.refresh_expires_in ?? '', 10) *
+                secondsToMilliseconds
+        ).toString(),
     );
-    localStorage.setItem('expires_in', result.data.login.expires_in as string);
+    if (data?.roles) {
+        localStorage.setItem(rolesIdentifier, JSON.stringify(data.roles));
+    }
 };
+
+export const removeTokenData = () => {
+    localStorage.removeItem(accessTokenIdentifier);
+    localStorage.removeItem(refreshTokenIdentifier);
+    localStorage.removeItem(expiresInIdentifier);
+    localStorage.removeItem(refreshExpiresInIdentifier);
+    localStorage.removeItem(rolesIdentifier);
+};
+
+export const readTokenData = () => {
+    const accessToken = localStorage.getItem(accessTokenIdentifier) ?? '';
+    const rToken = localStorage.getItem(refreshTokenIdentifier) ?? '';
+    const expiresIn = localStorage.getItem(expiresInIdentifier) ?? '';
+    const refreshExpiresIn =
+        localStorage.getItem(refreshExpiresInIdentifier) ?? '';
+    const roles = localStorage.getItem(rolesIdentifier) ?? '';
+    return { accessToken, rToken, expiresIn, refreshExpiresIn, roles };
+};
+
+export const readRoles = (): string[] =>
+    JSON.parse(localStorage.getItem(rolesIdentifier) ?? '[]') as string[];

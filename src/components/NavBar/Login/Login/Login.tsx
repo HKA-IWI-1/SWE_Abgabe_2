@@ -20,14 +20,24 @@
 import './Login.scss';
 import { AUTH, REFRESH } from '../queries_mutations.ts';
 import { LoginToast, type TeaserData } from '../LoginToast/LoginToast.tsx';
+import {
+    type UserDataContext,
+    type UserDataType,
+} from '../../../../../App.tsx';
+import {
+    persistTokenData,
+    readRoles,
+    readTokenData,
+    removeTokenData,
+} from '../helper.ts';
 import { useCallback, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack';
 import { type SubmitHandler } from 'react-hook-form';
-import { persistTokenData } from '../helper.ts';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@apollo/client';
+import { useOutletContext } from 'react-router-dom';
 
 interface Inputs {
     username: string;
@@ -36,6 +46,7 @@ interface Inputs {
 
 // eslint-disable-next-line max-lines-per-function
 export const Login = () => {
+    const { userData, setUserData } = useOutletContext<UserDataContext>();
     const [loggedIn, setLoggedIn] = useState(false);
     const { reset, register, handleSubmit } = useForm<Inputs>({
         defaultValues: {
@@ -43,7 +54,6 @@ export const Login = () => {
             password: '',
         },
     });
-
     const [teasers, setTeasers] = useState([] as TeaserData[]);
     const addTeaser = (teaser: TeaserData) => {
         setTeasers([...teasers, teaser]);
@@ -84,6 +94,10 @@ export const Login = () => {
                 persistTokenData(res);
                 setLoggedIn(true);
                 reset();
+                setUserData((oldData: UserDataType) => ({
+                    ...oldData,
+                    roles: readRoles(),
+                }));
                 return true;
             })
             .catch((err) => {
@@ -99,29 +113,42 @@ export const Login = () => {
     };
 
     const logOut = useCallback(async () => {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-        localStorage.removeItem('expires_in');
+        removeTokenData();
         setLoggedIn(false);
         await client.resetStore();
-    }, [client, setLoggedIn]);
+        setUserData((oldData: UserDataType) => ({
+            ...oldData,
+            roles: readRoles(),
+        }));
+    }, [client, setLoggedIn, setUserData]);
 
     useEffect(() => {
-        const token = localStorage.getItem('access_token') ?? '';
-        const rToken = localStorage.getItem('refresh_token') ?? '';
-        const expiresIn = localStorage.getItem('expires_in') ?? '';
-        if (token !== '') {
-            if (expiresIn !== '' && expiresIn <= `${Date.now()}`) {
-                if (rToken === '') {
-                    logOut()
-                        .then((result) => console.log(result))
-                        .catch((err) => console.error(err));
-                } else {
-                    doTokenRefresh(rToken)
-                        .then((result) => console.log(result))
-                        .catch((err) => console.error(err));
-                }
-            }
+        const { accessToken, rToken, expiresIn, refreshExpiresIn } =
+            readTokenData();
+        const currentDate = Date.now();
+
+        const tokenIsExpired =
+            expiresIn === '' || Number.parseInt(expiresIn, 10) < currentDate;
+        const refreshTokenIsExpired =
+            refreshExpiresIn === '' ||
+            Number.parseInt(refreshExpiresIn, 10) < currentDate;
+        if (accessToken === '' || rToken === '' || refreshTokenIsExpired) {
+            logOut()
+                .then((result) => console.log(result))
+                .catch((err) => {
+                    if (err instanceof Error) {
+                        console.error(err);
+                    }
+                });
+        } else if (tokenIsExpired) {
+            doTokenRefresh(rToken)
+                .then((_) => setLoggedIn(true))
+                .catch((err) => {
+                    if (err instanceof Error) {
+                        console.error(err);
+                    }
+                });
+        } else {
             setLoggedIn(true);
         }
     }, [logOut, doTokenRefresh]);
@@ -167,7 +194,7 @@ export const Login = () => {
                         await logOut();
                     }}
                 >
-                    Logout
+                    Logout {userData.roles[0] ?? 'N/A'}
                 </Button>
             )}
         </>

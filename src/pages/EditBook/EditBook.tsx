@@ -21,6 +21,7 @@ import { type ApolloError } from '@apollo/client/errors';
 import { type Buch } from '../../entities/Buch.ts';
 import Container from 'react-bootstrap/Container';
 import { EditBookForm } from '../../components/EditBook/BookForm/EditBookForm.tsx';
+import { NavBar } from '../../components/NavBar/NavBar/NavBar.tsx';
 import { READ_BOOK } from './queries.ts';
 import { Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
@@ -50,15 +51,27 @@ export const EditBook = () => {
 
     if (loading) {
         return (
-            <Container>
-                <Row>
-                    <Spinner variant="primary" animation="border" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                </Row>
-            </Container>
+            <>
+                <NavBar />
+                <Container>
+                    <Row>
+                        <Spinner
+                            variant="primary"
+                            animation="border"
+                            role="status"
+                        >
+                            <span className="visually-hidden">Loading...</span>
+                        </Spinner>
+                    </Row>
+                </Container>
+            </>
         );
     } else if (data) {
-        return <EditBookForm buch={data.buch} id={book} />;
+        return (
+            <>
+                <NavBar />
+                <EditBookForm buch={data.buch} id={book} />;
+            </>
+        );
     }
 };

@@ -22,6 +22,7 @@ import { BOOKS_TYPES } from './queries.ts';
 import { type Buch } from '../../entities/Buch.ts';
 import Container from 'react-bootstrap/Container';
 import { CustomChart } from '../../components/DiagramDates/Chart/CustomChart.tsx';
+import { NavBar } from '../../components/NavBar/NavBar/NavBar.tsx';
 import { Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import { useQuery } from '@apollo/client';
@@ -43,6 +44,7 @@ export const DiagramDates = () => {
 
     return (
         <>
+            <NavBar />
             <Container>
                 {loading && (
                     <Row>
