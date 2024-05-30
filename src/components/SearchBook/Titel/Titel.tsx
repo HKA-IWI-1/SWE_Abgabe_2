@@ -35,7 +35,7 @@ export const Titel = ({ register }: TitleProps) => (
                 <Form.Control
                     type="text"
                     placeholder="Titel"
-                    {...register('titel.titel')}
+                    {...register('titel')}
                 />
             </InputGroup>
         </Form.Group>

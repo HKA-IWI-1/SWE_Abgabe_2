@@ -20,12 +20,23 @@
 import { gql } from '@apollo/client';
 
 export const READ_BOOK = gql`
-    query ($id: ID! = "1") {
-        buch(id: $id) {
-            titel
+    query ($suchkriterien: SuchkriterienInput) {
+        buecher(suchkriterien: $suchkriterien) {
+            id
             isbn
-            preis
+            version
+            rating
             art
+            preis
+            lieferbar
+            datum
+            homepage
+            schlagwoerter
+            titel {
+                titel
+                untertitel
+            }
+            rabatt(short: true)
         }
     }
 `;
