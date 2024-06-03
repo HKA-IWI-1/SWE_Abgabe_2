@@ -11,6 +11,7 @@ import { Suchergebnis } from './Suchergebnis/Suchergebnis';
 import { Titel } from './Titel/Titel';
 import { useForm } from 'react-hook-form';
 import { useLazyQuery } from '@apollo/client';
+import { useState } from 'react';
 
 export interface FormValues {
     art: 'DRUCKAUSGABE' | 'KINDLE' | undefined;
@@ -43,6 +44,8 @@ export const SearchInput = () => {
     const { register, watch, handleSubmit } = useForm<FormValues>();
     const [searchBook, result] = useLazyQuery(READ_BOOK);
     const { loading, error, data } = result as QueryTypes;
+    const [isLieferbarUsed, setIsLieferbarUsed] = useState(false);
+    const [isRatingUsed, setIsRatingUsed] = useState(false);
 
     const SearchBook: SubmitHandler<FormValues> = (bookData) => {
         const variables: Variables = {};
@@ -52,18 +55,27 @@ export const SearchInput = () => {
         if (bookData.isbn) {
             variables.isbn = bookData.isbn;
         }
-        /* if (bookData.rating) {
+        if (isRatingUsed) {
             variables.rating = Number.parseInt(bookData.rating, 10);
-        } */
+        }
         if (bookData.art) {
             variables.art = bookData.art;
         }
-        /* variables.lieferbar = bookData.lieferbar; */
-
+        if (isLieferbarUsed) {
+            variables.lieferbar = bookData.lieferbar;
+        }
         // eslint-disable-next-line no-void
         void searchBook({
             variables: { suchkriterien: variables },
         });
+    };
+
+    const handleLieferbarChange = () => {
+        setIsLieferbarUsed(!isLieferbarUsed);
+    };
+
+    const handleRatingChange = () => {
+        setIsRatingUsed(!isRatingUsed);
     };
 
     return (
@@ -80,13 +92,31 @@ export const SearchInput = () => {
                     </Row>
                     <Row>
                         <Col xs={5}>
-                            <Rating register={register} watch={watch} />
+                            <Form.Check
+                                type="switch"
+                                id="rating-switch"
+                                label="Rating aktivieren"
+                                checked={isRatingUsed}
+                                onChange={handleRatingChange}
+                            />
+                            {isRatingUsed && (
+                                <Rating register={register} watch={watch} />
+                            )}
                         </Col>
                         <Col md="auto">
                             <Buchart register={register} />
                         </Col>
-                        <Col xs={1} className="justify-content-end">
-                            <Lieferbar register={register} />
+                        <Col xs={2} className="justify-content-end">
+                            <Form.Check // prettier-ignore
+                                type="switch"
+                                id="lieferbar-switch"
+                                label="Lieferbar aktivieren"
+                                checked={isLieferbarUsed}
+                                onChange={handleLieferbarChange}
+                            />
+                            {isLieferbarUsed && (
+                                <Lieferbar register={register} />
+                            )}
                         </Col>
                     </Row>
                     <Row></Row>
@@ -101,7 +131,11 @@ export const SearchInput = () => {
                                 Suchen
                             </Button>
                         </Col>
-                        <Col></Col>
+                        <Col className="justify-content-end">
+                            <Button onClick={() => searchBook()}>
+                                Alle Suchen
+                            </Button>
+                        </Col>
                     </Row>
                 </Container>
             </Form>
