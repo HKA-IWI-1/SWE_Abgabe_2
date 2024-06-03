@@ -66,13 +66,14 @@ export const CreateInput = () => {
                 datum: bookData.datum,
                 homepage: bookData.homepage,
                 schlagwoerter: bookData.schlagwoerter,
-                /* abbildungen: bookData.abbildungen, */
+                titel: bookData.titel,
+                abbildungen: bookData.abbildungen,
             },
         })
             .then(() =>
                 setCreateMessage({
                     visible: true,
-                    nachricht: 'Das Aktualisieren war erfolgreich.',
+                    nachricht: 'Das Erstellen war erfolgreich.',
                     error: false,
                 }),
             )

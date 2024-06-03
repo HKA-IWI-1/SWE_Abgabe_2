@@ -1,4 +1,4 @@
-import { Alert, Button, Row, Spinner, Table } from 'react-bootstrap';
+import { Alert, Row, Spinner, Table } from 'react-bootstrap';
 import { type ApolloError } from '@apollo/client';
 import { type Buch } from '../../../entities/Buch';
 import { paths } from '../../../config/paths';
@@ -38,29 +38,21 @@ export const Suchergebnis = ({ loading, error, data }: QueryTypes) => {
                             <th>Title</th>
                             <th>ISBN</th>
                             <th>Preis</th>
-                            <th>Details</th>
                         </tr>
                     </thead>
                     <tbody>
                         {data.buecher?.map((buch, index) => (
-                            <tr key={index}>
+                            <tr
+                                key={index}
+                                onClick={() =>
+                                    navigate(`/${paths.bookDetails}/${buch.id}`)
+                                }
+                                style={{ cursor: 'pointer' }}
+                            >
                                 <td>{buch.id}</td>
                                 <td>{buch.titel.titel}</td>
                                 <td>{buch.isbn}</td>
                                 <td>{buch.preis}</td>
-                                <td>
-                                    <td>
-                                        <Button
-                                            onClick={() =>
-                                                navigate(
-                                                    `/${paths.bookDetails}/${buch.id}`,
-                                                )
-                                            }
-                                        >
-                                            Details
-                                        </Button>
-                                    </td>
-                                </td>
                             </tr>
                         ))}
                     </tbody>

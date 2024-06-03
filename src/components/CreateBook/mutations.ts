@@ -16,7 +16,6 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-
 import { gql } from '@apollo/client';
 
 export const CREATE_MUTATION = gql`
@@ -29,7 +28,7 @@ export const CREATE_MUTATION = gql`
         $lieferbar: Boolean!
         $datum: String!
         $homepage: String!
-        $schlagwoerter: [String!]!
+        $schlagwoerter: [String!]
         $titel: TitelInput!
         $abbildungen: [AbbildungInput!]
     ) {
@@ -50,15 +49,5 @@ export const CREATE_MUTATION = gql`
         ) {
             id
         }
-    }
-
-    input TitelInput {
-        titel: String!
-        untertitel: String
-    }
-
-    input AbbildungInput {
-        beschriftung: String!
-        contentType: String!
     }
 `;
