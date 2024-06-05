@@ -1,4 +1,4 @@
-import { Alert, Row, Spinner, Table } from 'react-bootstrap';
+import { Alert, Button, Row, Spinner, Table } from 'react-bootstrap';
 import { type ApolloError } from '@apollo/client';
 import { type Buch } from '../../../entities/Buch';
 import { paths } from '../../../config/paths';
@@ -38,6 +38,7 @@ export const Suchergebnis = ({ loading, error, data }: QueryTypes) => {
                             <th>Title</th>
                             <th>ISBN</th>
                             <th>Preis</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,6 +54,11 @@ export const Suchergebnis = ({ loading, error, data }: QueryTypes) => {
                                 <td>{buch.titel.titel}</td>
                                 <td>{buch.isbn}</td>
                                 <td>{buch.preis}</td>
+                                <td>
+                                    <Button>
+                                        <i className="bi bi-trash" />
+                                    </Button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
