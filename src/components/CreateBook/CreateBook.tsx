@@ -1,4 +1,4 @@
-import { Button, Form } from 'react-bootstrap';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { Abbildungen } from './Abbildungen/Abbildungen';
 import { Buchart } from './Buchart/Buchart';
@@ -133,88 +133,82 @@ export const CreateInput = () => {
     return (
         <>
             <Form onSubmit={handleSubmit(CreateBook)}>
-                <Table striped bordered style={{ tableLayout: 'fixed' }}>
-                    <thead />
-                    <tbody>
-                        <tr>
-                            <th>
-                                <Titel register={register} errors={errors} />
-                                <Untertitel
-                                    register={register}
-                                    errors={errors}
-                                />
-                            </th>
-                            <th>
-                                <Isbn register={register} errors={errors} />
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <Rating
-                                    register={register}
-                                    watch={watch}
-                                    errors={errors}
-                                />
-                            </th>
-                            <th>
-                                <Buchart register={register} errors={errors} />
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <Preis register={register} errors={errors} />
-                            </th>
-                            <th>
-                                <Rabatt register={register} errors={errors} />
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <Homepage register={register} errors={errors} />
-                            </th>
-                            <th>
-                                <Datum register={register} errors={errors} />
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <Lieferbar register={register} />
-                            </th>
-                            <th></th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <Schlagwoerter
-                                    register={register}
-                                    unregister={unregister}
-                                    fields={schlagwoerterFields}
-                                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                    // @ts-expect-error
-                                    append={schlagwoerterAppend}
-                                    remove={schlagwoerterRemove}
-                                />
-                            </th>
-                            <th>
-                                <Abbildungen
-                                    register={register}
-                                    unregister={unregister}
-                                    fields={abbildungenFields}
-                                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                    // @ts-expect-error
-                                    append={abbildungenAppend}
-                                    remove={abbildungenRemove}
-                                />
-                            </th>
-                        </tr>
-                    </tbody>
-                </Table>
-                <Button
-                    variant="primary"
-                    type="submit"
-                    className="w-100 d-flex justify-content-center"
-                >
-                    Speichern
-                </Button>
+                <Container>
+                    <Row>
+                        <Col>
+                            <Titel register={register} errors={errors} />
+                            <Untertitel register={register} errors={errors} />
+                        </Col>
+                        <Col>
+                            <Isbn register={register} errors={errors} />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Rating
+                                register={register}
+                                watch={watch}
+                                errors={errors}
+                            />
+                        </Col>
+                        <Col>
+                            <Buchart register={register} errors={errors} />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Preis register={register} errors={errors} />
+                        </Col>
+                        <Col>
+                            <Rabatt register={register} errors={errors} />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Homepage register={register} errors={errors} />
+                        </Col>
+                        <Col>
+                            <Datum register={register} errors={errors} />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Lieferbar register={register} />
+                        </Col>
+                        <Col></Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Schlagwoerter
+                                register={register}
+                                unregister={unregister}
+                                fields={schlagwoerterFields}
+                                append={schlagwoerterAppend}
+                                remove={schlagwoerterRemove}
+                            />
+                        </Col>
+                        <Col>
+                            <Abbildungen
+                                register={register}
+                                unregister={unregister}
+                                fields={abbildungenFields}
+                                append={abbildungenAppend}
+                                remove={abbildungenRemove}
+                            />
+                        </Col>
+                    </Row>
+                    <Row className="justify-content-md-center">
+                        <Col xs={4}>
+                            <Button
+                                variant="primary"
+                                type="submit"
+                                className="w-100 d-flex justify-content-center"
+                            >
+                                Speichern
+                            </Button>
+                        </Col>
+                    </Row>
+                </Container>
             </Form>
             {createMessage.visible && (
                 <StatusModal createMessage={createMessage} onHide={hideModal} />

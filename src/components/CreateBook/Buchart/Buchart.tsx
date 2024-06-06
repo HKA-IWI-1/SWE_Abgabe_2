@@ -29,10 +29,11 @@ interface BuchartProps {
 export const Buchart = ({ register, errors }: BuchartProps) => (
     <>
         <Form.Group>
-            <Form.Label>Buchart</Form.Label>
+            <Form.Label style={{ fontWeight: 'bold' }}>Buchart</Form.Label>
             <InputGroup>
                 {['KINDLE', 'DRUCKAUSGABE'].map((type) => (
                     <Form.Check
+                        style={{ fontWeight: 'bold' }}
                         key={type}
                         inline
                         label={type}

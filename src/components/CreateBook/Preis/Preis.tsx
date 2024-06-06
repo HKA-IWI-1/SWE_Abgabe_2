@@ -31,7 +31,7 @@ const PREIS_MIN = 0;
 export const Preis = ({ register, errors }: BuchpreisProps) => (
     <>
         <Form.Group>
-            <Form.Label>Preis</Form.Label>
+            <Form.Label style={{ fontWeight: 'bold' }}>Preis</Form.Label>
             <InputGroup>
                 <InputGroup.Text>€</InputGroup.Text>
                 <Form.Control
@@ -52,7 +52,7 @@ export const Preis = ({ register, errors }: BuchpreisProps) => (
                     errorMessage={'Der Preis fehlt oder ist ungültig'}
                 />
             </InputGroup>
-            <FormText>
+            <FormText style={{ fontWeight: 'bold' }}>
                 Bitte geben Sie einen Preis ein, zum Beispiel: 19.99 = 19.99€
             </FormText>
         </Form.Group>

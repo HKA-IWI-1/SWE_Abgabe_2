@@ -29,7 +29,7 @@ interface TitleProps {
 export const Untertitel = ({ register, errors }: TitleProps) => (
     <>
         <Form.Group>
-            <Form.Label>Untertitel</Form.Label>
+            <Form.Label style={{ fontWeight: 'bold' }}>Untertitel</Form.Label>
             <InputGroup>
                 <Form.Control
                     type="text"

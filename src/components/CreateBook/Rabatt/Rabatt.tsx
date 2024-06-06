@@ -32,7 +32,7 @@ const RABATT_MAX = 100;
 export const Rabatt = ({ register, errors }: RabattProps) => (
     <>
         <Form.Group>
-            <Form.Label>Rabatt</Form.Label>
+            <Form.Label style={{ fontWeight: 'bold' }}>Rabatt</Form.Label>
             <InputGroup>
                 <InputGroup.Text>%</InputGroup.Text>
                 <Form.Control
@@ -54,7 +54,7 @@ export const Rabatt = ({ register, errors }: RabattProps) => (
                     errorMessage={'Der Rabatt fehlt oder ist ungültig'}
                 />
             </InputGroup>
-            <FormText>
+            <FormText style={{ fontWeight: 'bold' }}>
                 Bitte geben Sie einen Rabattwert zwischen 0 und 100 ein. 10 =
                 10%
             </FormText>

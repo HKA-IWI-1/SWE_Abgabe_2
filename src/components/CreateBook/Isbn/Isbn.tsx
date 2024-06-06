@@ -32,7 +32,7 @@ const ISBN13_PATTERN =
 export const Isbn = ({ register, errors }: IsbnProps) => (
     <>
         <Form.Group>
-            <Form.Label>ISBN</Form.Label>
+            <Form.Label style={{ fontWeight: 'bold' }}>ISBN</Form.Label>
             <InputGroup>
                 <Form.Control
                     type="text"
@@ -49,7 +49,7 @@ export const Isbn = ({ register, errors }: IsbnProps) => (
                     errorMessage={'Die ISBN fehlt oder ist ungültig'}
                 />
             </InputGroup>
-            <FormText>
+            <FormText style={{ fontWeight: 'bold' }}>
                 Geben Sie eine ISBN-13 ein, z.B. 978-3-7375-0553-6
             </FormText>
         </Form.Group>

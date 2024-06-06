@@ -27,6 +27,7 @@ export const Lieferbar = ({ register }: LieferbarProps) => (
     <>
         <Form.Group>
             <Form.Check
+                style={{ fontWeight: 'bold' }}
                 type="checkbox"
                 label="Lieferbar"
                 {...register('lieferbar')}

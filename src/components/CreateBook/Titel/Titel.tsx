@@ -29,7 +29,7 @@ interface TitleProps {
 export const Titel = ({ register, errors }: TitleProps) => (
     <>
         <Form.Group>
-            <Form.Label>Titel</Form.Label>
+            <Form.Label style={{ fontWeight: 'bold' }}>Titel</Form.Label>
             <InputGroup>
                 <Form.Control
                     type="text"

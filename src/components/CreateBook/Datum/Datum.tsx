@@ -29,7 +29,7 @@ interface DatumProps {
 export const Datum = ({ register, errors }: DatumProps) => (
     <>
         <Form.Group>
-            <Form.Label>Datum</Form.Label>
+            <Form.Label style={{ fontWeight: 'bold' }}>Datum</Form.Label>
             <InputGroup>
                 <Form.Control
                     type="date"

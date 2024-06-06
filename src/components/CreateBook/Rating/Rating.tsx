@@ -37,7 +37,10 @@ const MAX_RATING = 5;
 export const Rating = ({ watch, register, errors }: RatingProps) => (
     <>
         <Form.Group>
-            <Form.Label>Rating: {watch('rating')}</Form.Label>
+            <Form.Label style={{ fontWeight: 'bold' }}>
+                {' '}
+                Rating: {watch('rating')}
+            </Form.Label>
             <Form.Range
                 min={MIN_RATING}
                 max={MAX_RATING}

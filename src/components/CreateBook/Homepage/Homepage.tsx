@@ -32,7 +32,7 @@ const URL_PATTERN =
 export const Homepage = ({ register, errors }: HomepageProps) => (
     <>
         <Form.Group>
-            <Form.Label>Homepage</Form.Label>
+            <Form.Label style={{ fontWeight: 'bold' }}>Homepage</Form.Label>
             <InputGroup>
                 <InputGroup.Text>
                     <i className="bi bi-globe"></i>
@@ -52,7 +52,7 @@ export const Homepage = ({ register, errors }: HomepageProps) => (
                     errorMessage={'Die Homepage fehlt oder ist ungültig'}
                 />
             </InputGroup>
-            <FormText className="small-text">
+            <FormText className="small-text" style={{ fontWeight: 'bold' }}>
                 Bitte geben Sie eine gültige Homepage ein. <br />
                 Zum Beispiel: https://www.beispiel.com oder http://beispiel.com
             </FormText>

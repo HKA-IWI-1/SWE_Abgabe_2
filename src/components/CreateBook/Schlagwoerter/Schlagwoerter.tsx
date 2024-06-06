@@ -45,7 +45,9 @@ export const Schlagwoerter = ({
 }: SwProps) => (
     <>
         <Row xs={1} md={1} lg={1}>
-            <Form.Label>Schlagwoerter</Form.Label>
+            <Form.Label style={{ fontWeight: 'bold' }}>
+                Schlagwoerter
+            </Form.Label>
             {fields.map((_, index) => (
                 <Form.Group as={Col} className="mb-3" key={index}>
                     <InputGroup className="mb-3">

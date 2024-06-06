@@ -44,7 +44,7 @@ export const Abbildungen = ({
 }: AbbildungenProps) => (
     <>
         <Row xs={1} md={1} lg={1}>
-            <Form.Label>Abbildungen</Form.Label>
+            <Form.Label style={{ fontWeight: 'bold' }}>Abbildungen</Form.Label>
             {fields.map((_, index) => (
                 <Form.Group as={Col} className="mb-3" key={index}>
                     <InputGroup className="mb-3">
