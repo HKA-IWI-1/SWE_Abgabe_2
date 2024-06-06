@@ -13,7 +13,6 @@ import { Rating } from './Rating/Rating';
 import { Schlagwoerter } from './Schlagwoerter/Schlagwoerter';
 import { StatusModal } from './StatusModal/StatusModal';
 import { type SubmitHandler } from 'react-hook-form';
-import Table from 'react-bootstrap/Table';
 import { Titel } from './Titel/Titel';
 import { Untertitel } from './Untertitel/Untertitel';
 import { useMutation } from '@apollo/client';
@@ -183,6 +182,8 @@ export const CreateInput = () => {
                                 register={register}
                                 unregister={unregister}
                                 fields={schlagwoerterFields}
+                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                // @ts-expect-error
                                 append={schlagwoerterAppend}
                                 remove={schlagwoerterRemove}
                             />
@@ -192,6 +193,8 @@ export const CreateInput = () => {
                                 register={register}
                                 unregister={unregister}
                                 fields={abbildungenFields}
+                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                // @ts-expect-error
                                 append={abbildungenAppend}
                                 remove={abbildungenRemove}
                             />
