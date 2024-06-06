@@ -23,17 +23,23 @@ import { useMutation } from '@apollo/client';
 import { useState } from 'react';
 
 interface DeleteModalProps {
-    id: number;
+    id: number | undefined;
+    onHide: () => void;
 }
-
-export const DeleteModal = ({ id }: DeleteModalProps) => {
+/* eslint-disable max-lines-per-function */
+export const DeleteModal = ({ id, onHide }: DeleteModalProps) => {
     const [deleteBook] = useMutation(DELETE_MUTATION);
     const [deleteMessage, setDeleteMessage] = useState({
         visible: false,
         nachricht: 'N/A',
         error: false,
     });
-
+    const hideModal = () => {
+        setDeleteMessage({
+            ...deleteMessage,
+            visible: false,
+        });
+    };
     const DeleteBook = () => {
         deleteBook({ variables: { id } })
             .then(() =>
@@ -66,20 +72,22 @@ export const DeleteModal = ({ id }: DeleteModalProps) => {
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
+                show={true}
             >
-                <Modal.Header closeButton>
+                <Modal.Header closeButton onClick={onHide}>
                     <Modal.Title id="contained-modal-title-vcenter">
                         Sind Sie sicher?
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Button onClick={() => DeleteBook()}>Ja</Button>
-                    <Button> Nein </Button>
+                    <Button onClick={onHide}> Nein </Button>
                 </Modal.Body>
             </Modal>
             {deleteMessage.visible && (
-                <StatusModal deleteMessage={deleteMessage} />
+                <StatusModal deleteMessage={deleteMessage} onHide={hideModal} />
             )}
         </>
     );
 };
+/* eslint-enable max-lines-per-function */

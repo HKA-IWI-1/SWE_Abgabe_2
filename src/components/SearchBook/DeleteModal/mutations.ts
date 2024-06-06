@@ -20,8 +20,6 @@ import { gql } from '@apollo/client';
 
 export const DELETE_MUTATION = gql`
     mutation ($id: ID!) {
-        delete(input: { id: $id }) {
-        
-        }
+        delete(id: $id)
     }
 `;

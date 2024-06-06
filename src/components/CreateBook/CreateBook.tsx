@@ -52,6 +52,12 @@ export const CreateInput = () => {
         nachricht: 'N/A',
         error: false,
     });
+    const hideModal = () => {
+        setCreateMessage({
+            ...createMessage,
+            visible: false,
+        });
+    };
 
     const CreateBook: SubmitHandler<FormValues> = (bookData) => {
         console.log(bookData);
@@ -211,7 +217,7 @@ export const CreateInput = () => {
                 </Button>
             </Form>
             {createMessage.visible && (
-                <StatusModal createMessage={createMessage} />
+                <StatusModal createMessage={createMessage} onHide={hideModal} />
             )}
         </>
     );
