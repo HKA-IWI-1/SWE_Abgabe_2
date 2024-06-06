@@ -24,7 +24,7 @@ export const MainData = (buch: Buch) => (
             </tr>
             <tr>
                 <td>Preis</td>
-                <td>{buch.preis}</td>
+                <td>{buch.preis} €</td>
             </tr>
             <tr>
                 <td>Rabatt</td>

@@ -17,6 +17,7 @@
  *
  */
 import './EditBook.scss';
+import { useLoaderData, useOutletContext } from 'react-router-dom';
 import { type ApolloError } from '@apollo/client/errors';
 import { type Buch } from '../../entities/Buch.ts';
 import Container from 'react-bootstrap/Container';
@@ -25,7 +26,7 @@ import { NavBar } from '../../components/NavBar/NavBar/NavBar.tsx';
 import { READ_BOOK } from './queries.ts';
 import { Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
-import { useLoaderData } from 'react-router-dom';
+import { type UserDataContext } from '../../../App.tsx';
 import { useQuery } from '@apollo/client';
 
 export interface BookId {
@@ -40,6 +41,8 @@ interface QueryTypes {
 
 export const EditBook = () => {
     const { book } = useLoaderData() as BookId;
+    const { userData } = useOutletContext<UserDataContext>();
+    const isAdmin = userData.roles.includes('admin');
 
     const { loading, error, data }: QueryTypes = useQuery(READ_BOOK, {
         variables: { id: book },
@@ -49,7 +52,9 @@ export const EditBook = () => {
         throw new Error(error.message);
     }
 
-    if (loading) {
+    if (!isAdmin) {
+        return <h1>Diese Seite kannst Du leider nicht betrachten.</h1>;
+    } else if (loading) {
         return (
             <>
                 <NavBar />

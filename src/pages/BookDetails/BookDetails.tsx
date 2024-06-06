@@ -76,6 +76,7 @@ export const BookDetails = () => {
         </OverlayTrigger>
     );
 
+    const buchOrEmpty = data?.buch ?? new BuchEmptyData();
     return (
         <>
             <NavBar />
@@ -95,24 +96,20 @@ export const BookDetails = () => {
                     <>
                         <Row className={'mb-4 pt-1'}>
                             <Col>
-                                <h1>{data?.buch.titel.titel ?? 'N/A'}</h1>
+                                <h1>{buchOrEmpty.titel.titel}</h1>
                             </Col>
                             <Col>
-                                <h2>{data?.buch.titel.untertitel ?? 'N/A'}</h2>
+                                <h2>{buchOrEmpty.titel.untertitel}</h2>
                             </Col>
                             <Col md={{ span: 2 }}>
                                 {isAdmin && editBookButton}
                             </Col>
                             <Row>
-                                <InfoBar
-                                    {...(data?.buch ?? new BuchEmptyData())}
-                                />
+                                <InfoBar {...buchOrEmpty} />
                             </Row>
                         </Row>
                         <Row className={'mb-5'}>
-                            <MainData
-                                {...(data?.buch ?? new BuchEmptyData())}
-                            />
+                            <MainData {...buchOrEmpty} />
                         </Row>
                         <Row>
                             <Abbildungen

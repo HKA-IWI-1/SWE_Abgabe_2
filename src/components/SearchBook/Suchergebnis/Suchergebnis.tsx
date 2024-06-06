@@ -1,9 +1,10 @@
 import { Alert, Button, Row, Spinner, Table } from 'react-bootstrap';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { type ApolloError } from '@apollo/client';
 import { type Buch } from '../../../entities/Buch';
 import { DeleteModal } from '../DeleteModal/DeleteModal';
+import { type UserDataContext } from '../../../../App.tsx';
 import { paths } from '../../../config/paths';
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 interface QueryTypes {
@@ -15,10 +16,13 @@ interface QueryTypes {
           }
         | undefined;
 }
+
 // eslint-disable-next-line max-lines-per-function
 export const Suchergebnis = ({ loading, error, data }: QueryTypes) => {
     const navigate = useNavigate();
     const [deleteModalId, setDeleteModalId] = useState<number>();
+    const { userData } = useOutletContext<UserDataContext>();
+    const isAdmin = userData.roles.includes('admin');
 
     const openDeleteModal = (id: number) => {
         setDeleteModalId(id);
@@ -51,7 +55,7 @@ export const Suchergebnis = ({ loading, error, data }: QueryTypes) => {
                                 <th>Title</th>
                                 <th>ISBN</th>
                                 <th>Preis</th>
-                                <th>Delete</th>
+                                {isAdmin && <th>Delete</th>}
                             </tr>
                         </thead>
                         <tbody>
@@ -69,16 +73,18 @@ export const Suchergebnis = ({ loading, error, data }: QueryTypes) => {
                                     <td>{buch.titel.titel}</td>
                                     <td>{buch.isbn}</td>
                                     <td>{buch.preis}</td>
-                                    <td>
-                                        <Button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                openDeleteModal(buch.id);
-                                            }}
-                                        >
-                                            <i className="bi bi-trash" />
-                                        </Button>
-                                    </td>
+                                    {isAdmin && (
+                                        <td>
+                                            <Button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    openDeleteModal(buch.id);
+                                                }}
+                                            >
+                                                <i className="bi bi-trash" />
+                                            </Button>
+                                        </td>
+                                    )}
                                 </tr>
                             ))}
                         </tbody>

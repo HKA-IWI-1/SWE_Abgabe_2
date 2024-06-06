@@ -23,14 +23,12 @@ import { Col, Row } from 'react-bootstrap';
 import { type Buch } from '../../../entities/Buch.ts';
 
 export const InfoBar = ({ datum, lieferbar, homepage }: Buch) => {
-    const lieferElement = lieferbar === true && (
+    const lieferElement = lieferbar !== undefined && (
         <Col className={'border-black border-end border-2'}>
             <span className={'pe-2'}>Lieferbar</span>
-            {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
             {lieferbar && (
                 <i className="bi bi-check-circle" style={{ color: 'green' }} />
             )}
-            {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
             {!lieferbar && (
                 <i className="bi bi-x-octagon" style={{ color: 'red' }} />
             )}
