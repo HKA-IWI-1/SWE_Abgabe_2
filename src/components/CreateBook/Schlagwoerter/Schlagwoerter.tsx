@@ -52,7 +52,9 @@ export const Schlagwoerter = ({
                 <Form.Group as={Col} className="mb-3" key={index}>
                     <InputGroup className="mb-3">
                         <Form.Control
-                            {...register(`schlagwoerter.${index}`)}
+                            {...register(`schlagwoerter.${index}`, {
+                                required: true,
+                            })}
                             type="text"
                             placeholder="Schlagwort"
                         />

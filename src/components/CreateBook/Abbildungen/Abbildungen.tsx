@@ -49,12 +49,16 @@ export const Abbildungen = ({
                 <Form.Group as={Col} className="mb-3" key={index}>
                     <InputGroup className="mb-3">
                         <Form.Control
-                            {...register(`abbildungen.${index}.beschriftung`)}
+                            {...register(`abbildungen.${index}.beschriftung`, {
+                                required: true,
+                            })}
                             type="text"
                             placeholder="Beschriftung"
                         />
                         <Form.Control
-                            {...register(`abbildungen.${index}.contentType`)}
+                            {...register(`abbildungen.${index}.contentType`, {
+                                required: true,
+                            })}
                             type="text"
                             placeholder="ContentType"
                         />

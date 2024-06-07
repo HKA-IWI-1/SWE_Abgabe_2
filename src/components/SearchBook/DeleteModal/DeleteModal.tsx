@@ -26,7 +26,7 @@ interface DeleteModalProps {
     id: number | undefined;
     onHide: () => void;
 }
-/* eslint-disable max-lines-per-function */
+
 export const DeleteModal = ({ id, onHide }: DeleteModalProps) => {
     const [deleteBook] = useMutation(DELETE_MUTATION);
     const [deleteMessage, setDeleteMessage] = useState({
@@ -34,12 +34,7 @@ export const DeleteModal = ({ id, onHide }: DeleteModalProps) => {
         nachricht: 'N/A',
         error: false,
     });
-    const hideModal = () => {
-        setDeleteMessage({
-            ...deleteMessage,
-            visible: false,
-        });
-    };
+
     const DeleteBook = () => {
         deleteBook({ variables: { id } })
             .then(() =>
@@ -73,6 +68,7 @@ export const DeleteModal = ({ id, onHide }: DeleteModalProps) => {
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
                 show={true}
+                onHide={onHide}
             >
                 <Modal.Header closeButton onClick={onHide}>
                     <Modal.Title id="contained-modal-title-vcenter">
@@ -85,9 +81,8 @@ export const DeleteModal = ({ id, onHide }: DeleteModalProps) => {
                 </Modal.Body>
             </Modal>
             {deleteMessage.visible && (
-                <StatusModal deleteMessage={deleteMessage} onHide={hideModal} />
+                <StatusModal deleteMessage={deleteMessage} onHide={onHide} />
             )}
         </>
     );
 };
-/* eslint-enable max-lines-per-function */

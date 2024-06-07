@@ -6,6 +6,7 @@ import { Isbn } from './Isbn/Isbn';
 import { Lieferbar } from './Lieferbar/Lieferbar';
 import { READ_BOOK } from './queries';
 import { Rating } from './Rating/Rating';
+import { RefreshButton } from './RefreshButton/RefreshButton';
 import { type SubmitHandler } from 'react-hook-form';
 import { Suchergebnis } from './Suchergebnis/Suchergebnis';
 import { Titel } from './Titel/Titel';
@@ -121,7 +122,6 @@ export const SearchInput = () => {
                     </Row>
                     <Row></Row>
                     <Row>
-                        <Col></Col>
                         <Col>
                             <Button
                                 variant="primary"
@@ -131,15 +131,12 @@ export const SearchInput = () => {
                                 Suchen
                             </Button>
                         </Col>
-                        <Col className="justify-content-end">
-                            <Button onClick={() => searchBook()}>
-                                Alle Suchen
-                            </Button>
-                        </Col>
                     </Row>
                 </Container>
             </Form>
             <div className="mt-5" />
+            <RefreshButton />
+            <div className="mt-2" />
             <Suchergebnis loading={loading} error={error} data={data} />
         </>
     );
