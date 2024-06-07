@@ -18,9 +18,9 @@
  */
 
 import {
+    Navigate,
     RouterProvider,
     createBrowserRouter,
-    Navigate,
 } from 'react-router-dom';
 import { App } from './App.tsx';
 import { BookDetails } from './src/pages/BookDetails/BookDetails';
