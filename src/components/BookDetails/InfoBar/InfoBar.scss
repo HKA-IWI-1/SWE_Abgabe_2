@@ -19,10 +19,10 @@
 
 @import '../../../global';
 
-body[data-bs-theme="dark"] .infobar .homepage {
-  color: $white;
+body[data-bs-theme='dark'] .infobar .homepage {
+    color: $white;
 }
 
-body:not([data-bs-theme="dark"]) .infobar .homepage {
-  color: $black;
+body:not([data-bs-theme='dark']) .infobar .homepage {
+    color: $black;
 }

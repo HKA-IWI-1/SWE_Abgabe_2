@@ -20,15 +20,15 @@
 @import '../../global';
 
 body[data-bs-theme='dark'] {
-  .edit-book {
-    border-color: $white !important;
+    .edit-book {
+        border-color: $white !important;
 
-    &:hover {
-      background-color: $white;
-    }
+        &:hover {
+            background-color: $white;
+        }
 
-    i {
-      filter: invert(100%);
+        i {
+            filter: invert(100%);
+        }
     }
-  }
 }

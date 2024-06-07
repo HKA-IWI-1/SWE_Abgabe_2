@@ -19,56 +19,56 @@
 @import '../../../global';
 
 .custom-navbar {
-  .nav-link.active,
-  .dropdown.show > .dropdown-toggle {
-    color: $gray-600 !important;
-  }
+    .nav-link.active,
+    .dropdown.show > .dropdown-toggle {
+        color: $gray-600 !important;
+    }
 
-  .navbar-brand,
-  .nav-link,
-  .navbar-toggler-icon {
+    .navbar-brand,
+    .nav-link,
+    .navbar-toggler-icon {
+        color: $white;
+
+        &:hover,
+        &:focus {
+            // Farbe beim Hover und Focus
+            color: $blue-400; // Blue 400 von Figma
+        }
+
+        &:active {
+            color: $orange-400;
+        }
+    }
+}
+
+body[data-bs-theme='dark'] .custom-navbar {
     color: $white;
-
-    &:hover,
-    &:focus {
-      // Farbe beim Hover und Focus
-      color: $blue-400; // Blue 400 von Figma
-    }
-
-    &:active {
-      color: $orange-400;
-    }
-  }
 }
 
-body[data-bs-theme="dark"] .custom-navbar {
-  color: $white;
-}
-
-body:not([data-bs-theme="dark"]) .custom-navbar {
-  color: $black;
-  background-color: $blue-900;
-
-  .navbar-toggler-icon {
-    filter: invert(100%);
-  }
-
-  .dropdown-item {
+body:not([data-bs-theme='dark']) .custom-navbar {
     color: $black;
+    background-color: $blue-900;
 
-    &:hover,
-    &:focus {
-      color: $white;
-      background-color: $blue-400;
+    .navbar-toggler-icon {
+        filter: invert(100%);
     }
 
-    &:active {
-      color: $orange-400;
-      background-color: $blue-400;
-    }
-  }
+    .dropdown-item {
+        color: $black;
 
-  .custom-navbar .nav-dropdown .dropdown-item {
-    color: $white;
-  }
+        &:hover,
+        &:focus {
+            color: $white;
+            background-color: $blue-400;
+        }
+
+        &:active {
+            color: $orange-400;
+            background-color: $blue-400;
+        }
+    }
+
+    .custom-navbar .nav-dropdown .dropdown-item {
+        color: $white;
+    }
 }
