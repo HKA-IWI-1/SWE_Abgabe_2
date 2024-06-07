@@ -17,7 +17,6 @@
  *
  */
 
-import { NavBar } from '../../components/NavBar/NavBar/NavBar.tsx';
 import { useRouteError } from 'react-router-dom';
 
 export const ErrorDetails = () => {
@@ -32,7 +31,6 @@ export const ErrorDetails = () => {
 
     return (
         <>
-            <NavBar />
             <div id="error-page">
                 <h1>Oops!</h1>
                 <p>

@@ -18,11 +18,27 @@
  */
 
 import { type Buch } from '../../../entities/Buch.ts';
-import { Chart } from 'react-google-charts';
+import { Bar } from 'react-chartjs-2';
+import {
+    BarElement,
+    CategoryScale,
+    Chart,
+    Legend,
+    LinearScale,
+    Title,
+    Tooltip,
+} from 'chart.js';
 
 const options = {
-    wordtree: {
-        format: 'implicit',
+    responsive: true,
+    plugins: {
+        legend: {
+            position: 'top' as const,
+        },
+        title: {
+            display: true,
+            text: 'Veröffentlichung von Büchern nach Monaten',
+        },
     },
 };
 
@@ -31,37 +47,50 @@ export const CustomChart = ({
 }: {
     data: { buecher: Buch[] } | undefined;
 }) => {
-    const booksPerDate = new Map();
+    Chart.register(
+        CategoryScale,
+        LinearScale,
+        BarElement,
+        Title,
+        Tooltip,
+        Legend,
+    );
+
+    const booksPerMonth: number[] = [];
+
     data?.buecher.forEach((buch) => {
-        const date = buch.datum ?? '';
-        if (booksPerDate.has(date)) {
-            booksPerDate.set(date, booksPerDate.get(date) + 1);
-        } else {
-            booksPerDate.set(date, 1);
-        }
+        const date = new Date(Date.parse(buch.datum!));
+        const month = date.getMonth();
+        booksPerMonth[month] = booksPerMonth[month]
+            ? booksPerMonth[month] + 1
+            : 1;
     });
 
-    const chartData = [
-        [
-            { type: 'date', id: 'Date' },
-            {
-                type: 'number',
-                id: 'AmountPerDay',
-            },
-        ],
-        ...Array.from(booksPerDate).map(([date, value]) => [
-            new Date(Date.parse(date as string)),
-            value as number,
-        ]),
+    const labels = [
+        'Januar',
+        'Februar',
+        'März',
+        'April',
+        'Mai',
+        'Juni',
+        'Juli',
+        'August',
+        'September',
+        'Oktober',
+        'November',
+        'Dezember',
     ];
 
-    return (
-        <Chart
-            chartType="Calendar"
-            data={chartData}
-            options={options}
-            width={'100%'}
-            height={'400px'}
-        />
-    );
+    const chartData = {
+        labels,
+        datasets: [
+            {
+                label: 'Bücher',
+                data: booksPerMonth,
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            },
+        ],
+    };
+
+    return <Bar options={options} data={chartData} />;
 };

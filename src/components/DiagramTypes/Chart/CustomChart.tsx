@@ -17,14 +17,16 @@
  *
  */
 
+import { ArcElement, Chart, Legend, Tooltip } from 'chart.js';
 import { type Buch } from '../../../entities/Buch.ts';
-import { Chart } from 'react-google-charts';
+import { Pie } from 'react-chartjs-2';
 
-const options = {
-    legend: 'none',
-    pieSliceText: 'label',
-    title: 'Anzahl der Bücher anhand der Arten',
-    pieStartAngle: 100,
+const dynamicColors = () => {
+    const factor = 255;
+    const r = Math.floor(Math.random() * factor);
+    const g = Math.floor(Math.random() * factor);
+    const b = Math.floor(Math.random() * factor);
+    return `rgba(${r},${g},${b}, 0.5)`;
 };
 
 export const CustomChart = ({
@@ -32,24 +34,26 @@ export const CustomChart = ({
 }: {
     data: { buecher: Buch[] } | undefined;
 }) => {
-    const chartData = new Map();
-    chartData.set('Art', 'Anzahl');
-
+    const dataMap = new Map();
     data?.buecher.forEach((buch: Buch) => {
-        if (chartData.has(buch.art)) {
-            chartData.set(buch.art, chartData.get(buch.art) + 1);
+        if (dataMap.has(buch.art)) {
+            dataMap.set(buch.art, dataMap.get(buch.art) + 1);
         } else {
-            chartData.set(buch.art, 1);
+            dataMap.set(buch.art, 1);
         }
     });
-
-    return (
-        <Chart
-            chartType="PieChart"
-            data={Array.from(chartData)}
-            options={options}
-            width={'100%'}
-            height={'400px'}
-        />
-    );
+    const colors: string[] = [];
+    dataMap.forEach(() => colors.push(dynamicColors()));
+    const chartData = {
+        labels: Array.from(dataMap.keys()),
+        datasets: [
+            {
+                label: 'Anzahl der Bücher anhand der Art',
+                data: Array.from(dataMap.values()),
+                backgroundColor: colors,
+            },
+        ],
+    };
+    Chart.register(ArcElement, Tooltip, Legend);
+    return <Pie data={chartData} />;
 };

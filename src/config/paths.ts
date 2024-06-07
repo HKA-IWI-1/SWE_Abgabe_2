@@ -26,7 +26,6 @@ export const paths = {
     search: 'suchen',
     createBook: 'neues_buch',
     diagramsArt: 'diagramme_art',
-    diagramsTags: 'diagramme_schlagwoerter',
     diagramsDates: 'diagramme_datum',
     bookDetails,
     bookDetailsRouting,

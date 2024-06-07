@@ -64,12 +64,6 @@ export const NavBar = () => {
                             </NavDropdown.Item>
                             <NavDropdown.Item
                                 as={Link}
-                                to={`/${paths.diagramsTags}`}
-                            >
-                                Tags
-                            </NavDropdown.Item>
-                            <NavDropdown.Item
-                                as={Link}
                                 to={`/${paths.diagramsDates}`}
                             >
                                 Datum

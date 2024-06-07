@@ -17,12 +17,15 @@
  *
  */
 
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import {
+    RouterProvider,
+    createBrowserRouter,
+    Navigate,
+} from 'react-router-dom';
 import { App } from './App.tsx';
 import { BookDetails } from './src/pages/BookDetails/BookDetails';
 import { CreateBook } from './src/pages/CreateBook/CreateBook';
 import { DiagramDates } from './src/pages/DiagramDates/DiagramDates.tsx';
-import { DiagramTags } from './src/pages/DiagramTags/DiagramTags.tsx';
 import { DiagramTypes } from './src/pages/DiagramTypes/DiagramTypes.tsx';
 import { EditBook } from './src/pages/EditBook/EditBook';
 import { ErrorDetails } from './src/pages/ErrorDetails/ErrorDetails';
@@ -78,12 +81,12 @@ const router = createBrowserRouter([
                         element: <DiagramTypes />,
                     },
                     {
-                        path: paths.diagramsTags,
-                        element: <DiagramTags />,
-                    },
-                    {
                         path: paths.diagramsDates,
                         element: <DiagramDates />,
+                    },
+                    {
+                        path: '*',
+                        element: <Navigate to={paths.root} replace />,
                     },
                 ],
             },
