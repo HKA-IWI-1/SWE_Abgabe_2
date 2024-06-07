@@ -30,8 +30,10 @@ state BuchBearbeiten {
     [*] --> Änderungsformular : Änderungsdaten eingeben
     state cBearbeiten <<choice>>
     Änderungsformular --> cBearbeiten : Button: Update
-    cBearbeiten --> Änderungsformular : fehlerhafte Daten
-    cBearbeiten --> [*] : korrekte Daten
+    cBearbeiten --> Fehlermeldung: fehlerhafte Daten
+    Fehlermeldung --> Änderungsformular
+    cBearbeiten --> Erfolgsmeldung : korrekte Daten
+    Erfolgsmeldung --> BuchDetails
 }
 
 BuchSuchen --> [*]
