@@ -1,12 +1,11 @@
+import { type ApolloError, type ApolloQueryResult } from '@apollo/client';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
-import { type ApolloError } from '@apollo/client';
 import { type Buch } from '../../entities/Buch';
 import { Buchart } from './Buchart/Buchart';
 import { Isbn } from './Isbn/Isbn';
 import { Lieferbar } from './Lieferbar/Lieferbar';
 import { READ_BOOK } from './queries';
 import { Rating } from './Rating/Rating';
-import { RefreshButton } from './RefreshButton/RefreshButton';
 import { type SubmitHandler } from 'react-hook-form';
 import { Suchergebnis } from './Suchergebnis/Suchergebnis';
 import { Titel } from './Titel/Titel';
@@ -30,6 +29,7 @@ interface QueryTypes {
               buecher: Buch[] | undefined;
           }
         | undefined;
+    refetch: () => Promise<ApolloQueryResult<any>>;
 }
 
 interface Variables {
@@ -44,7 +44,7 @@ interface Variables {
 export const SearchInput = () => {
     const { register, watch, handleSubmit } = useForm<FormValues>();
     const [searchBook, result] = useLazyQuery(READ_BOOK);
-    const { loading, error, data } = result as QueryTypes;
+    const { loading, error, data, refetch } = result as QueryTypes;
     const [isLieferbarUsed, setIsLieferbarUsed] = useState(false);
     const [isRatingUsed, setIsRatingUsed] = useState(false);
 
@@ -135,7 +135,9 @@ export const SearchInput = () => {
                 </Container>
             </Form>
             <div className="mt-5" />
-            <RefreshButton />
+            <Button className="ms-5" onClick={() => refetch()}>
+                <i className="bi bi-arrow-clockwise" />
+            </Button>
             <div className="mt-2" />
             <Suchergebnis loading={loading} error={error} data={data} />
         </>

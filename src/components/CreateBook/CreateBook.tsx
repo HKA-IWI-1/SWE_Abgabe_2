@@ -59,7 +59,6 @@ export const CreateInput = () => {
     };
 
     const CreateBook: SubmitHandler<FormValues> = (bookData) => {
-        console.log(bookData);
         createBook({
             variables: {
                 isbn: bookData.isbn,
