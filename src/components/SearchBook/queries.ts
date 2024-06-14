@@ -20,7 +20,7 @@
 import { gql } from '@apollo/client';
 
 export const READ_BOOK = gql`
-    query ($suchkriterien: SuchkriterienInput) {
+    query GetBooks($suchkriterien: SuchkriterienInput) {
         buecher(suchkriterien: $suchkriterien) {
             id
             isbn

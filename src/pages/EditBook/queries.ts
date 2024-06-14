@@ -20,7 +20,7 @@
 import { gql } from '@apollo/client';
 
 export const READ_BOOK = gql`
-    query ($id: ID! = "1") {
+    query UpdateBook($id: ID! = "1") {
         buch(id: $id) {
             isbn
             version

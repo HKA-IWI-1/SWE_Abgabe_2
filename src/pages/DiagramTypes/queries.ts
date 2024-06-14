@@ -20,7 +20,7 @@
 import { gql } from '@apollo/client';
 
 export const BOOKS_TYPES = gql`
-    query {
+    query GetBuecherArten {
         buecher {
             art
         }

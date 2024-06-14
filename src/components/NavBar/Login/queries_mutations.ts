@@ -20,7 +20,7 @@
 import { gql } from '@apollo/client';
 
 export const AUTH = gql`
-    mutation ($username: String!, $password: String!) {
+    mutation Login($username: String!, $password: String!) {
         login(username: $username, password: $password) {
             access_token
             expires_in
@@ -32,7 +32,7 @@ export const AUTH = gql`
 `;
 
 export const REFRESH = gql`
-    mutation ($refreshToken: String!) {
+    mutation RefreshToken($refreshToken: String!) {
         refresh(refresh_token: $refreshToken) {
             access_token
             expires_in

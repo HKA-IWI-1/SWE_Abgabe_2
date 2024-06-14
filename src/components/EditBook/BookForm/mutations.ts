@@ -20,7 +20,7 @@
 import { gql } from '@apollo/client';
 
 export const UPDATE_MUTATION = gql`
-    mutation (
+    mutation UpdateBook(
         $id: ID
         $version: Int
         $isbn: String
