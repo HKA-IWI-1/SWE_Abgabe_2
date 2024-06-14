@@ -65,10 +65,10 @@ export const SearchInput = () => {
         if (isLieferbarUsed) {
             variables.lieferbar = bookData.lieferbar;
         }
-        // eslint-disable-next-line no-void
-        void searchBook({
+
+        searchBook({
             variables: { suchkriterien: variables },
-        });
+        }).catch(console.error);
     };
     // todo: default values bei useForm() angeben
     const handleLieferbarChange = () => {
