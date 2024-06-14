@@ -17,13 +17,14 @@
  *
  */
 
+import {
+    accessTokenIdentifier,
+    expiresInIdentifier,
+    refreshExpiresInIdentifier,
+    refreshTokenIdentifier,
+    rolesIdentifier,
+} from '../../../helpers/localStorageKeys.ts';
 import { type FetchResult } from '@apollo/client';
-
-const accessTokenIdentifier = 'access_token';
-const refreshTokenIdentifier = 'refresh_token';
-const expiresInIdentifier = 'expires_in';
-const refreshExpiresInIdentifier = 'refresh_expires_in';
-const rolesIdentifier = 'roles';
 
 interface LoginAuthData {
     /* eslint-disable @typescript-eslint/naming-convention */

@@ -17,31 +17,12 @@
  *
  */
 
-import Button from 'react-bootstrap/esm/Button';
-import { theme } from '../../../helpers/localStorageKeys.ts';
-import { useState } from 'react';
+// login, auth, roles
+export const accessTokenIdentifier = 'access_token';
+export const refreshTokenIdentifier = 'refresh_token';
+export const expiresInIdentifier = 'expires_in';
+export const refreshExpiresInIdentifier = 'refresh_expires_in';
+export const rolesIdentifier = 'roles';
 
-export const DarkModeSwitch = () => {
-    const initialDarkMode = localStorage.getItem(theme) ?? 'light';
-    const [darkMode, setDarkMode] = useState(initialDarkMode === 'dark');
-    const setTheme = () => {
-        document.body.dataset.bsTheme = darkMode ? 'dark' : 'light';
-    };
-    setTheme();
-
-    const switchDarkMode = () => {
-        setDarkMode(!darkMode);
-        localStorage.setItem(theme, darkMode ? 'light' : 'dark');
-        setTheme();
-    };
-
-    return (
-        <>
-            <div className="vr ms-3 me-3" />
-            <Button variant="primary" onClick={switchDarkMode}>
-                {darkMode && <i className="bi bi-moon-fill"></i>}
-                {!darkMode && <i className="bi bi-brightness-high-fill"></i>}
-            </Button>
-        </>
-    );
-};
+// theme
+export const theme = 'theme';
