@@ -29,6 +29,7 @@ import {
 import { Outlet, useNavigation } from 'react-router-dom';
 import { readRoles } from './src/components/NavBar/Login/helper.ts';
 import { setContext } from '@apollo/client/link/context';
+import { theme } from './src/helpers/localStorageKeys.ts';
 import { useState } from 'react';
 
 export interface UserDataType {
@@ -48,7 +49,7 @@ export interface UserDataContext {
 
 export const App = () => {
     const [userData, setUserData] = useState({
-        theme: 'light',
+        theme: localStorage.getItem(theme) ?? 'light',
         roles: readRoles(),
     } as UserDataType);
 
@@ -71,6 +72,14 @@ export const App = () => {
     const apolloClient = new ApolloClient({
         cache: new InMemoryCache(),
         link: authLink.concat(httpLink),
+        defaultOptions: {
+            watchQuery: {
+                fetchPolicy: 'no-cache',
+            },
+            query: {
+                fetchPolicy: 'no-cache',
+            },
+        },
     });
 
     const navigation = useNavigation();
