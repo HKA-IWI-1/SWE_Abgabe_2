@@ -28,39 +28,36 @@ interface DeleteModalProps {
 }
 
 export const DeleteModal = ({ id, onHide }: DeleteModalProps) => {
-    const [deleteBook] = useMutation(DELETE_MUTATION);
     const [deleteMessage, setDeleteMessage] = useState({
         visible: false,
         nachricht: 'N/A',
         error: false,
     });
+    const [deleteBook, { loading }] = useMutation(DELETE_MUTATION, {
+        onCompleted: () => {
+            setDeleteMessage({
+                visible: true,
+                nachricht: 'Das Löschen war erfolgreich.',
+                error: false,
+            });
+        },
+        onError: (error) => {
+            setDeleteMessage({
+                visible: true,
+                nachricht: `Fehler: ${error.message}`,
+                error: true,
+            });
+        },
+    });
 
     const DeleteBook = () => {
-        deleteBook({ variables: { id } })
-            .then(() =>
-                setDeleteMessage({
-                    visible: true,
-                    nachricht: 'Das Löschen war erfolgreich.',
-                    error: false,
-                }),
-            )
-            .catch((err) => {
-                if (err instanceof Error) {
-                    console.error(err);
-                    setDeleteMessage({
-                        visible: true,
-                        nachricht: `Fehler: ${err.message}`,
-                        error: true,
-                    });
-                } else {
-                    setDeleteMessage({
-                        visible: true,
-                        nachricht: 'Ein unbekannter Fehler ist aufgetreten.',
-                        error: true,
-                    });
-                }
-            });
+        deleteBook({ variables: { id } }).catch((err) => {
+            if (err instanceof Error) {
+                console.error(err);
+            }
+        });
     };
+
     return (
         <>
             <Modal
@@ -78,6 +75,7 @@ export const DeleteModal = ({ id, onHide }: DeleteModalProps) => {
                 <Modal.Body>
                     <Button onClick={() => DeleteBook()}>Ja</Button>
                     <Button onClick={onHide}> Nein </Button>
+                    {loading && <p>Laden...</p>}
                 </Modal.Body>
             </Modal>
             {deleteMessage.visible && (
