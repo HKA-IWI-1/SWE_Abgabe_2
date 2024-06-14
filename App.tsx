@@ -27,9 +27,12 @@ import {
     createHttpLink,
 } from '@apollo/client';
 import { Outlet, useNavigation } from 'react-router-dom';
+import {
+    accessTokenIdentifier,
+    theme,
+} from './src/helpers/localStorageKeys.ts';
 import { readRoles } from './src/components/NavBar/Login/helper.ts';
 import { setContext } from '@apollo/client/link/context';
-import { theme } from './src/helpers/localStorageKeys.ts';
 import { useState } from 'react';
 
 export interface UserDataType {
@@ -54,7 +57,7 @@ export const App = () => {
     } as UserDataType);
 
     const authLink = setContext((_, { headers }) => {
-        const token = localStorage.getItem('access_token');
+        const token = localStorage.getItem(accessTokenIdentifier);
         return {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             headers: {

@@ -68,7 +68,11 @@ export const SearchInput = () => {
 
         searchBook({
             variables: { suchkriterien: variables },
-        }).catch(console.error);
+        }).catch((err) => {
+            if (err instanceof Error) {
+                console.error(err);
+            }
+        });
     };
     // todo: default values bei useForm() angeben
     const handleLieferbarChange = () => {

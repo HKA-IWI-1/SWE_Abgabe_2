@@ -24,25 +24,10 @@ import {
     refreshTokenIdentifier,
     rolesIdentifier,
 } from '../../../helpers/localStorageKeys.ts';
-import { type FetchResult } from '@apollo/client';
+import { type LoginAuthData } from './Login/Login.tsx';
 
-interface LoginAuthData {
-    /* eslint-disable @typescript-eslint/naming-convention */
-    access_token: string;
-    refresh_token: string;
-    expires_in: string;
-    refresh_expires_in: string;
-    roles: string[];
-    /* eslint-enable @typescript-eslint/naming-convention */
-}
-
-export const persistTokenData = (
-    result: FetchResult<{
-        login: LoginAuthData | null;
-        refresh: LoginAuthData;
-    }>,
-) => {
-    const data = result.data?.login ?? result.data?.refresh;
+export const persistTokenData = (result: LoginAuthData) => {
+    const data = result.login ?? result.refresh;
     localStorage.setItem(accessTokenIdentifier, data?.access_token ?? '');
     localStorage.setItem(refreshTokenIdentifier, data?.refresh_token ?? '');
     const secondsToMilliseconds = 1000;

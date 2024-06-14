@@ -29,7 +29,7 @@ import { DiagramDates } from './src/pages/DiagramDates/DiagramDates.tsx';
 import { DiagramTypes } from './src/pages/DiagramTypes/DiagramTypes.tsx';
 import { EditBook } from './src/pages/EditBook/EditBook';
 import { ErrorDetails } from './src/pages/ErrorDetails/ErrorDetails';
-import { type LoaderFunctionArgs } from '@remix-run/router/utils.ts';
+import { type LoaderFunctionArgs } from 'react-router-dom';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { SearchBook } from './src/pages/SearchBook/SearchBook';

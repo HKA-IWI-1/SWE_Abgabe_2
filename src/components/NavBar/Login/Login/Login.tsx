@@ -44,6 +44,21 @@ interface Inputs {
     password: string;
 }
 
+interface AuthData {
+    /* eslint-disable @typescript-eslint/naming-convention */
+    access_token: string;
+    refresh_token: string;
+    expires_in: string;
+    refresh_expires_in: string;
+    roles: string[];
+    /* eslint-enable @typescript-eslint/naming-convention */
+}
+
+export interface LoginAuthData {
+    login?: AuthData;
+    refresh?: AuthData;
+}
+
 // eslint-disable-next-line max-lines-per-function
 export const Login = () => {
     const { userData, setUserData } = useOutletContext<UserDataContext>();
@@ -68,48 +83,52 @@ export const Login = () => {
         setTeasers(updatedTeasers);
     };
 
-    const [authenticateUser, { client }] = useMutation(AUTH);
-    const [refreshToken] = useMutation(REFRESH);
+    const [
+        authenticateUser,
+        { client, loading: loadingAuth, error: errorAuth },
+    ] = useMutation(AUTH, {
+        onCompleted: (data: LoginAuthData) => {
+            persistTokenData(data);
+            setLoggedIn(true);
+            reset();
+            setUserData((oldData: UserDataType) => ({
+                ...oldData,
+                roles: readRoles(),
+            }));
+        },
+    });
+    const [refreshTokenMutation, { error: errorRefresh }] = useMutation(
+        REFRESH,
+        {
+            onCompleted: (data: LoginAuthData) => {
+                setLoggedIn(true);
+                persistTokenData(data);
+            },
+        },
+    );
 
-    const doTokenRefresh = useCallback(
+    const tokenRefresh = useCallback(
         async (token: string) => {
-            const result = await refreshToken({
+            await refreshTokenMutation({
                 variables: {
                     refreshToken: token,
                 },
             });
-            persistTokenData(result);
         },
-        [refreshToken],
+        [refreshTokenMutation],
     );
 
-    const logIn: SubmitHandler<Inputs> = (data: Inputs) => {
+    const logIn: SubmitHandler<Inputs> = (loginData: Inputs) => {
         authenticateUser({
             variables: {
-                username: data.username,
-                password: data.password,
+                username: loginData.username,
+                password: loginData.password,
             },
-        }) // don't use await in order to handle login errors
-            .then((res) => {
-                persistTokenData(res);
-                setLoggedIn(true);
-                reset();
-                setUserData((oldData: UserDataType) => ({
-                    ...oldData,
-                    roles: readRoles(),
-                }));
-                return true;
-            })
-            .catch((err) => {
-                if (err instanceof Error) {
-                    console.error(err);
-                }
-                addTeaser({
-                    messageType: 'Danger',
-                    message: err.message as string,
-                    timestamp: Date.now(),
-                });
-            });
+        }).catch((err) => {
+            if (err instanceof Error) {
+                console.error(err);
+            }
+        });
     };
 
     const logOut = useCallback(async () => {
@@ -133,30 +152,47 @@ export const Login = () => {
             refreshExpiresIn === '' ||
             Number.parseInt(refreshExpiresIn, 10) < currentDate;
         if (accessToken === '' || rToken === '' || refreshTokenIsExpired) {
-            logOut()
-                .then(() => console.log('logged out'))
-                .catch((err) => {
-                    if (err instanceof Error) {
-                        console.error(err);
-                    }
-                });
+            logOut().catch((err) => {
+                if (err instanceof Error) {
+                    console.error(err);
+                }
+            });
         } else if (tokenIsExpired) {
-            doTokenRefresh(rToken)
-                .then((_) => setLoggedIn(true))
-                .catch((err) => {
-                    if (err instanceof Error) {
-                        console.error(err);
-                    }
-                });
+            tokenRefresh(rToken).catch((err) => {
+                if (err instanceof Error) {
+                    console.error(err);
+                }
+            });
         } else {
             setLoggedIn(true);
         }
-    }, [logOut, doTokenRefresh]);
+    }, [logOut, tokenRefresh]);
+
+    if (errorAuth) {
+        addTeaser({
+            messageType: 'Danger',
+            message: errorAuth.message,
+            timestamp: Date.now(),
+        });
+    }
+
+    if (errorRefresh) {
+        addTeaser({
+            messageType: 'Danger',
+            message: errorRefresh.message,
+            timestamp: Date.now(),
+        });
+        logOut().catch((err) => {
+            if (err instanceof Error) {
+                console.error(err);
+            }
+        });
+    }
 
     return (
         <>
             <LoginToast teasers={teasers} deleteTeaser={deleteTeaser} />
-            {!loggedIn && (
+            {!loggedIn && !loadingAuth && (
                 <Form onSubmit={handleSubmit(logIn)}>
                     <Stack direction="horizontal" gap={3}>
                         <Form.Control
