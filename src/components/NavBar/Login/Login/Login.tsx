@@ -83,29 +83,41 @@ export const Login = () => {
         setTeasers(updatedTeasers);
     };
 
-    const [
-        authenticateUser,
-        { client, loading: loadingAuth, error: errorAuth },
-    ] = useMutation(AUTH, {
-        onCompleted: (data: LoginAuthData) => {
-            persistTokenData(data);
-            setLoggedIn(true);
-            reset();
-            setUserData((oldData: UserDataType) => ({
-                ...oldData,
-                roles: readRoles(),
-            }));
-        },
-    });
-    const [refreshTokenMutation, { error: errorRefresh }] = useMutation(
-        REFRESH,
+    const [authenticateUser, { client, loading: loadingAuth }] = useMutation(
+        AUTH,
         {
             onCompleted: (data: LoginAuthData) => {
-                setLoggedIn(true);
                 persistTokenData(data);
+                setLoggedIn(true);
+                reset();
+                setUserData((oldData: UserDataType) => ({
+                    ...oldData,
+                    roles: readRoles(),
+                }));
+            },
+            onError: (error) => {
+                addTeaser({
+                    messageType: 'Danger',
+                    message: error.message,
+                    timestamp: Date.now(),
+                });
             },
         },
     );
+
+    const [refreshTokenMutation] = useMutation(REFRESH, {
+        onCompleted: (data: LoginAuthData) => {
+            setLoggedIn(true);
+            persistTokenData(data);
+        },
+        onError: (error) => {
+            addTeaser({
+                messageType: 'Danger',
+                message: error.message,
+                timestamp: Date.now(),
+            });
+        },
+    });
 
     const tokenRefresh = useCallback(
         async (token: string) => {
@@ -167,27 +179,6 @@ export const Login = () => {
             setLoggedIn(true);
         }
     }, [logOut, tokenRefresh]);
-
-    if (errorAuth) {
-        addTeaser({
-            messageType: 'Danger',
-            message: errorAuth.message,
-            timestamp: Date.now(),
-        });
-    }
-
-    if (errorRefresh) {
-        addTeaser({
-            messageType: 'Danger',
-            message: errorRefresh.message,
-            timestamp: Date.now(),
-        });
-        logOut().catch((err) => {
-            if (err instanceof Error) {
-                console.error(err);
-            }
-        });
-    }
 
     return (
         <>
