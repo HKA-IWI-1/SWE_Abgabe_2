@@ -17,15 +17,49 @@
  *
  */
 
+import {
+    BarElement,
+    CategoryScale,
+    Chart,
+    Legend,
+    LinearScale,
+    Title,
+    Tooltip,
+} from 'chart.js';
 import { type ApolloError } from '@apollo/client/errors';
 import { BOOKS_TYPES } from './queries.ts';
+import { Bar } from 'react-chartjs-2';
 import { type BuchType } from '../../entities/BuchType.ts';
-import Container from 'react-bootstrap/Container';
-import { CustomChart } from '../../components/DiagramDates/Chart/CustomChart.tsx';
-import { NavBar } from '../../components/NavBar/NavBar/NavBar.tsx';
-import { Row } from 'react-bootstrap';
-import Spinner from 'react-bootstrap/Spinner';
+import { CustomDiagram } from '../../components/Diagrams/CustomDiagram.tsx';
 import { useQuery } from '@apollo/client';
+
+const options = {
+    responsive: true,
+    plugins: {
+        legend: {
+            position: 'top' as const,
+        },
+        title: {
+            display: true,
+            text: 'Veröffentlichung von Büchern nach Monaten',
+        },
+    },
+};
+
+const labels = [
+    'Januar',
+    'Februar',
+    'März',
+    'April',
+    'Mai',
+    'Juni',
+    'Juli',
+    'August',
+    'September',
+    'Oktober',
+    'November',
+    'Dezember',
+];
 
 interface QueryTypes {
     loading: boolean;
@@ -39,32 +73,45 @@ export const DiagramDates = () => {
     });
 
     if (error) {
-        throw new Error(error.message);
+        console.log(error.message);
     }
+
+    Chart.register(
+        CategoryScale,
+        LinearScale,
+        BarElement,
+        Title,
+        Tooltip,
+        Legend,
+    );
+
+    const booksPerMonth: number[] = [];
+
+    data?.buecher.forEach((buch) => {
+        const date = new Date(Date.parse(buch.datum!));
+        const month = date.getMonth();
+        booksPerMonth[month] = booksPerMonth[month]
+            ? booksPerMonth[month] + 1
+            : 1;
+    });
+
+    const chartData = {
+        labels,
+        datasets: [
+            {
+                label: 'Bücher',
+                data: booksPerMonth,
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            },
+        ],
+    };
 
     return (
         <>
-            <NavBar />
-            <Container>
-                {loading && (
-                    <Row>
-                        <Spinner
-                            variant="primary"
-                            animation="border"
-                            role="status"
-                        >
-                            <span className="visually-hidden">Loading...</span>
-                        </Spinner>
-                    </Row>
-                )}
-                {!loading && (
-                    <>
-                        <Row className={'mb-4 pt-1'}>
-                            <CustomChart data={data} />
-                        </Row>
-                    </>
-                )}
-            </Container>
+            <CustomDiagram loading={loading} error={error}>
+                <h1>Buch-Typen</h1>
+                <Bar options={options} data={chartData} />
+            </CustomDiagram>
         </>
     );
 };

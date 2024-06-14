@@ -17,7 +17,6 @@
  *
  */
 import './EditBook.scss';
-import { useLoaderData, useOutletContext } from 'react-router-dom';
 import { type ApolloError } from '@apollo/client/errors';
 import { type BuchType } from '../../entities/BuchType.ts';
 import Container from 'react-bootstrap/Container';
@@ -26,7 +25,7 @@ import { NavBar } from '../../components/NavBar/NavBar/NavBar.tsx';
 import { READ_BOOK } from './queries.ts';
 import { Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
-import { type UserDataContext } from '../../../App.tsx';
+import { useLoaderData } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
 export interface BookId {
@@ -41,42 +40,42 @@ interface QueryTypes {
 
 export const EditBook = () => {
     const { book } = useLoaderData() as BookId;
-    const { userData } = useOutletContext<UserDataContext>();
-    const isAdmin = userData.roles.includes('admin');
 
     const { loading, error, data }: QueryTypes = useQuery(READ_BOOK, {
         variables: { id: book },
     });
 
     if (error) {
-        throw new Error(error.message);
+        console.error(error.message);
     }
 
-    if (!isAdmin) {
-        return <h1>Diese Seite kannst Du leider nicht betrachten.</h1>;
-    } else if (loading) {
-        return (
-            <>
-                <NavBar />
-                <Container>
-                    <Row>
-                        <Spinner
-                            variant="primary"
-                            animation="border"
-                            role="status"
-                        >
-                            <span className="visually-hidden">Loading...</span>
-                        </Spinner>
-                    </Row>
-                </Container>
-            </>
-        );
-    } else if (data) {
-        return (
-            <>
-                <NavBar />
-                <EditBookForm buch={data.buch} id={book} />;
-            </>
-        );
-    }
+    return (
+        <>
+            {loading && (
+                <>
+                    <NavBar />
+                    <Container>
+                        <Row>
+                            <Spinner
+                                variant="primary"
+                                animation="border"
+                                role="status"
+                            >
+                                <span className="visually-hidden">
+                                    Loading...
+                                </span>
+                            </Spinner>
+                        </Row>
+                    </Container>
+                </>
+            )}
+            {!loading && error && <h1>Es ist ein Fehler aufgetreten.</h1>}
+            {!loading && !error && data && (
+                <>
+                    <NavBar />
+                    <EditBookForm buch={data.buch} id={book} />
+                </>
+            )}
+        </>
+    );
 };

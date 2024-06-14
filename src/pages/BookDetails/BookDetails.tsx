@@ -56,7 +56,7 @@ export const BookDetails = () => {
     });
 
     if (error) {
-        throw new Error(error.message);
+        console.error(error);
     }
 
     const editBookButton = (
@@ -92,7 +92,10 @@ export const BookDetails = () => {
                         </Spinner>
                     </Row>
                 )}
-                {!loading && (
+                {!loading && error && (
+                    <h1>Es ist leider ein Fehler aufgetreten</h1>
+                )}
+                {!loading && !error && (
                     <>
                         <Row className={'mb-4 pt-1'}>
                             <Col>

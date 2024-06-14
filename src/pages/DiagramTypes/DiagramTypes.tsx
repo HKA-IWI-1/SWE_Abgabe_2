@@ -17,15 +17,22 @@
  *
  */
 
+import { ArcElement, Chart, Legend, Tooltip } from 'chart.js';
 import { type ApolloError } from '@apollo/client/errors';
 import { BOOKS_TYPES } from './queries.ts';
 import { type BuchType } from '../../entities/BuchType.ts';
-import Container from 'react-bootstrap/Container';
-import { CustomChart } from '../../components/DiagramTypes/Chart/CustomChart.tsx';
-import { NavBar } from '../../components/NavBar/NavBar/NavBar.tsx';
-import { Row } from 'react-bootstrap';
-import Spinner from 'react-bootstrap/Spinner';
+import { Col } from 'react-bootstrap';
+import { CustomDiagram } from '../../components/Diagrams/CustomDiagram.tsx';
+import { Pie } from 'react-chartjs-2';
 import { useQuery } from '@apollo/client';
+
+const dynamicColors = () => {
+    const factor = 255;
+    const r = Math.floor(Math.random() * factor);
+    const g = Math.floor(Math.random() * factor);
+    const b = Math.floor(Math.random() * factor);
+    return `rgba(${r},${g},${b}, 0.5)`;
+};
 
 interface QueryTypes {
     loading: boolean;
@@ -39,32 +46,39 @@ export const DiagramTypes = () => {
     });
 
     if (error) {
-        throw new Error(error.message);
+        console.log(error.message);
     }
+
+    const dataMap = new Map();
+    data?.buecher.forEach((buch: BuchType) => {
+        if (dataMap.has(buch.art)) {
+            dataMap.set(buch.art, dataMap.get(buch.art) + 1);
+        } else {
+            dataMap.set(buch.art, 1);
+        }
+    });
+    const colors: string[] = [];
+    dataMap.forEach(() => colors.push(dynamicColors()));
+    const chartData = {
+        labels: Array.from(dataMap.keys()),
+        datasets: [
+            {
+                label: 'Anzahl der Bücher anhand der Art',
+                data: Array.from(dataMap.values()),
+                backgroundColor: colors,
+            },
+        ],
+    };
+    Chart.register(ArcElement, Tooltip, Legend);
 
     return (
         <>
-            <NavBar />
-            <Container>
-                {loading && (
-                    <Row>
-                        <Spinner
-                            variant="primary"
-                            animation="border"
-                            role="status"
-                        >
-                            <span className="visually-hidden">Loading...</span>
-                        </Spinner>
-                    </Row>
-                )}
-                {!loading && (
-                    <>
-                        <Row className={'mb-4 pt-1'}>
-                            <CustomChart data={data} />
-                        </Row>
-                    </>
-                )}
-            </Container>
+            <CustomDiagram loading={loading} error={error}>
+                <h1>Buch-Typen</h1>
+                <Col style={{ maxHeight: '175%' }}>
+                    <Pie data={chartData} />
+                </Col>
+            </CustomDiagram>
         </>
     );
 };
