@@ -17,7 +17,7 @@
  *
  */
 
-export interface Buch {
+export interface BuchType {
     id: number;
     version: string;
     isbn: string;

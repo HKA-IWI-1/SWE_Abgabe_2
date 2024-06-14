@@ -19,7 +19,7 @@
 import './EditBook.scss';
 import { useLoaderData, useOutletContext } from 'react-router-dom';
 import { type ApolloError } from '@apollo/client/errors';
-import { type Buch } from '../../entities/Buch.ts';
+import { type BuchType } from '../../entities/BuchType.ts';
 import Container from 'react-bootstrap/Container';
 import { EditBookForm } from '../../components/EditBook/BookForm/EditBookForm.tsx';
 import { NavBar } from '../../components/NavBar/NavBar/NavBar.tsx';
@@ -36,7 +36,7 @@ export interface BookId {
 interface QueryTypes {
     loading: boolean;
     error?: ApolloError | undefined;
-    data: { buch: Buch } | undefined;
+    data: { buch: BuchType } | undefined;
 }
 
 export const EditBook = () => {

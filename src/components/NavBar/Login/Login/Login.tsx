@@ -134,7 +134,7 @@ export const Login = () => {
             Number.parseInt(refreshExpiresIn, 10) < currentDate;
         if (accessToken === '' || rToken === '' || refreshTokenIsExpired) {
             logOut()
-                .then((result) => console.log(result))
+                .then(() => console.log('logged out'))
                 .catch((err) => {
                     if (err instanceof Error) {
                         console.error(err);

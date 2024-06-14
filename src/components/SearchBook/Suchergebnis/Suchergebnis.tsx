@@ -1,7 +1,7 @@
 import { Alert, Button, Row, Spinner, Table } from 'react-bootstrap';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { type ApolloError } from '@apollo/client';
-import { type Buch } from '../../../entities/Buch';
+import { type BuchType } from '../../../entities/BuchType.ts';
 import { DeleteModal } from '../DeleteModal/DeleteModal';
 import { type UserDataContext } from '../../../../App.tsx';
 import { paths } from '../../../config/paths';
@@ -12,7 +12,7 @@ interface QueryTypes {
     error?: ApolloError | undefined;
     data:
         | {
-              buecher: Buch[] | undefined;
+              buecher: BuchType[] | undefined;
           }
         | undefined;
 }

@@ -18,7 +18,7 @@
  */
 
 import { ArcElement, Chart, Legend, Tooltip } from 'chart.js';
-import { type Buch } from '../../../entities/Buch.ts';
+import { type BuchType } from '../../../entities/BuchType.ts';
 import { Pie } from 'react-chartjs-2';
 
 const dynamicColors = () => {
@@ -32,10 +32,10 @@ const dynamicColors = () => {
 export const CustomChart = ({
     data,
 }: {
-    data: { buecher: Buch[] } | undefined;
+    data: { buecher: BuchType[] } | undefined;
 }) => {
     const dataMap = new Map();
-    data?.buecher.forEach((buch: Buch) => {
+    data?.buecher.forEach((buch: BuchType) => {
         if (dataMap.has(buch.art)) {
             dataMap.set(buch.art, dataMap.get(buch.art) + 1);
         } else {

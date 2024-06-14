@@ -20,9 +20,9 @@
 import '../../../pages/BookDetails/BookDetails.scss';
 import './InfoBar.scss';
 import { Col, Row } from 'react-bootstrap';
-import { type Buch } from '../../../entities/Buch.ts';
+import { type BuchType } from '../../../entities/BuchType.ts';
 
-export const InfoBar = ({ datum, lieferbar, homepage }: Buch) => {
+export const InfoBar = ({ datum, lieferbar, homepage }: BuchType) => {
     const lieferElement = lieferbar !== undefined && (
         <Col className={'border-black border-end border-2'}>
             <span className={'pe-2'}>Lieferbar</span>

@@ -27,7 +27,7 @@ import {
     Tooltip,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { type Buch } from '../../../entities/Buch.ts';
+import { type BuchType } from '../../../entities/BuchType.ts';
 
 const options = {
     responsive: true,
@@ -45,7 +45,7 @@ const options = {
 export const CustomChart = ({
     data,
 }: {
-    data: { buecher: Buch[] } | undefined;
+    data: { buecher: BuchType[] } | undefined;
 }) => {
     Chart.register(
         CategoryScale,

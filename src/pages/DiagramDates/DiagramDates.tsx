@@ -19,7 +19,7 @@
 
 import { type ApolloError } from '@apollo/client/errors';
 import { BOOKS_TYPES } from './queries.ts';
-import { type Buch } from '../../entities/Buch.ts';
+import { type BuchType } from '../../entities/BuchType.ts';
 import Container from 'react-bootstrap/Container';
 import { CustomChart } from '../../components/DiagramDates/Chart/CustomChart.tsx';
 import { NavBar } from '../../components/NavBar/NavBar/NavBar.tsx';
@@ -30,7 +30,7 @@ import { useQuery } from '@apollo/client';
 interface QueryTypes {
     loading: boolean;
     error?: ApolloError | undefined;
-    data: { buecher: Buch[] } | undefined;
+    data: { buecher: BuchType[] } | undefined;
 }
 
 export const DiagramDates = () => {

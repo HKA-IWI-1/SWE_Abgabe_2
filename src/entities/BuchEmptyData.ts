@@ -17,19 +17,19 @@
  *
  */
 
-import { type Buch } from './Buch.ts';
+import { type BuchType } from './BuchType.ts';
 
-export class BuchEmptyData implements Buch {
-    public id = -1;
-    public version = 'N/A';
-    public isbn = 'N/A';
-    public rating = 'N/A';
-    public art = undefined;
-    public preis = -1;
-    public rabatt = 'N/A';
-    public lieferbar = undefined;
-    public datum = 'N/A';
-    public homepage = 'N/A';
-    public schlagwoerter = ['N/A'];
-    public titel = { titel: 'N/A', untertitel: 'N/A' };
-}
+export const BuchEmptyData: BuchType = {
+    id: -1,
+    version: 'N/A',
+    isbn: 'N/A',
+    rating: 'N/A',
+    art: undefined,
+    preis: -1,
+    rabatt: 'N/A',
+    lieferbar: undefined,
+    datum: 'N/A',
+    homepage: 'N/A',
+    schlagwoerter: ['N/A'],
+    titel: { titel: 'N/A', untertitel: 'N/A' },
+};

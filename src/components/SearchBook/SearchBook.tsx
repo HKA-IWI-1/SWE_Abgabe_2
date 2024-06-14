@@ -1,6 +1,6 @@
 import { type ApolloError, type ApolloQueryResult } from '@apollo/client';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
-import { type Buch } from '../../entities/Buch';
+import { type BuchType } from '../../entities/BuchType.ts';
 import { Buchart } from './Buchart/Buchart';
 import { Isbn } from './Isbn/Isbn';
 import { Lieferbar } from './Lieferbar/Lieferbar';
@@ -26,7 +26,7 @@ interface QueryTypes {
     error?: ApolloError | undefined;
     data:
         | {
-              buecher: Buch[] | undefined;
+              buecher: BuchType[] | undefined;
           }
         | undefined;
     refetch: () => Promise<ApolloQueryResult<any>>;
@@ -108,7 +108,7 @@ export const SearchInput = () => {
                             <Buchart register={register} />
                         </Col>
                         <Col xs={2} className="justify-content-end">
-                            <Form.Check // prettier-ignore
+                            <Form.Check
                                 type="switch"
                                 id="lieferbar-switch"
                                 label="Lieferbar aktivieren"

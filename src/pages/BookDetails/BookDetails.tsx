@@ -21,8 +21,8 @@ import { Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import { useLoaderData, useNavigate, useOutletContext } from 'react-router-dom';
 import { Abbildungen } from '../../components/BookDetails/Abbildungen/Abbildungen.tsx';
 import { type ApolloError } from '@apollo/client/errors';
-import { type Buch } from '../../entities/Buch.ts';
 import { BuchEmptyData } from '../../entities/BuchEmptyData.ts';
+import { type BuchType } from '../../entities/BuchType.ts';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import { InfoBar } from '../../components/BookDetails/InfoBar/InfoBar.tsx';
@@ -41,7 +41,7 @@ interface BookId {
 interface QueryTypes {
     loading: boolean;
     error?: ApolloError | undefined;
-    data: { buch: Buch } | undefined;
+    data: { buch: BuchType } | undefined;
 }
 
 // eslint-disable-next-line max-lines-per-function
@@ -76,7 +76,7 @@ export const BookDetails = () => {
         </OverlayTrigger>
     );
 
-    const buchOrEmpty = data?.buch ?? new BuchEmptyData();
+    const buchOrEmpty = data?.buch ?? BuchEmptyData; // todo: checken ob ich const export daten auf das selbe Objekt beziehen oder ich die von einander unabhängig editieren kann
     return (
         <>
             <NavBar />
