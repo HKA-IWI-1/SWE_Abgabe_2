@@ -29,19 +29,18 @@ import { DiagramDates } from './src/pages/DiagramDates/DiagramDates.tsx';
 import { DiagramTypes } from './src/pages/DiagramTypes/DiagramTypes.tsx';
 import { EditBook } from './src/pages/EditBook/EditBook';
 import { ErrorDetails } from './src/pages/ErrorDetails/ErrorDetails';
+import { type LoaderFunctionArgs } from '@remix-run/router/utils.ts';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { SearchBook } from './src/pages/SearchBook/SearchBook';
 import { Start } from './src/pages/Start/Start';
 import { paths } from './src/config/paths.ts';
 
-const bookDetailsLoader = ({ params }: any) => ({
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+const bookDetailsLoader = ({ params }: LoaderFunctionArgs) => ({
     book: params.bookId,
 });
 
-const editBookLoader = ({ params }: any) => ({
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+const editBookLoader = ({ params }: LoaderFunctionArgs) => ({
     book: params.bookId,
 });
 
@@ -72,7 +71,7 @@ const router = createBrowserRouter([
                         loader: bookDetailsLoader,
                     },
                     {
-                        path: paths.editBook, // https://reactrouter.com/en/main/start/tutorial#updating-data
+                        path: paths.editBook,
                         element: <EditBook />,
                         loader: editBookLoader,
                     },
@@ -93,9 +92,7 @@ const router = createBrowserRouter([
         ],
     },
 ]);
-// eslint-disable-next-line unicorn/prefer-query-selector
-ReactDOM.createRoot(document.getElementById('root')!).render(
-    // https://react.dev/reference/react/StrictMode#strictmode
+ReactDOM.createRoot(document.querySelector('#root')!).render(
     <React.StrictMode>
         <RouterProvider router={router} />
     </React.StrictMode>,
