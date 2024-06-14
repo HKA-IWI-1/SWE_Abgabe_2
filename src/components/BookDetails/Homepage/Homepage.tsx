@@ -17,7 +17,7 @@
  *
  */
 
-import { Col, InputGroup } from 'react-bootstrap';
+import { Col, InputGroup, Row } from 'react-bootstrap';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
@@ -31,10 +31,7 @@ const URL_PATTERN =
     /^https?:\/\/(www\.)?[-\w@:%.+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-\w()@:%+.~#?&/=]*)$/u;
 
 export const Homepage = ({ register, errors }: HomepageProps) => (
-    <>
-        {/* https://stackoverflow.com/questions/36835615/difference-between-input-group-and-form-group */}
-        {/* form group: wrap labels and form controls in a div to get optimum spacing between the label and the control */}
-        {/* Input groups: extended Form Controls. Using input groups you can easily prepend and append text or buttons to the text-based inputs. */}
+    <Row>
         <Form.Group as={Col} className="mb-3">
             <Form.Label>Homepage</Form.Label>
             <InputGroup className="mb-3">
@@ -57,5 +54,5 @@ export const Homepage = ({ register, errors }: HomepageProps) => (
                 />
             </InputGroup>
         </Form.Group>
-    </>
+    </Row>
 );

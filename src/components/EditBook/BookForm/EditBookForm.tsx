@@ -17,9 +17,7 @@
  *
  */
 
-import { Col, Row } from 'react-bootstrap';
 import { type SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
-import { BackButton } from '../BackButton/BackButton.tsx';
 import { type BuchType } from '../../../entities/BuchType.ts';
 import { Buchart } from '../BuchArt/Buchart.tsx';
 import { Buchpreis } from '../Buchpreis/Buchpreis.tsx';
@@ -28,13 +26,14 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import { Datum } from '../../BookDetails/Datum/Datum.tsx';
 import Form from 'react-bootstrap/Form';
+import { Head } from '../Head/Head.tsx';
 import { Homepage } from '../../BookDetails/Homepage/Homepage.tsx';
 import { Isbn } from '../../BookDetails/Isbn/Isbn.tsx';
 import { Lieferbar } from '../../BookDetails/Lieferbar/Lieferbar.tsx';
 import { Rating } from '../Rating/Rating.tsx';
+import { Row } from 'react-bootstrap';
 import { Schlagwoerter } from '../Schlagwoerter/Schlagwoerter.tsx';
 import { StatusModal } from '../StatusModal/StatusModal.tsx';
-import { Titel } from '../Titel/Titel.tsx';
 import { UPDATE_MUTATION } from './mutations.ts';
 import { paths } from '../../../config/paths.ts';
 import { useMutation } from '@apollo/client';
@@ -53,15 +52,37 @@ export interface FormValues {
     schlagwoerter: string[];
 }
 
+const parseRabatt = (buch: BuchType) =>
+    buch.rabatt === undefined
+        ? 0
+        : Number.parseFloat(
+              buch.rabatt.slice(0, Math.max(0, buch.rabatt.length - 1)).trim(),
+          );
+
 const RABATT_TEILER = 100;
 
 // eslint-disable-next-line max-lines-per-function
 export const EditBookForm = ({ buch, id }: { buch: BuchType; id: number }) => {
-    const [updateBook] = useMutation(UPDATE_MUTATION);
     const [updateMessage, setUpdateMessage] = useState({
         visible: false,
         nachricht: 'N/A',
         error: false,
+    });
+    const [updateBook] = useMutation(UPDATE_MUTATION, {
+        onCompleted: () => {
+            setUpdateMessage({
+                visible: true,
+                nachricht: 'Das Aktualisieren war erfolgreich.',
+                error: false,
+            });
+        },
+        onError: (err) => {
+            setUpdateMessage({
+                visible: true,
+                nachricht: `Fehler: ${err.message}`,
+                error: true,
+            });
+        },
     });
 
     const UpdateBook: SubmitHandler<FormValues> = (bookData) => {
@@ -79,40 +100,12 @@ export const EditBookForm = ({ buch, id }: { buch: BuchType; id: number }) => {
                 homepage: bookData.homepage,
                 schlagwoerter: bookData.schlagwoerter,
             },
-        })
-            .then(() =>
-                setUpdateMessage({
-                    visible: true,
-                    nachricht: 'Das Aktualisieren war erfolgreich.',
-                    error: false,
-                }),
-            )
-            .catch((err) => {
-                if (err instanceof Error) {
-                    console.error(err);
-                    setUpdateMessage({
-                        visible: true,
-                        nachricht: `Fehler: ${err.message}`,
-                        error: true,
-                    });
-                } else {
-                    setUpdateMessage({
-                        visible: true,
-                        nachricht: 'Ein unbekannter Fehler ist aufgetreten.',
-                        error: true,
-                    });
-                }
-            });
+        }).catch((err) => {
+            if (err instanceof Error) {
+                console.error(err);
+            }
+        });
     };
-
-    const rabattParsed =
-        buch.rabatt === undefined
-            ? 0
-            : Number.parseFloat(
-                  buch.rabatt
-                      .slice(0, Math.max(0, buch.rabatt.length - 1))
-                      .trim(),
-              );
 
     const {
         control,
@@ -127,7 +120,7 @@ export const EditBookForm = ({ buch, id }: { buch: BuchType; id: number }) => {
             rating: buch.rating,
             art: buch.art,
             preis: buch.preis,
-            rabatt: rabattParsed,
+            rabatt: parseRabatt(buch),
             lieferbar: buch.lieferbar,
             homepage: buch.homepage,
             isbn: buch.isbn,
@@ -147,50 +140,30 @@ export const EditBookForm = ({ buch, id }: { buch: BuchType; id: number }) => {
         <>
             <Container>
                 <Form onSubmit={handleSubmit(UpdateBook)}>
-                    <Row className={'pt-2'} xs={3} md={3} lg={3}>
-                        <Col md={{ span: 2 }} style={{ width: '4rem' }}>
-                            <BackButton isDirty={isDirty} />
-                        </Col>
-                        <Titel
-                            titel={buch.titel.titel}
-                            untertitel={buch.titel.untertitel}
-                        />
-                    </Row>
-                    <Row>
-                        <Rating
-                            register={register}
-                            rating={buch.rating ?? 'N/A'}
-                            errors={errors}
-                            watch={watch}
-                        />
-                    </Row>
-                    <Row>
-                        <Buchart
-                            register={register}
-                            art={buch.art}
-                            errors={errors}
-                        />
-                    </Row>
+                    <Head isDirty={isDirty} buch={buch} />
+                    <Rating
+                        register={register}
+                        rating={buch.rating ?? 'N/A'}
+                        errors={errors}
+                        watch={watch}
+                    />
+                    <Buchart
+                        register={register}
+                        art={buch.art}
+                        errors={errors}
+                    />
                     <Row>
                         <Buchpreis register={register} errors={errors} />
                         <Buchrabatt register={register} errors={errors} />
                     </Row>
-                    <Row>
-                        <Lieferbar
-                            register={register}
-                            lieferbar={buch.lieferbar ?? false}
-                            errors={errors}
-                        />
-                    </Row>
-                    <Row>
-                        <Homepage register={register} errors={errors} />
-                    </Row>
-                    <Row>
-                        <Isbn register={register} errors={errors} />
-                    </Row>
-                    <Row>
-                        <Datum register={register} errors={errors} />
-                    </Row>
+                    <Lieferbar
+                        register={register}
+                        lieferbar={buch.lieferbar ?? false}
+                        errors={errors}
+                    />
+                    <Homepage register={register} errors={errors} />
+                    <Isbn register={register} errors={errors} />
+                    <Datum register={register} errors={errors} />
                     <Schlagwoerter
                         register={register}
                         unregister={unregister}

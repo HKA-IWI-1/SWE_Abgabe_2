@@ -17,7 +17,7 @@
  *
  */
 
-import { Col, InputGroup } from 'react-bootstrap';
+import { Col, InputGroup, Row } from 'react-bootstrap';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
@@ -31,7 +31,7 @@ const ISBN13_PATTERN =
     /^(?:ISBN(?:-13)?:? )?(?=\d{13}$|(?=(?:\d+[- ]){4})[- 0-9]{17}$)97[89][- ]?\d{1,5}[- ]?(?:\d+[- ]\d+|\d{2,})[- ]?\d$/u;
 
 export const Isbn = ({ register, errors }: IsbnProps) => (
-    <>
+    <Row>
         <Form.Group as={Col} className="mb-3">
             <Form.Label>ISBN</Form.Label>
             <InputGroup className="mb-3">
@@ -51,5 +51,5 @@ export const Isbn = ({ register, errors }: IsbnProps) => (
                 />
             </InputGroup>
         </Form.Group>
-    </>
+    </Row>
 );

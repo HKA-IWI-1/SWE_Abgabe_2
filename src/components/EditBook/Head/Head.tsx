@@ -17,36 +17,28 @@
  *
  */
 
-import { Col, InputGroup, Row } from 'react-bootstrap';
-import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
-import Form from 'react-bootstrap/Form';
-import { FormErrors } from '../../FormError/FormError.tsx';
+import { Col, Row } from 'react-bootstrap';
+import { BackButton } from '../BackButton/BackButton.tsx';
+import { type BuchType } from '../../../entities/BuchType.ts';
+import { Titel } from '../Titel/Titel.tsx';
 
-interface LieferbarProps {
-    register: UseFormRegister<any>;
-    lieferbar: boolean;
-    errors: FieldErrors;
+interface HeadType {
+    buch: BuchType;
+    isDirty: boolean;
 }
 
-export const Lieferbar = ({ register, lieferbar, errors }: LieferbarProps) => (
-    <Row>
-        <Form.Group as={Col} className="mb-3">
-            <InputGroup className="mb-3">
-                <Form.Check
-                    type="switch"
-                    label="Lieferbar"
-                    {...register('lieferbar')}
-                    defaultChecked={lieferbar}
-                    isValid={!errors.lieferbar}
-                    isInvalid={Boolean(errors.lieferbar)}
+export const Head = ({ buch, isDirty }: HeadType) => {
+    return (
+        <>
+            <Row className={'pt-2'} xs={3} md={3} lg={3}>
+                <Col md={{ span: 2 }} style={{ width: '4rem' }}>
+                    <BackButton isDirty={isDirty} />
+                </Col>
+                <Titel
+                    titel={buch.titel.titel}
+                    untertitel={buch.titel.untertitel}
                 />
-                <FormErrors
-                    isError={Boolean(errors.lieferbar)}
-                    errorMessage={
-                        'Der Lieferbar-Status fehlt oder ist ungültig'
-                    }
-                />
-            </InputGroup>
-        </Form.Group>
-    </Row>
-);
+            </Row>
+        </>
+    );
+};

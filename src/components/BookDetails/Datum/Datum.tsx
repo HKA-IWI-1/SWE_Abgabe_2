@@ -17,7 +17,7 @@
  *
  */
 
-import { Col, InputGroup } from 'react-bootstrap';
+import { Col, InputGroup, Row } from 'react-bootstrap';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
@@ -30,7 +30,7 @@ interface DatumProps {
 const ISO8601_REGEX = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/u;
 
 export const Datum = ({ register, errors }: DatumProps) => (
-    <>
+    <Row>
         <Form.Group as={Col} className="mb-3">
             <Form.Label>Datum</Form.Label>
             <InputGroup className="mb-3 custom-date-picker">
@@ -52,5 +52,5 @@ export const Datum = ({ register, errors }: DatumProps) => (
                 />
             </InputGroup>
         </Form.Group>
-    </>
+    </Row>
 );

@@ -17,7 +17,7 @@
  *
  */
 
-import { Col, InputGroup } from 'react-bootstrap';
+import { Col, InputGroup, Row } from 'react-bootstrap';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
@@ -29,7 +29,7 @@ interface BuchartProps {
 }
 
 export const Buchart = ({ register, art, errors }: BuchartProps) => (
-    <>
+    <Row>
         <Form.Group as={Col} className="mb-3">
             <Form.Label>Buchart</Form.Label>
             <InputGroup>
@@ -56,5 +56,5 @@ export const Buchart = ({ register, art, errors }: BuchartProps) => (
                 />
             </InputGroup>
         </Form.Group>
-    </>
+    </Row>
 );

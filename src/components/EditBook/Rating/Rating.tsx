@@ -17,12 +17,12 @@
  *
  */
 
+import { Col, Row } from 'react-bootstrap';
 import {
     type FieldErrors,
     type UseFormRegister,
     type UseFormWatch,
 } from 'react-hook-form';
-import { Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
 import { type FormValues } from '../BookForm/EditBookForm.tsx';
@@ -38,7 +38,7 @@ const MIN_RATING = 0;
 const MAX_RATING = 5;
 
 export const Rating = ({ watch, register, rating, errors }: RatingProps) => (
-    <>
+    <Row>
         <Form.Group as={Col} className="mb-3">
             {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
             <Form.Label>Rating: {watch('rating') ?? rating}</Form.Label>
@@ -56,5 +56,5 @@ export const Rating = ({ watch, register, rating, errors }: RatingProps) => (
                 errorMessage={'Das Rating fehlt oder ist ungültig'}
             />
         </Form.Group>
-    </>
+    </Row>
 );
