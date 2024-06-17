@@ -16,8 +16,8 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import { useFormContext } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
+import { useFormContext } from 'react-hook-form';
 
 const MIN_RATING = 0;
 const MAX_RATING = 5;
