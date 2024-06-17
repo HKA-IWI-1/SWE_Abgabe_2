@@ -18,26 +18,25 @@
  */
 import Form from 'react-bootstrap/Form';
 import { InputGroup } from 'react-bootstrap';
-import { type UseFormRegister } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
-interface TitleProps {
-    register: UseFormRegister<any>;
-}
-
-export const Titel = ({ register }: TitleProps) => (
-    <>
-        <Form.Group>
-            <Form.Label>Titel</Form.Label>
-            <InputGroup>
-                <InputGroup.Text>
-                    <i className="bi bi-search"></i>
-                </InputGroup.Text>
-                <Form.Control
-                    type="text"
-                    placeholder="Titel"
-                    {...register('titel')}
-                />
-            </InputGroup>
-        </Form.Group>
-    </>
-);
+export const Titel = () => {
+    const { register } = useFormContext();
+    return (
+        <>
+            <Form.Group>
+                <Form.Label>Titel</Form.Label>
+                <InputGroup>
+                    <InputGroup.Text>
+                        <i className="bi bi-search"></i>
+                    </InputGroup.Text>
+                    <Form.Control
+                        type="text"
+                        placeholder="Titel"
+                        {...register('titel')}
+                    />
+                </InputGroup>
+            </Form.Group>
+        </>
+    );
+};

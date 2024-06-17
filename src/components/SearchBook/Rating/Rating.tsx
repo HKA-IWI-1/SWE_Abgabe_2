@@ -16,30 +16,27 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import { type UseFormRegister, type UseFormWatch } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
-import { type FormValues } from '../../SearchBook/SearchBook.tsx';
-
-interface RatingProps {
-    register: UseFormRegister<any>;
-    watch: UseFormWatch<FormValues>;
-}
 
 const MIN_RATING = 0;
 const MAX_RATING = 5;
 
-export const Rating = ({ watch, register }: RatingProps) => (
-    <>
-        <Form.Group>
-            <Form.Label>Rating: {watch('rating')}</Form.Label>
-            <Form.Range
-                min={MIN_RATING}
-                max={MAX_RATING}
-                {...register('rating', {
-                    min: MIN_RATING,
-                    max: MAX_RATING,
-                })}
-            />
-        </Form.Group>
-    </>
-);
+export const Rating = () => {
+    const { register, watch } = useFormContext();
+    return (
+        <>
+            <Form.Group>
+                <Form.Label>Rating: {watch('rating')}</Form.Label>
+                <Form.Range
+                    min={MIN_RATING}
+                    max={MAX_RATING}
+                    {...register('rating', {
+                        min: MIN_RATING,
+                        max: MAX_RATING,
+                    })}
+                />
+            </Form.Group>
+        </>
+    );
+};

@@ -18,31 +18,30 @@
  */
 import Form from 'react-bootstrap/Form';
 import { InputGroup } from 'react-bootstrap';
-import { type UseFormRegister } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
-interface BuchartProps {
-    register: UseFormRegister<any>;
-}
-
-export const Buchart = ({ register }: BuchartProps) => (
-    <>
-        <Form.Group>
-            <Form.Label>Buchart</Form.Label>
-            <InputGroup>
-                {['KINDLE', 'DRUCKAUSGABE'].map((type) => (
-                    <Form.Check
-                        key={type}
-                        inline
-                        label={type}
-                        type={'radio'}
-                        id={type}
-                        value={type}
-                        {...register('art', {
-                            pattern: /^DRUCKAUSGABE$|^KINDLE$/u,
-                        })}
-                    />
-                ))}
-            </InputGroup>
-        </Form.Group>
-    </>
-);
+export const Buchart = () => {
+    const { register } = useFormContext();
+    return (
+        <>
+            <Form.Group>
+                <Form.Label>Buchart</Form.Label>
+                <InputGroup>
+                    {['KINDLE', 'DRUCKAUSGABE'].map((type) => (
+                        <Form.Check
+                            key={type}
+                            inline
+                            label={type}
+                            type={'radio'}
+                            id={type}
+                            value={type}
+                            {...register('art', {
+                                pattern: /^DRUCKAUSGABE$|^KINDLE$/u,
+                            })}
+                        />
+                    ))}
+                </InputGroup>
+            </Form.Group>
+        </>
+    );
+};

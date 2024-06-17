@@ -42,7 +42,7 @@ interface Variables {
 
 // eslint-disable-next-line max-lines-per-function
 export const SearchInput = () => {
-    const { register, watch, handleSubmit } = useForm<FormValues>();
+    const { handleSubmit } = useForm<FormValues>();
     const [searchBook, result] = useLazyQuery(READ_BOOK);
     const { loading, error, data, refetch } = result as QueryTypes;
     const [isLieferbarUsed, setIsLieferbarUsed] = useState(false);
@@ -89,10 +89,10 @@ export const SearchInput = () => {
                 <Container>
                     <Row>
                         <Col>
-                            <Titel register={register} />
+                            <Titel />
                         </Col>
                         <Col>
-                            <Isbn register={register} />
+                            <Isbn />
                         </Col>
                     </Row>
                     <Row>
@@ -104,12 +104,10 @@ export const SearchInput = () => {
                                 checked={isRatingUsed}
                                 onChange={handleRatingChange}
                             />
-                            {isRatingUsed && (
-                                <Rating register={register} watch={watch} />
-                            )}
+                            {isRatingUsed && <Rating />}
                         </Col>
                         <Col md="auto">
-                            <Buchart register={register} />
+                            <Buchart />
                         </Col>
                         <Col xs={2} className="justify-content-end">
                             <Form.Check
@@ -119,9 +117,7 @@ export const SearchInput = () => {
                                 checked={isLieferbarUsed}
                                 onChange={handleLieferbarChange}
                             />
-                            {isLieferbarUsed && (
-                                <Lieferbar register={register} />
-                            )}
+                            {isLieferbarUsed && <Lieferbar />}
                         </Col>
                     </Row>
                     <Row></Row>

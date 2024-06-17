@@ -18,31 +18,30 @@
  */
 import { FormText, InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
-import { type UseFormRegister } from 'react-hook-form';
-
-interface IsbnProps {
-    register: UseFormRegister<any>;
-}
+import { useFormContext } from 'react-hook-form';
 
 const ISBN13_PATTERN =
     /^(?:ISBN(?:-13)?:? )?(?=\d{13}$|(?=(?:\d+[- ]){4})[- 0-9]{17}$)97[89][- ]?\d{1,5}[- ]?(?:\d+[- ]\d+|\d{2,})[- ]?\d$/u;
 
-export const Isbn = ({ register }: IsbnProps) => (
-    <>
-        <Form.Group>
-            <Form.Label>ISBN</Form.Label>
-            <InputGroup>
-                <Form.Control
-                    type="text"
-                    placeholder="ISBN"
-                    {...register('isbn', {
-                        pattern: ISBN13_PATTERN,
-                    })}
-                />
-            </InputGroup>
-            <FormText>
-                Geben Sie eine ISBN-13 ein, z.B. 978-3-7375-0553-6
-            </FormText>
-        </Form.Group>
-    </>
-);
+export const Isbn = () => {
+    const { register } = useFormContext();
+    return (
+        <>
+            <Form.Group>
+                <Form.Label>ISBN</Form.Label>
+                <InputGroup>
+                    <Form.Control
+                        type="text"
+                        placeholder="ISBN"
+                        {...register('isbn', {
+                            pattern: ISBN13_PATTERN,
+                        })}
+                    />
+                </InputGroup>
+                <FormText>
+                    Geben Sie eine ISBN-13 ein, z.B. 978-3-7375-0553-6
+                </FormText>
+            </Form.Group>
+        </>
+    );
+};
