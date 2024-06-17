@@ -16,42 +16,43 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import { FormText, InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
-
-interface IsbnProps {
-    register: UseFormRegister<any>;
-    errors: FieldErrors;
-}
+import { useFormContext } from 'react-hook-form';
 
 const ISBN13_PATTERN =
     /^(?:ISBN(?:-13)?:? )?(?=\d{13}$|(?=(?:\d+[- ]){4})[- 0-9]{17}$)97[89][- ]?\d{1,5}[- ]?(?:\d+[- ]\d+|\d{2,})[- ]?\d$/u;
 
-export const Isbn = ({ register, errors }: IsbnProps) => (
-    <>
-        <Form.Group>
-            <Form.Label style={{ fontWeight: 'bold' }}>ISBN</Form.Label>
-            <InputGroup>
-                <Form.Control
-                    type="text"
-                    placeholder="ISBN"
-                    {...register('isbn', {
-                        required: true,
-                        pattern: ISBN13_PATTERN,
-                    })}
-                    isValid={!errors.isbn}
-                    isInvalid={Boolean(errors.isbn)}
-                />
-                <FormErrors
-                    isError={Boolean(errors.isbn)}
-                    errorMessage={'Die ISBN fehlt oder ist ungültig'}
-                />
-            </InputGroup>
-            <FormText style={{ fontWeight: 'bold' }}>
-                Geben Sie eine ISBN-13 ein, z.B. 978-3-7375-0553-6
-            </FormText>
-        </Form.Group>
-    </>
-);
+export const Isbn = () => {
+    const {
+        register,
+        formState: { errors },
+    } = useFormContext();
+    return (
+        <>
+            <Form.Group>
+                <Form.Label style={{ fontWeight: 'bold' }}>ISBN</Form.Label>
+                <InputGroup>
+                    <Form.Control
+                        type="text"
+                        placeholder="ISBN"
+                        {...register('isbn', {
+                            required: true,
+                            pattern: ISBN13_PATTERN,
+                        })}
+                        isValid={!errors.isbn}
+                        isInvalid={Boolean(errors.isbn)}
+                    />
+                    <FormErrors
+                        isError={Boolean(errors.isbn)}
+                        errorMessage={'Die ISBN fehlt oder ist ungültig'}
+                    />
+                </InputGroup>
+                <FormText style={{ fontWeight: 'bold' }}>
+                    Geben Sie eine ISBN-13 ein, z.B. 978-3-7375-0553-6
+                </FormText>
+            </Form.Group>
+        </>
+    );
+};

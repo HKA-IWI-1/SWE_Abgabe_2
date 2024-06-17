@@ -16,46 +16,48 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import { FormText, InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
-
-interface HomepageProps {
-    register: UseFormRegister<any>;
-    errors: FieldErrors;
-}
+import { useFormContext } from 'react-hook-form';
 
 const URL_PATTERN =
     /^https?:\/\/(www\.)?[-\w@:%.+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-\w()@:%+.~#?&/=]*)$/u;
 
-export const Homepage = ({ register, errors }: HomepageProps) => (
-    <>
-        <Form.Group>
-            <Form.Label style={{ fontWeight: 'bold' }}>Homepage</Form.Label>
-            <InputGroup>
-                <InputGroup.Text>
-                    <i className="bi bi-globe"></i>
-                </InputGroup.Text>
-                <Form.Control
-                    type="text"
-                    placeholder="homepage"
-                    {...register('homepage', {
-                        required: true,
-                        pattern: URL_PATTERN,
-                    })}
-                    isValid={!errors.homepage}
-                    isInvalid={Boolean(errors.homepage)}
-                />
-                <FormErrors
-                    isError={Boolean(errors.homepage)}
-                    errorMessage={'Die Homepage fehlt oder ist ungültig'}
-                />
-            </InputGroup>
-            <FormText className="small-text" style={{ fontWeight: 'bold' }}>
-                Bitte geben Sie eine gültige Homepage ein. <br />
-                Zum Beispiel: https://www.beispiel.com oder http://beispiel.com
-            </FormText>
-        </Form.Group>
-    </>
-);
+export const Homepage = () => {
+    const {
+        register,
+        formState: { errors },
+    } = useFormContext();
+    return (
+        <>
+            <Form.Group>
+                <Form.Label style={{ fontWeight: 'bold' }}>Homepage</Form.Label>
+                <InputGroup>
+                    <InputGroup.Text>
+                        <i className="bi bi-globe"></i>
+                    </InputGroup.Text>
+                    <Form.Control
+                        type="text"
+                        placeholder="homepage"
+                        {...register('homepage', {
+                            required: true,
+                            pattern: URL_PATTERN,
+                        })}
+                        isValid={!errors.homepage}
+                        isInvalid={Boolean(errors.homepage)}
+                    />
+                    <FormErrors
+                        isError={Boolean(errors.homepage)}
+                        errorMessage={'Die Homepage fehlt oder ist ungültig'}
+                    />
+                </InputGroup>
+                <FormText className="small-text" style={{ fontWeight: 'bold' }}>
+                    Bitte geben Sie eine gültige Homepage ein. <br />
+                    Zum Beispiel: https://www.beispiel.com oder
+                    https://beispiel.com
+                </FormText>
+            </Form.Group>
+        </>
+    );
+};

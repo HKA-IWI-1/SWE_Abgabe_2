@@ -16,33 +16,36 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
 import { InputGroup } from 'react-bootstrap';
+import { useFormContext } from 'react-hook-form';
 
-interface TitleProps {
-    register: UseFormRegister<any>;
-    errors: FieldErrors;
-}
-
-export const Untertitel = ({ register, errors }: TitleProps) => (
-    <>
-        <Form.Group>
-            <Form.Label style={{ fontWeight: 'bold' }}>Untertitel</Form.Label>
-            <InputGroup>
-                <Form.Control
-                    type="text"
-                    placeholder="Untertitel (Optional)"
-                    {...register('titel.untertitel', {})}
-                    isValid={!errors.untertitel}
-                    isInvalid={Boolean(errors.untertitel)}
-                />
-                <FormErrors
-                    isError={Boolean(errors.untertitel)}
-                    errorMessage={'Der Untertitel fehlt oder ist ungültig'}
-                />
-            </InputGroup>
-        </Form.Group>
-    </>
-);
+export const Untertitel = () => {
+    const {
+        register,
+        formState: { errors },
+    } = useFormContext();
+    return (
+        <>
+            <Form.Group>
+                <Form.Label style={{ fontWeight: 'bold' }}>
+                    Untertitel
+                </Form.Label>
+                <InputGroup>
+                    <Form.Control
+                        type="text"
+                        placeholder="Untertitel (Optional)"
+                        {...register('titel.untertitel', {})}
+                        isValid={!errors.untertitel}
+                        isInvalid={Boolean(errors.untertitel)}
+                    />
+                    <FormErrors
+                        isError={Boolean(errors.untertitel)}
+                        errorMessage={'Der Untertitel fehlt oder ist ungültig'}
+                    />
+                </InputGroup>
+            </Form.Group>
+        </>
+    );
+};

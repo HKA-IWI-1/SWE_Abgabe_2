@@ -1,5 +1,5 @@
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { Abbildungen } from './Abbildungen/Abbildungen';
 import { Buchart } from './Buchart/Buchart';
 import { CREATE_MUTATION } from './mutations';
@@ -99,15 +99,13 @@ export const CreateInput = () => {
             });
     };
 
-    const {
-        control,
-        watch,
-        register,
-        unregister,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<FormValues>();
+    const methods = useForm<FormValues>({
+        reValidateMode: 'onChange',
+        mode: 'all',
+    });
     // todo: default values angeben
+
+    const { control, handleSubmit } = methods;
 
     const {
         fields: schlagwoerterFields,
@@ -130,57 +128,51 @@ export const CreateInput = () => {
     });
 
     return (
-        <>
+        <FormProvider {...methods}>
             <Form onSubmit={handleSubmit(CreateBook)}>
                 <Container>
                     <Row>
                         <Col>
-                            <Titel register={register} errors={errors} />
-                            <Untertitel register={register} errors={errors} />
+                            <Titel />
+                            <Untertitel />
                         </Col>
                         <Col>
-                            <Isbn register={register} errors={errors} />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <Rating
-                                register={register}
-                                watch={watch}
-                                errors={errors}
-                            />
-                        </Col>
-                        <Col>
-                            <Buchart register={register} errors={errors} />
+                            <Isbn />
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                            <Preis register={register} errors={errors} />
+                            <Rating />
                         </Col>
                         <Col>
-                            <Rabatt register={register} errors={errors} />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <Homepage register={register} errors={errors} />
-                        </Col>
-                        <Col>
-                            <Datum register={register} errors={errors} />
+                            <Buchart />
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                            <Lieferbar register={register} />
+                            <Preis />
+                        </Col>
+                        <Col>
+                            <Rabatt />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Homepage />
+                        </Col>
+                        <Col>
+                            <Datum />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Lieferbar />
                         </Col>
                         <Col></Col>
                     </Row>
                     <Row>
                         <Col>
                             <Schlagwoerter
-                                register={register}
-                                unregister={unregister}
                                 fields={schlagwoerterFields}
                                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                                 // @ts-expect-error
@@ -190,8 +182,6 @@ export const CreateInput = () => {
                         </Col>
                         <Col>
                             <Abbildungen
-                                register={register}
-                                unregister={unregister}
                                 fields={abbildungenFields}
                                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                                 // @ts-expect-error
@@ -217,7 +207,7 @@ export const CreateInput = () => {
             {createMessage.visible && (
                 <StatusModal createMessage={createMessage} onHide={hideModal} />
             )}
-        </>
+        </FormProvider>
     );
 };
 /* eslint-enable max-lines-per-function */

@@ -22,63 +22,58 @@ import {
     type FieldArrayWithId,
     type UseFieldArrayAppend,
     type UseFieldArrayRemove,
-    type UseFormRegister,
-    type UseFormUnregister,
+    useFormContext,
 } from 'react-hook-form';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { type FormValues } from '../CreateBook.tsx';
 
 interface SwProps {
-    unregister: UseFormUnregister<any>;
-    register: UseFormRegister<any>;
     fields: FieldArrayWithId<any>[];
     append: UseFieldArrayAppend<FormValues, never>;
     remove: UseFieldArrayRemove;
 }
 
-export const Schlagwoerter = ({
-    register,
-    fields,
-    append,
-    remove,
-}: SwProps) => (
-    <>
-        <Row xs={1} md={1} lg={1}>
-            <Form.Label style={{ fontWeight: 'bold' }}>
-                Schlagwoerter
-            </Form.Label>
-            {fields.map((_, index) => (
-                <Form.Group as={Col} className="mb-3" key={index}>
-                    <InputGroup className="mb-3">
-                        <Form.Control
-                            {...register(`schlagwoerter.${index}`, {
-                                required: true,
-                            })}
-                            type="text"
-                            placeholder="Schlagwort"
-                        />
-                        <Button
-                            variant="primary"
-                            type="button"
-                            onClick={() => remove(index)}
-                        >
-                            <i className="bi bi-trash" />
-                        </Button>
-                    </InputGroup>
-                </Form.Group>
-            ))}
-        </Row>
-        <Row xs={1} md={1} lg={1} className={'mb-2'}>
-            <Button
-                type="button"
-                className="w-75 mx-auto"
-                onClick={() => {
-                    append('Schlagwort');
-                }}
-            >
-                Neues Schlagwort hinzufügen.
-            </Button>
-        </Row>
-    </>
-);
+export const Schlagwoerter = ({ fields, append, remove }: SwProps) => {
+    const { register } = useFormContext();
+    return (
+        <>
+            <Row xs={1} md={1} lg={1}>
+                <Form.Label style={{ fontWeight: 'bold' }}>
+                    Schlagwoerter
+                </Form.Label>
+                {fields.map((_, index) => (
+                    <Form.Group as={Col} className="mb-3" key={index}>
+                        <InputGroup className="mb-3">
+                            <Form.Control
+                                {...register(`schlagwoerter.${index}`, {
+                                    required: true,
+                                })}
+                                type="text"
+                                placeholder="Schlagwort"
+                            />
+                            <Button
+                                variant="primary"
+                                type="button"
+                                onClick={() => remove(index)}
+                            >
+                                <i className="bi bi-trash" />
+                            </Button>
+                        </InputGroup>
+                    </Form.Group>
+                ))}
+            </Row>
+            <Row xs={1} md={1} lg={1} className={'mb-2'}>
+                <Button
+                    type="button"
+                    className="w-75 mx-auto"
+                    onClick={() => {
+                        append('Schlagwort');
+                    }}
+                >
+                    Neues Schlagwort hinzufügen.
+                </Button>
+            </Row>
+        </>
+    );
+};

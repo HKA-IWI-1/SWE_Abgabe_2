@@ -22,66 +22,69 @@ import {
     type FieldArrayWithId,
     type UseFieldArrayAppend,
     type UseFieldArrayRemove,
-    type UseFormRegister,
-    type UseFormUnregister,
+    useFormContext,
 } from 'react-hook-form';
 import Button from 'react-bootstrap/Button';
 import { type FormValues } from '../CreateBook.tsx';
 
 interface AbbildungenProps {
-    register: UseFormRegister<any>;
-    unregister: UseFormUnregister<any>;
     fields: FieldArrayWithId<any>[];
     append: UseFieldArrayAppend<FormValues, never>;
     remove: UseFieldArrayRemove;
 }
 
-export const Abbildungen = ({
-    register,
-    fields,
-    append,
-    remove,
-}: AbbildungenProps) => (
-    <>
-        <Row xs={1} md={1} lg={1}>
-            <Form.Label style={{ fontWeight: 'bold' }}>Abbildungen</Form.Label>
-            {fields.map((_, index) => (
-                <Form.Group as={Col} className="mb-3" key={index}>
-                    <InputGroup className="mb-3">
-                        <Form.Control
-                            {...register(`abbildungen.${index}.beschriftung`, {
-                                required: true,
-                            })}
-                            type="text"
-                            placeholder="Beschriftung"
-                        />
-                        <Form.Control
-                            {...register(`abbildungen.${index}.contentType`, {
-                                required: true,
-                            })}
-                            type="text"
-                            placeholder="ContentType"
-                        />
-                        <Button onClick={() => remove(index)}>
-                            <i className="bi bi-trash" />
-                        </Button>
-                    </InputGroup>
-                </Form.Group>
-            ))}
-        </Row>
-        <Row xs={1} md={1} lg={1} className={'mb-2'}>
-            <Button
-                type="button"
-                className="w-75 mx-auto"
-                onClick={() => {
-                    append({
-                        beschriftung: 'Beschriftung',
-                        contentType: 'ContentType',
-                    });
-                }}
-            >
-                Neue Abbildung hinzufügen.
-            </Button>
-        </Row>
-    </>
-);
+export const Abbildungen = ({ fields, append, remove }: AbbildungenProps) => {
+    const { register } = useFormContext();
+    return (
+        <>
+            <Row xs={1} md={1} lg={1}>
+                <Form.Label style={{ fontWeight: 'bold' }}>
+                    Abbildungen
+                </Form.Label>
+                {fields.map((_, index) => (
+                    <Form.Group as={Col} className="mb-3" key={index}>
+                        <InputGroup className="mb-3">
+                            <Form.Control
+                                {...register(
+                                    `abbildungen.${index}.beschriftung`,
+                                    {
+                                        required: true,
+                                    },
+                                )}
+                                type="text"
+                                placeholder="Beschriftung"
+                            />
+                            <Form.Control
+                                {...register(
+                                    `abbildungen.${index}.contentType`,
+                                    {
+                                        required: true,
+                                    },
+                                )}
+                                type="text"
+                                placeholder="ContentType"
+                            />
+                            <Button onClick={() => remove(index)}>
+                                <i className="bi bi-trash" />
+                            </Button>
+                        </InputGroup>
+                    </Form.Group>
+                ))}
+            </Row>
+            <Row xs={1} md={1} lg={1} className={'mb-2'}>
+                <Button
+                    type="button"
+                    className="w-75 mx-auto"
+                    onClick={() => {
+                        append({
+                            beschriftung: 'Beschriftung',
+                            contentType: 'ContentType',
+                        });
+                    }}
+                >
+                    Neue Abbildung hinzufügen.
+                </Button>
+            </Row>
+        </>
+    );
+};

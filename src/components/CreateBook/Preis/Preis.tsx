@@ -16,45 +16,47 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import { FormText, InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
-
-interface BuchpreisProps {
-    register: UseFormRegister<any>;
-    errors: FieldErrors;
-}
+import { useFormContext } from 'react-hook-form';
 
 const PREIS_MIN = 0;
 
-export const Preis = ({ register, errors }: BuchpreisProps) => (
-    <>
-        <Form.Group>
-            <Form.Label style={{ fontWeight: 'bold' }}>Preis</Form.Label>
-            <InputGroup>
-                <InputGroup.Text>€</InputGroup.Text>
-                <Form.Control
-                    type={'number'}
-                    placeholder={'Preis'}
-                    aria-label="Preis"
-                    {...register('preis', {
-                        required: true,
-                        valueAsNumber: true,
-                        min: PREIS_MIN,
-                    })}
-                    step=".001"
-                    isValid={!errors.preis}
-                    isInvalid={Boolean(errors.preis)}
-                />
-                <FormErrors
-                    isError={Boolean(errors.preis)}
-                    errorMessage={'Der Preis fehlt oder ist ungültig'}
-                />
-            </InputGroup>
-            <FormText style={{ fontWeight: 'bold' }}>
-                Bitte geben Sie einen Preis ein, zum Beispiel: 19.99 = 19.99€
-            </FormText>
-        </Form.Group>
-    </>
-);
+export const Preis = () => {
+    const {
+        register,
+        formState: { errors },
+    } = useFormContext();
+    return (
+        <>
+            <Form.Group>
+                <Form.Label style={{ fontWeight: 'bold' }}>Preis</Form.Label>
+                <InputGroup>
+                    <InputGroup.Text>€</InputGroup.Text>
+                    <Form.Control
+                        type={'number'}
+                        placeholder={'Preis'}
+                        aria-label="Preis"
+                        {...register('preis', {
+                            required: true,
+                            valueAsNumber: true,
+                            min: PREIS_MIN,
+                        })}
+                        step=".001"
+                        isValid={!errors.preis}
+                        isInvalid={Boolean(errors.preis)}
+                    />
+                    <FormErrors
+                        isError={Boolean(errors.preis)}
+                        errorMessage={'Der Preis fehlt oder ist ungültig'}
+                    />
+                </InputGroup>
+                <FormText style={{ fontWeight: 'bold' }}>
+                    Bitte geben Sie einen Preis ein, zum Beispiel: 19.99 =
+                    19.99€
+                </FormText>
+            </Form.Group>
+        </>
+    );
+};
