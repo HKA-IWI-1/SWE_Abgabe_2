@@ -17,19 +17,24 @@
  *
  */
 
-import { type SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import {
+    FormProvider,
+    type SubmitHandler,
+    useFieldArray,
+    useForm,
+} from 'react-hook-form';
 import { type BuchType } from '../../../entities/BuchType.ts';
 import { Buchart } from '../BuchArt/Buchart.tsx';
 import { Buchpreis } from '../Buchpreis/Buchpreis.tsx';
-import { Buchrabatt } from '../../BookDetails/Buchrabatt/Buchrabatt.tsx';
+import { Buchrabatt } from '../Buchrabatt/Buchrabatt.tsx';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import { Datum } from '../../BookDetails/Datum/Datum.tsx';
+import { Datum } from '../Datum/Datum.tsx';
 import Form from 'react-bootstrap/Form';
 import { Head } from '../Head/Head.tsx';
-import { Homepage } from '../../BookDetails/Homepage/Homepage.tsx';
-import { Isbn } from '../../BookDetails/Isbn/Isbn.tsx';
-import { Lieferbar } from '../../BookDetails/Lieferbar/Lieferbar.tsx';
+import { Homepage } from '../Homepage/Homepage.tsx';
+import { Isbn } from '../Isbn/Isbn.tsx';
+import { Lieferbar } from '../Lieferbar/Lieferbar.tsx';
 import { Rating } from '../Rating/Rating.tsx';
 import { Row } from 'react-bootstrap';
 import { Schlagwoerter } from '../Schlagwoerter/Schlagwoerter.tsx';
@@ -107,14 +112,7 @@ export const EditBookForm = ({ buch, id }: { buch: BuchType; id: number }) => {
         });
     };
 
-    const {
-        control,
-        watch,
-        register,
-        unregister,
-        handleSubmit,
-        formState: { errors, isDirty },
-    } = useForm<FormValues>({
+    const methods = useForm<FormValues>({
         defaultValues: {
             version: buch.version,
             rating: buch.rating,
@@ -130,6 +128,7 @@ export const EditBookForm = ({ buch, id }: { buch: BuchType; id: number }) => {
         reValidateMode: 'onChange',
         mode: 'all',
     });
+    const { control } = methods;
     const { fields, append, remove } = useFieldArray({
         control,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -140,42 +139,29 @@ export const EditBookForm = ({ buch, id }: { buch: BuchType; id: number }) => {
     return (
         <>
             <Container>
-                <Form onSubmit={handleSubmit(UpdateBook)}>
-                    <Head isDirty={isDirty} buch={buch} />
-                    <Rating
-                        register={register}
-                        rating={buch.rating ?? 'N/A'}
-                        errors={errors}
-                        watch={watch}
-                    />
-                    <Buchart
-                        register={register}
-                        art={buch.art}
-                        errors={errors}
-                    />
-                    <Row>
-                        <Buchpreis register={register} errors={errors} />
-                        <Buchrabatt register={register} errors={errors} />
-                    </Row>
-                    <Lieferbar
-                        register={register}
-                        lieferbar={buch.lieferbar ?? false}
-                        errors={errors}
-                    />
-                    <Homepage register={register} errors={errors} />
-                    <Isbn register={register} errors={errors} />
-                    <Datum register={register} errors={errors} />
-                    <Schlagwoerter
-                        register={register}
-                        unregister={unregister}
-                        fields={fields}
-                        append={append}
-                        remove={remove}
-                    />
-                    <Button variant="primary" type="submit">
-                        Speichern
-                    </Button>
-                </Form>
+                <FormProvider {...methods}>
+                    <Form onSubmit={methods.handleSubmit(UpdateBook)}>
+                        <Head buch={buch} />
+                        <Rating rating={buch.rating ?? 'N/A'} />
+                        <Buchart art={buch.art} />
+                        <Row>
+                            <Buchpreis />
+                            <Buchrabatt />
+                        </Row>
+                        <Lieferbar lieferbar={buch.lieferbar ?? false} />
+                        <Homepage />
+                        <Isbn />
+                        <Datum />
+                        <Schlagwoerter
+                            fields={fields}
+                            append={append}
+                            remove={remove}
+                        />
+                        <Button variant="primary" type="submit">
+                            Speichern
+                        </Button>
+                    </Form>
+                </FormProvider>
             </Container>
             {updateMessage.visible && (
                 <StatusModal

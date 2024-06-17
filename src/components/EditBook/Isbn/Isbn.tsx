@@ -18,35 +18,39 @@
  */
 
 import { Col, InputGroup, Row } from 'react-bootstrap';
-import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
+import { useFormContext } from 'react-hook-form';
 
-interface LieferbarProps {
-    register: UseFormRegister<any>;
-    lieferbar: boolean;
-    errors: FieldErrors;
-}
+const ISBN13_PATTERN =
+    /^(?:ISBN(?:-13)?:? )?(?=\d{13}$|(?=(?:\d+[- ]){4})[- 0-9]{17}$)97[89][- ]?\d{1,5}[- ]?(?:\d+[- ]\d+|\d{2,})[- ]?\d$/u;
 
-export const Lieferbar = ({ register, lieferbar, errors }: LieferbarProps) => (
-    <Row>
-        <Form.Group as={Col} className="mb-3">
-            <InputGroup className="mb-3">
-                <Form.Check
-                    type="switch"
-                    label="Lieferbar"
-                    {...register('lieferbar')}
-                    defaultChecked={lieferbar}
-                    isValid={!errors.lieferbar}
-                    isInvalid={Boolean(errors.lieferbar)}
-                />
-                <FormErrors
-                    isError={Boolean(errors.lieferbar)}
-                    errorMessage={
-                        'Der Lieferbar-Status fehlt oder ist ungültig'
-                    }
-                />
-            </InputGroup>
-        </Form.Group>
-    </Row>
-);
+export const Isbn = () => {
+    const {
+        register,
+        formState: { errors },
+    } = useFormContext();
+    return (
+        <Row>
+            <Form.Group as={Col} className="mb-3">
+                <Form.Label>ISBN</Form.Label>
+                <InputGroup className="mb-3">
+                    <Form.Control
+                        type="text"
+                        placeholder="ISBN"
+                        {...register('isbn', {
+                            required: true,
+                            pattern: ISBN13_PATTERN,
+                        })}
+                        isValid={!errors.isbn}
+                        isInvalid={Boolean(errors.isbn)}
+                    />
+                    <FormErrors
+                        isError={Boolean(errors.isbn)}
+                        errorMessage={'Die ISBN fehlt oder ist ungültig'}
+                    />
+                </InputGroup>
+            </Form.Group>
+        </Row>
+    );
+};

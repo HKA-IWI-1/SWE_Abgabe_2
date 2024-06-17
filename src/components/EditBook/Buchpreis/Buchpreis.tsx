@@ -18,41 +18,42 @@
  */
 
 import { Col, InputGroup } from 'react-bootstrap';
-import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
-
-interface BuchpreisProps {
-    register: UseFormRegister<any>;
-    errors: FieldErrors;
-}
+import { useFormContext } from 'react-hook-form';
 
 const PREIS_MIN = 0;
 
-export const Buchpreis = ({ register, errors }: BuchpreisProps) => (
-    <>
-        <Form.Group as={Col} className="mb-3">
-            <Form.Label>Preis</Form.Label>
-            <InputGroup className="mb-3">
-                <InputGroup.Text>€</InputGroup.Text>
-                <Form.Control
-                    type={'number'}
-                    placeholder={'Preis'}
-                    aria-label="Preis"
-                    {...register('preis', {
-                        required: true,
-                        valueAsNumber: true,
-                        min: PREIS_MIN,
-                    })}
-                    step=".001"
-                    isValid={!errors.preis}
-                    isInvalid={Boolean(errors.preis)}
-                />
-                <FormErrors
-                    isError={Boolean(errors.preis)}
-                    errorMessage={'Der Preis fehlt oder ist ungültig'}
-                />
-            </InputGroup>
-        </Form.Group>
-    </>
-);
+export const Buchpreis = () => {
+    const {
+        register,
+        formState: { errors },
+    } = useFormContext();
+    return (
+        <>
+            <Form.Group as={Col} className="mb-3">
+                <Form.Label>Preis</Form.Label>
+                <InputGroup className="mb-3">
+                    <InputGroup.Text>€</InputGroup.Text>
+                    <Form.Control
+                        type={'number'}
+                        placeholder={'Preis'}
+                        aria-label="Preis"
+                        {...register('preis', {
+                            required: true,
+                            valueAsNumber: true,
+                            min: PREIS_MIN,
+                        })}
+                        step=".001"
+                        isValid={!errors.preis}
+                        isInvalid={Boolean(errors.preis)}
+                    />
+                    <FormErrors
+                        isError={Boolean(errors.preis)}
+                        errorMessage={'Der Preis fehlt oder ist ungültig'}
+                    />
+                </InputGroup>
+            </Form.Group>
+        </>
+    );
+};

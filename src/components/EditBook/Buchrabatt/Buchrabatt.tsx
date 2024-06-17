@@ -18,42 +18,43 @@
  */
 
 import { Col, InputGroup } from 'react-bootstrap';
-import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
-
-interface BuchrabattProps {
-    register: UseFormRegister<any>;
-    errors: FieldErrors;
-}
+import { useFormContext } from 'react-hook-form';
 
 const RABATT_MIN = 0;
 const RABATT_MAX = 100;
 
-export const Buchrabatt = ({ register, errors }: BuchrabattProps) => (
-    <>
-        <Form.Group as={Col} className="mb-3">
-            <Form.Label>Rabatt</Form.Label>
-            <InputGroup className="mb-3">
-                <InputGroup.Text>%</InputGroup.Text>
-                <Form.Control
-                    type={'number'}
-                    placeholder={'Rabatt'}
-                    aria-label="Rabatt"
-                    {...register('rabatt', {
-                        required: true,
-                        min: RABATT_MIN,
-                        max: RABATT_MAX,
-                    })}
-                    step=".001"
-                    isValid={!errors.rabatt}
-                    isInvalid={Boolean(errors.rabatt)}
-                />
-                <FormErrors
-                    isError={Boolean(errors.rabatt)}
-                    errorMessage={'Der Rabatt fehlt oder ist ungültig'}
-                />
-            </InputGroup>
-        </Form.Group>
-    </>
-);
+export const Buchrabatt = () => {
+    const {
+        register,
+        formState: { errors },
+    } = useFormContext();
+    return (
+        <>
+            <Form.Group as={Col} className="mb-3">
+                <Form.Label>Rabatt</Form.Label>
+                <InputGroup className="mb-3">
+                    <InputGroup.Text>%</InputGroup.Text>
+                    <Form.Control
+                        type={'number'}
+                        placeholder={'Rabatt'}
+                        aria-label="Rabatt"
+                        {...register('rabatt', {
+                            required: true,
+                            min: RABATT_MIN,
+                            max: RABATT_MAX,
+                        })}
+                        step=".001"
+                        isValid={!errors.rabatt}
+                        isInvalid={Boolean(errors.rabatt)}
+                    />
+                    <FormErrors
+                        isError={Boolean(errors.rabatt)}
+                        errorMessage={'Der Rabatt fehlt oder ist ungültig'}
+                    />
+                </InputGroup>
+            </Form.Group>
+        </>
+    );
+};

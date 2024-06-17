@@ -21,22 +21,27 @@ import { Col, Row } from 'react-bootstrap';
 import { BackButton } from '../BackButton/BackButton.tsx';
 import { type BuchType } from '../../../entities/BuchType.ts';
 import { Titel } from '../Titel/Titel.tsx';
+import { useFormContext } from 'react-hook-form';
 
 interface HeadType {
     buch: BuchType;
-    isDirty: boolean;
 }
 
-export const Head = ({ buch, isDirty }: HeadType) => (
-    <>
-        <Row className={'pt-2'} xs={3} md={3} lg={3}>
-            <Col md={{ span: 2 }} style={{ width: '4rem' }}>
-                <BackButton isDirty={isDirty} />
-            </Col>
-            <Titel
-                titel={buch.titel.titel}
-                untertitel={buch.titel.untertitel}
-            />
-        </Row>
-    </>
-);
+export const Head = ({ buch }: HeadType) => {
+    const {
+        formState: { isDirty },
+    } = useFormContext();
+    return (
+        <>
+            <Row className={'pt-2'} xs={3} md={3} lg={3}>
+                <Col md={{ span: 2 }} style={{ width: '4rem' }}>
+                    <BackButton isDirty={isDirty} />
+                </Col>
+                <Titel
+                    titel={buch.titel.titel}
+                    untertitel={buch.titel.untertitel}
+                />
+            </Row>
+        </>
+    );
+};

@@ -18,41 +18,42 @@
  */
 
 import { Col, InputGroup, Row } from 'react-bootstrap';
-import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
-
-interface HomepageProps {
-    register: UseFormRegister<any>;
-    errors: FieldErrors;
-}
+import { useFormContext } from 'react-hook-form';
 
 const URL_PATTERN =
     /^https?:\/\/(www\.)?[-\w@:%.+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-\w()@:%+.~#?&/=]*)$/u;
 
-export const Homepage = ({ register, errors }: HomepageProps) => (
-    <Row>
-        <Form.Group as={Col} className="mb-3">
-            <Form.Label>Homepage</Form.Label>
-            <InputGroup className="mb-3">
-                <InputGroup.Text>
-                    <i className="bi bi-globe pe-2"></i>
-                </InputGroup.Text>
-                <Form.Control
-                    placeholder={'Homepage'}
-                    aria-label="homepage"
-                    {...register('homepage', {
-                        required: true,
-                        pattern: URL_PATTERN,
-                    })}
-                    isValid={!errors.homepage}
-                    isInvalid={Boolean(errors.homepage)}
-                />
-                <FormErrors
-                    isError={Boolean(errors.homepage)}
-                    errorMessage={'Die Homepage fehlt oder ist ungültig'}
-                />
-            </InputGroup>
-        </Form.Group>
-    </Row>
-);
+export const Homepage = () => {
+    const {
+        register,
+        formState: { errors },
+    } = useFormContext();
+    return (
+        <Row>
+            <Form.Group as={Col} className="mb-3">
+                <Form.Label>Homepage</Form.Label>
+                <InputGroup className="mb-3">
+                    <InputGroup.Text>
+                        <i className="bi bi-globe pe-2"></i>
+                    </InputGroup.Text>
+                    <Form.Control
+                        placeholder={'Homepage'}
+                        aria-label="homepage"
+                        {...register('homepage', {
+                            required: true,
+                            pattern: URL_PATTERN,
+                        })}
+                        isValid={!errors.homepage}
+                        isInvalid={Boolean(errors.homepage)}
+                    />
+                    <FormErrors
+                        isError={Boolean(errors.homepage)}
+                        errorMessage={'Die Homepage fehlt oder ist ungültig'}
+                    />
+                </InputGroup>
+            </Form.Group>
+        </Row>
+    );
+};

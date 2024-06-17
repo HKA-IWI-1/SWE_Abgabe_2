@@ -18,38 +18,40 @@
  */
 
 import { Col, InputGroup, Row } from 'react-bootstrap';
-import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
+import { useFormContext } from 'react-hook-form';
 
-interface IsbnProps {
-    register: UseFormRegister<any>;
-    errors: FieldErrors;
-}
+const ISO8601_REGEX = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/u;
 
-const ISBN13_PATTERN =
-    /^(?:ISBN(?:-13)?:? )?(?=\d{13}$|(?=(?:\d+[- ]){4})[- 0-9]{17}$)97[89][- ]?\d{1,5}[- ]?(?:\d+[- ]\d+|\d{2,})[- ]?\d$/u;
-
-export const Isbn = ({ register, errors }: IsbnProps) => (
-    <Row>
-        <Form.Group as={Col} className="mb-3">
-            <Form.Label>ISBN</Form.Label>
-            <InputGroup className="mb-3">
-                <Form.Control
-                    type="text"
-                    placeholder="ISBN"
-                    {...register('isbn', {
-                        required: true,
-                        pattern: ISBN13_PATTERN,
-                    })}
-                    isValid={!errors.isbn}
-                    isInvalid={Boolean(errors.isbn)}
-                />
-                <FormErrors
-                    isError={Boolean(errors.isbn)}
-                    errorMessage={'Die ISBN fehlt oder ist ungültig'}
-                />
-            </InputGroup>
-        </Form.Group>
-    </Row>
-);
+export const Datum = () => {
+    const {
+        register,
+        formState: { errors },
+    } = useFormContext();
+    return (
+        <Row>
+            <Form.Group as={Col} className="mb-3">
+                <Form.Label>Datum</Form.Label>
+                <InputGroup className="mb-3 custom-date-picker">
+                    <InputGroup.Text>
+                        <i className="bi bi-calendar-date pe-2"></i>
+                    </InputGroup.Text>
+                    <Form.Control
+                        type="date"
+                        {...register('datum', {
+                            required: true,
+                            pattern: ISO8601_REGEX,
+                        })}
+                        isValid={!errors.datum}
+                        isInvalid={Boolean(errors.datum)}
+                    />
+                    <FormErrors
+                        isError={Boolean(errors.datum)}
+                        errorMessage={'Das Datum fehlt oder ist ungültig'}
+                    />
+                </InputGroup>
+            </Form.Group>
+        </Row>
+    );
+};

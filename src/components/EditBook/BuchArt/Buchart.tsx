@@ -18,43 +18,47 @@
  */
 
 import { Col, InputGroup, Row } from 'react-bootstrap';
-import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
+import { useFormContext } from 'react-hook-form';
 
 interface BuchartProps {
-    register: UseFormRegister<any>;
     art?: 'KINDLE' | 'DRUCKAUSGABE';
-    errors: FieldErrors;
 }
 
-export const Buchart = ({ register, art, errors }: BuchartProps) => (
-    <Row>
-        <Form.Group as={Col} className="mb-3">
-            <Form.Label>Buchart</Form.Label>
-            <InputGroup>
-                {['KINDLE', 'DRUCKAUSGABE'].map((type) => (
-                    <Form.Check
-                        key={type}
-                        inline
-                        label={type}
-                        type={'radio'}
-                        id={type}
-                        value={type}
-                        {...register('art', {
-                            required: true,
-                            pattern: /^DRUCKAUSGABE$|^KINDLE$/u,
-                        })}
-                        defaultChecked={art === type}
-                        isValid={!errors.art}
-                        isInvalid={Boolean(errors.art)}
+export const Buchart = ({ art }: BuchartProps) => {
+    const {
+        register,
+        formState: { errors },
+    } = useFormContext();
+    return (
+        <Row>
+            <Form.Group as={Col} className="mb-3">
+                <Form.Label>Buchart</Form.Label>
+                <InputGroup>
+                    {['KINDLE', 'DRUCKAUSGABE'].map((type) => (
+                        <Form.Check
+                            key={type}
+                            inline
+                            label={type}
+                            type={'radio'}
+                            id={type}
+                            value={type}
+                            {...register('art', {
+                                required: true,
+                                pattern: /^DRUCKAUSGABE$|^KINDLE$/u,
+                            })}
+                            defaultChecked={art === type}
+                            isValid={!errors.art}
+                            isInvalid={Boolean(errors.art)}
+                        />
+                    ))}
+                    <FormErrors
+                        isError={Boolean(errors.art)}
+                        errorMessage={'Die Buchart fehlt oder ist ungültig'}
                     />
-                ))}
-                <FormErrors
-                    isError={Boolean(errors.art)}
-                    errorMessage={'Die Buchart fehlt oder ist ungültig'}
-                />
-            </InputGroup>
-        </Form.Group>
-    </Row>
-);
+                </InputGroup>
+            </Form.Group>
+        </Row>
+    );
+};

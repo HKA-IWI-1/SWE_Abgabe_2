@@ -18,39 +18,39 @@
  */
 
 import { Col, InputGroup, Row } from 'react-bootstrap';
-import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
+import { useFormContext } from 'react-hook-form';
 
-interface DatumProps {
-    register: UseFormRegister<any>;
-    errors: FieldErrors;
+interface LieferbarProps {
+    lieferbar: boolean;
 }
 
-const ISO8601_REGEX = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/u;
-
-export const Datum = ({ register, errors }: DatumProps) => (
-    <Row>
-        <Form.Group as={Col} className="mb-3">
-            <Form.Label>Datum</Form.Label>
-            <InputGroup className="mb-3 custom-date-picker">
-                <InputGroup.Text>
-                    <i className="bi bi-calendar-date pe-2"></i>
-                </InputGroup.Text>
-                <Form.Control
-                    type="date"
-                    {...register('datum', {
-                        required: true,
-                        pattern: ISO8601_REGEX,
-                    })}
-                    isValid={!errors.datum}
-                    isInvalid={Boolean(errors.datum)}
-                />
-                <FormErrors
-                    isError={Boolean(errors.datum)}
-                    errorMessage={'Das Datum fehlt oder ist ungültig'}
-                />
-            </InputGroup>
-        </Form.Group>
-    </Row>
-);
+export const Lieferbar = ({ lieferbar }: LieferbarProps) => {
+    const {
+        register,
+        formState: { errors },
+    } = useFormContext();
+    return (
+        <Row>
+            <Form.Group as={Col} className="mb-3">
+                <InputGroup className="mb-3">
+                    <Form.Check
+                        type="switch"
+                        label="Lieferbar"
+                        {...register('lieferbar')}
+                        defaultChecked={lieferbar}
+                        isValid={!errors.lieferbar}
+                        isInvalid={Boolean(errors.lieferbar)}
+                    />
+                    <FormErrors
+                        isError={Boolean(errors.lieferbar)}
+                        errorMessage={
+                            'Der Lieferbar-Status fehlt oder ist ungültig'
+                        }
+                    />
+                </InputGroup>
+            </Form.Group>
+        </Row>
+    );
+};
