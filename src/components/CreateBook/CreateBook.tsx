@@ -107,6 +107,7 @@ export const CreateInput = () => {
         handleSubmit,
         formState: { errors },
     } = useForm<FormValues>();
+    // todo: default values angeben
 
     const {
         fields: schlagwoerterFields,

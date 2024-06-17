@@ -127,7 +127,8 @@ export const EditBookForm = ({ buch, id }: { buch: BuchType; id: number }) => {
             datum: buch.datum,
             schlagwoerter: buch.schlagwoerter,
         },
-        reValidateMode: 'onBlur',
+        reValidateMode: 'onChange',
+        mode: 'all',
     });
     const { fields, append, remove } = useFieldArray({
         control,
