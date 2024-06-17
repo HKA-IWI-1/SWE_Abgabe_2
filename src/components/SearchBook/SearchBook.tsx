@@ -6,7 +6,7 @@ import { Isbn } from './Isbn/Isbn';
 import { Lieferbar } from './Lieferbar/Lieferbar';
 import { READ_BOOK } from './queries';
 import { Rating } from './Rating/Rating';
-import { type SubmitHandler } from 'react-hook-form';
+import { FormProvider, type SubmitHandler } from 'react-hook-form';
 import { Suchergebnis } from './Suchergebnis/Suchergebnis';
 import { Titel } from './Titel/Titel';
 import { useForm } from 'react-hook-form';
@@ -42,12 +42,13 @@ interface Variables {
 
 // eslint-disable-next-line max-lines-per-function
 export const SearchInput = () => {
-    const { handleSubmit } = useForm<FormValues>();
+    const methods = useForm<FormValues>();
     const [searchBook, result] = useLazyQuery(READ_BOOK);
     const { loading, error, data, refetch } = result as QueryTypes;
     const [isLieferbarUsed, setIsLieferbarUsed] = useState(false);
     const [isRatingUsed, setIsRatingUsed] = useState(false);
 
+    const { handleSubmit } = methods;
     const SearchBook: SubmitHandler<FormValues> = (bookData) => {
         const variables: Variables = {};
         if (bookData.titel) {
@@ -85,55 +86,57 @@ export const SearchInput = () => {
 
     return (
         <>
-            <Form onSubmit={handleSubmit(SearchBook)}>
-                <Container>
-                    <Row>
-                        <Col>
-                            <Titel />
-                        </Col>
-                        <Col>
-                            <Isbn />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs={5}>
-                            <Form.Check
-                                type="switch"
-                                id="rating-switch"
-                                label="Rating aktivieren"
-                                checked={isRatingUsed}
-                                onChange={handleRatingChange}
-                            />
-                            {isRatingUsed && <Rating />}
-                        </Col>
-                        <Col md="auto">
-                            <Buchart />
-                        </Col>
-                        <Col xs={2} className="justify-content-end">
-                            <Form.Check
-                                type="switch"
-                                id="lieferbar-switch"
-                                label="Lieferbar aktivieren"
-                                checked={isLieferbarUsed}
-                                onChange={handleLieferbarChange}
-                            />
-                            {isLieferbarUsed && <Lieferbar />}
-                        </Col>
-                    </Row>
-                    <Row></Row>
-                    <Row>
-                        <Col>
-                            <Button
-                                variant="primary"
-                                type="submit"
-                                className="w-100 d-flex justify-content-center"
-                            >
-                                Suchen
-                            </Button>
-                        </Col>
-                    </Row>
-                </Container>
-            </Form>
+            <FormProvider {...methods}>
+                <Form onSubmit={handleSubmit(SearchBook)}>
+                    <Container>
+                        <Row>
+                            <Col>
+                                <Titel />
+                            </Col>
+                            <Col>
+                                <Isbn />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={5}>
+                                <Form.Check
+                                    type="switch"
+                                    id="rating-switch"
+                                    label="Rating aktivieren"
+                                    checked={isRatingUsed}
+                                    onChange={handleRatingChange}
+                                />
+                                {isRatingUsed && <Rating />}
+                            </Col>
+                            <Col md="auto">
+                                <Buchart />
+                            </Col>
+                            <Col xs={2} className="justify-content-end">
+                                <Form.Check
+                                    type="switch"
+                                    id="lieferbar-switch"
+                                    label="Lieferbar aktivieren"
+                                    checked={isLieferbarUsed}
+                                    onChange={handleLieferbarChange}
+                                />
+                                {isLieferbarUsed && <Lieferbar />}
+                            </Col>
+                        </Row>
+                        <Row></Row>
+                        <Row>
+                            <Col>
+                                <Button
+                                    variant="primary"
+                                    type="submit"
+                                    className="w-100 d-flex justify-content-center"
+                                >
+                                    Suchen
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Container>
+                </Form>
+            </FormProvider>
             <div className="mt-5" />
             <Button className="ms-5" onClick={() => refetch()}>
                 <i className="bi bi-arrow-clockwise" />
