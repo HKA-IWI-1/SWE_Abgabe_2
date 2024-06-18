@@ -17,19 +17,4 @@
  *
  */
 
-import { type Art } from './Art.ts';
-
-export interface BuchType {
-    id: number;
-    version: string;
-    isbn: string;
-    rating?: string;
-    art?: Art;
-    preis: number;
-    rabatt?: string;
-    lieferbar?: boolean;
-    datum?: string;
-    homepage?: string;
-    schlagwoerter?: string[];
-    titel: { titel: string; untertitel: string };
-}
+export type Art = 'KINDLE' | 'DRUCKAUSGABE';

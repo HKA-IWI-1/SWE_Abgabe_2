@@ -1,6 +1,7 @@
 import { type ApolloError, type ApolloQueryResult } from '@apollo/client';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { FormProvider, type SubmitHandler } from 'react-hook-form';
+import { type Art } from '../../entities/Art.ts';
 import { type BuchType } from '../../entities/BuchType.ts';
 import { Buchart } from './Buchart/Buchart';
 import { Isbn } from './Isbn/Isbn';
@@ -14,7 +15,7 @@ import { useLazyQuery } from '@apollo/client';
 import { useState } from 'react';
 
 export interface FormValues {
-    art: 'DRUCKAUSGABE' | 'KINDLE' | undefined;
+    art: Art | undefined;
     isbn: string;
     lieferbar: boolean;
     rating: string;
