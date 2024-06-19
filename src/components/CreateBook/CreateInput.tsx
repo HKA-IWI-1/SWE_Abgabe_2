@@ -3,6 +3,7 @@ import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { Abbildungen } from './Abbildungen/Abbildungen';
 import { type Art } from '../../entities/Art.ts';
 import { BuchEmptyData } from '../../entities/BuchEmptyData.ts';
+import { type BuchType } from '../../entities/BuchType.ts';
 import { Buchart } from './Buchart/Buchart';
 import { CREATE_MUTATION } from './mutations';
 import { Datum } from './Datum/Datum';
@@ -19,7 +20,6 @@ import { Titel } from './Titel/Titel';
 import { Untertitel } from './Untertitel/Untertitel';
 import { useMutation } from '@apollo/client';
 import { useState } from 'react';
-import { BuchType } from '../../entities/BuchType.ts';
 
 export interface FormValues {
     version: string;
