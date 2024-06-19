@@ -1,9 +1,8 @@
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { Abbildungen } from './Abbildungen/Abbildungen';
 import { type Art } from '../../entities/Art.ts';
 import { BuchEmptyData } from '../../entities/BuchEmptyData.ts';
-import { type BuchType } from '../../entities/BuchType.ts';
 import { Buchart } from './Buchart/Buchart';
 import { CREATE_MUTATION } from './mutations';
 import { Datum } from './Datum/Datum';
@@ -44,26 +43,31 @@ export interface FormValues {
     schlagwoerter: string[];
 }
 
-const parseRabatt = (buch: BuchType) =>
-    buch.rabatt === undefined
-        ? 0
-        : Number.parseFloat(
-              buch.rabatt.slice(0, Math.max(0, buch.rabatt.length - 1)).trim(),
-          );
-
 const RABATT_TEILER = 100;
 
 /* eslint-disable max-lines-per-function */
 export const CreateInput = () => {
-    const [createBook] = useMutation(CREATE_MUTATION, {
-        onError: (err) => {
-            console.error(err.message);
-        },
-    });
     const [createMessage, setCreateMessage] = useState({
         visible: false,
         nachricht: 'N/A',
         error: false,
+    });
+    const [createBook, { loading }] = useMutation(CREATE_MUTATION, {
+        onCompleted: () => {
+            setCreateMessage({
+                visible: true,
+                nachricht: 'Das Erstellen war erfolgreich.',
+                error: false,
+            });
+        },
+        onError: (err) => {
+            setCreateMessage({
+                visible: true,
+                nachricht: `Fehler: ${err.message}`,
+                error: true,
+            });
+            console.error(err.message);
+        },
     });
     const hideModal = () => {
         setCreateMessage({
@@ -72,8 +76,8 @@ export const CreateInput = () => {
         });
     };
 
-    const CreateBook: SubmitHandler<FormValues> = (bookData) => {
-        createBook({
+    const CreateBook: SubmitHandler<FormValues> = async (bookData) => {
+        await createBook({
             variables: {
                 isbn: bookData.isbn,
                 rating: Number.parseInt(bookData.rating, 10),
@@ -87,44 +91,19 @@ export const CreateInput = () => {
                 titel: bookData.titel,
                 abbildungen: bookData.abbildungen,
             },
-        })
-            .then(() =>
-                setCreateMessage({
-                    visible: true,
-                    nachricht: 'Das Erstellen war erfolgreich.',
-                    error: false,
-                }),
-            )
-            .catch((err) => {
-                if (err instanceof Error) {
-                    console.error(err);
-                    setCreateMessage({
-                        visible: true,
-                        nachricht: `Fehler: ${err.message}`,
-                        error: true,
-                    });
-                } else {
-                    setCreateMessage({
-                        visible: true,
-                        nachricht: 'Ein unbekannter Fehler ist aufgetreten.',
-                        error: true,
-                    });
-                }
-            });
+        });
     };
 
     const methods = useForm<FormValues>({
         defaultValues: {
-            version: BuchEmptyData.version,
-            rating: BuchEmptyData.rating,
-            art: BuchEmptyData.art,
-            preis: BuchEmptyData.preis,
-            rabatt: parseRabatt(BuchEmptyData),
-            lieferbar: BuchEmptyData.lieferbar,
-            homepage: BuchEmptyData.homepage,
-            isbn: BuchEmptyData.isbn,
-            datum: BuchEmptyData.datum,
-            schlagwoerter: BuchEmptyData.schlagwoerter,
+            rating: undefined,
+            art: undefined,
+            preis: undefined,
+            rabatt: undefined,
+            lieferbar: undefined,
+            homepage: undefined,
+            isbn: undefined,
+            datum: undefined,
         },
         reValidateMode: 'onChange',
         mode: 'all',
@@ -215,6 +194,20 @@ export const CreateInput = () => {
                             />
                         </Col>
                     </Row>
+                    {loading && (
+                        <Row>
+                            <Spinner
+                                variant="primary"
+                                animation="border"
+                                role="status"
+                                className="mx-auto"
+                            >
+                                <span className="visually-hidden">
+                                    Loading...
+                                </span>
+                            </Spinner>
+                        </Row>
+                    )}
                     <Row className="justify-content-md-center">
                         <Col xs={4}>
                             <Button
