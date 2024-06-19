@@ -16,7 +16,7 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import { CreateInput } from '../../components/CreateBook/CreateBook';
+import { CreateInput } from '../../components/CreateBook/CreateInput.tsx';
 import { NavBar } from '../../components/NavBar/NavBar/NavBar.tsx';
 
 export const CreateBook = () => (

@@ -25,7 +25,7 @@ import {
     useFormContext,
 } from 'react-hook-form';
 import Button from 'react-bootstrap/Button';
-import { type FormValues } from '../CreateBook.tsx';
+import { type FormValues } from '../CreateInput.tsx';
 
 interface AbbildungenProps {
     fields: FieldArrayWithId<any>[];
