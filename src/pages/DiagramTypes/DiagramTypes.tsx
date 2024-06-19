@@ -43,11 +43,10 @@ interface QueryTypes {
 export const DiagramTypes = () => {
     const { loading, error, data }: QueryTypes = useQuery(BOOKS_TYPES, {
         variables: {},
+        onError: (err) => {
+            console.error(err.message);
+        },
     });
-
-    if (error) {
-        console.log(error.message);
-    }
 
     const dataMap = new Map();
     data?.buecher.forEach((buch: BuchType) => {

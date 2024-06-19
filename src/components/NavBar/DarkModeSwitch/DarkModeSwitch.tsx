@@ -22,16 +22,18 @@ import { theme } from '../../../helpers/localStorageKeys.ts';
 import { useState } from 'react';
 
 export const DarkModeSwitch = () => {
-    const initialDarkMode = localStorage.getItem(theme) ?? 'light';
-    const [darkMode, setDarkMode] = useState(initialDarkMode === 'dark');
+    const light = 'light';
+    const dark = 'dark';
+    const initialDarkMode = localStorage.getItem(theme) ?? light;
+    const [darkMode, setDarkMode] = useState(initialDarkMode === dark);
     const setTheme = () => {
-        document.body.dataset.bsTheme = darkMode ? 'dark' : 'light';
+        document.body.dataset.bsTheme = darkMode ? dark : light;
     };
     setTheme();
 
     const switchDarkMode = () => {
         setDarkMode(!darkMode);
-        localStorage.setItem(theme, darkMode ? 'light' : 'dark');
+        localStorage.setItem(theme, darkMode ? light : dark);
         setTheme();
     };
 

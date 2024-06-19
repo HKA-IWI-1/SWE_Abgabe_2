@@ -95,12 +95,13 @@ export const Login = () => {
                     roles: readRoles(),
                 }));
             },
-            onError: (error) => {
+            onError: (err) => {
                 addTeaser({
                     messageType: 'Danger',
-                    message: error.message,
+                    message: err.message,
                     timestamp: Date.now(),
                 });
+                console.error(err);
             },
         },
     );
@@ -110,12 +111,13 @@ export const Login = () => {
             setLoggedIn(true);
             persistTokenData(data);
         },
-        onError: (error) => {
+        onError: (err) => {
             addTeaser({
                 messageType: 'Danger',
-                message: error.message,
+                message: err.message,
                 timestamp: Date.now(),
             });
+            console.error(err);
         },
     });
 
@@ -130,16 +132,12 @@ export const Login = () => {
         [refreshTokenMutation],
     );
 
-    const logIn: SubmitHandler<Inputs> = (loginData: Inputs) => {
-        authenticateUser({
+    const logIn: SubmitHandler<Inputs> = async (loginData: Inputs) => {
+        await authenticateUser({
             variables: {
                 username: loginData.username,
                 password: loginData.password,
             },
-        }).catch((err) => {
-            if (err instanceof Error) {
-                console.error(err);
-            }
         });
     };
 

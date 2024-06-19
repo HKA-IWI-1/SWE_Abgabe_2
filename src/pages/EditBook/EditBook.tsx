@@ -39,15 +39,14 @@ interface QueryTypes {
 }
 
 export const EditBook = () => {
-    const { book } = useLoaderData() as BookId;
+    const { book } = useLoaderData() as BookId; // Book-ID aus URL
 
     const { loading, error, data }: QueryTypes = useQuery(READ_BOOK, {
         variables: { id: book },
+        onError: (err) => {
+            console.error(err.message);
+        },
     });
-
-    if (error) {
-        console.error(error.message);
-    }
 
     return (
         <>

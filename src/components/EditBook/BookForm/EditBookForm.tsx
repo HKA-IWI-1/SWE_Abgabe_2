@@ -88,11 +88,12 @@ export const EditBookForm = ({ buch, id }: { buch: BuchType; id: number }) => {
                 nachricht: `Fehler: ${err.message}`,
                 error: true,
             });
+            console.error(err);
         },
     });
 
-    const UpdateBook: SubmitHandler<FormValues> = (bookData) => {
-        updateBook({
+    const UpdateBook: SubmitHandler<FormValues> = async (bookData) => {
+        await updateBook({
             variables: {
                 id,
                 version: bookData.version,
@@ -106,10 +107,6 @@ export const EditBookForm = ({ buch, id }: { buch: BuchType; id: number }) => {
                 homepage: bookData.homepage,
                 schlagwoerter: bookData.schlagwoerter,
             },
-        }).catch((err) => {
-            if (err instanceof Error) {
-                console.error(err);
-            }
         });
     };
 

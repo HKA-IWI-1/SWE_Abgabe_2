@@ -70,11 +70,10 @@ interface QueryTypes {
 export const DiagramDates = () => {
     const { loading, error, data }: QueryTypes = useQuery(BOOKS_TYPES, {
         variables: {},
+        onError: (err) => {
+            console.error(err.message);
+        },
     });
-
-    if (error) {
-        console.log(error.message);
-    }
 
     Chart.register(
         CategoryScale,

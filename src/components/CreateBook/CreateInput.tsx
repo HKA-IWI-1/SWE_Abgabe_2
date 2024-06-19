@@ -46,7 +46,11 @@ const RABATT_TEILER = 100;
 
 /* eslint-disable max-lines-per-function */
 export const CreateInput = () => {
-    const [createBook] = useMutation(CREATE_MUTATION);
+    const [createBook] = useMutation(CREATE_MUTATION, {
+        onError: (err) => {
+            console.error(err.message);
+        },
+    });
     const [createMessage, setCreateMessage] = useState({
         visible: false,
         nachricht: 'N/A',

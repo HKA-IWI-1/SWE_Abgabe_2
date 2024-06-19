@@ -53,11 +53,10 @@ export const BookDetails = () => {
 
     const { loading, error, data }: QueryTypes = useQuery(READ_BOOK, {
         variables: { id: book },
+        onError: (err) => {
+            console.error(err.message);
+        },
     });
-
-    if (error) {
-        console.error(error);
-    }
 
     const editBookButton = (
         <OverlayTrigger

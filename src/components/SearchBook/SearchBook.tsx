@@ -50,7 +50,7 @@ export const SearchInput = () => {
     const [isRatingUsed, setIsRatingUsed] = useState(false);
 
     const { handleSubmit } = methods;
-    const SearchBook: SubmitHandler<FormValues> = (bookData) => {
+    const SearchBook: SubmitHandler<FormValues> = async (bookData) => {
         const variables: Variables = {};
         if (bookData.titel) {
             variables.titel = bookData.titel;
@@ -68,12 +68,8 @@ export const SearchInput = () => {
             variables.lieferbar = bookData.lieferbar;
         }
 
-        searchBook({
+        await searchBook({
             variables: { suchkriterien: variables },
-        }).catch((err) => {
-            if (err instanceof Error) {
-                console.error(err);
-            }
         });
     };
     // todo: default values bei useForm() angeben

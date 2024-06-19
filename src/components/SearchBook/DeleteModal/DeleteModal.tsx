@@ -41,21 +41,18 @@ export const DeleteModal = ({ id, onHide }: DeleteModalProps) => {
                 error: false,
             });
         },
-        onError: (error) => {
+        onError: (err) => {
             setDeleteMessage({
                 visible: true,
-                nachricht: `Fehler: ${error.message}`,
+                nachricht: `Fehler: ${err.message}`,
                 error: true,
             });
+            console.error(err);
         },
     });
 
-    const DeleteBook = () => {
-        deleteBook({ variables: { id } }).catch((err) => {
-            if (err instanceof Error) {
-                console.error(err);
-            }
-        });
+    const DeleteBook = async () => {
+        await deleteBook({ variables: { id } });
     };
 
     return (
