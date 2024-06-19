@@ -72,7 +72,7 @@ export const SearchInput = () => {
             variables: { suchkriterien: variables },
         });
     };
-    // todo: default values bei useForm() angeben
+
     const handleLieferbarChange = () => {
         setIsLieferbarUsed(!isLieferbarUsed);
     };
