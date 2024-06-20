@@ -25,10 +25,10 @@ interface StatusModalProps {
         nachricht: string;
         error: boolean;
     };
-    onHide: () => void;
+    hideModal: () => void;
 }
 
-export const StatusModal = ({ deleteMessage, onHide }: StatusModalProps) => (
+export const StatusModal = ({ deleteMessage, hideModal }: StatusModalProps) => (
     <>
         <Modal
             show={deleteMessage.visible}
@@ -36,7 +36,7 @@ export const StatusModal = ({ deleteMessage, onHide }: StatusModalProps) => (
             aria-labelledby="contained-modal-title-vcenter"
             centered
         >
-            <Modal.Header closeButton onClick={onHide}>
+            <Modal.Header closeButton onClick={hideModal}>
                 <Modal.Title id="contained-modal-title-vcenter">
                     {deleteMessage.nachricht}
                 </Modal.Title>

@@ -24,10 +24,10 @@ import { useState } from 'react';
 
 interface DeleteModalProps {
     id: number | undefined;
-    onHide: () => void;
+    hideModal: () => void;
 }
 
-export const DeleteModal = ({ id, onHide }: DeleteModalProps) => {
+export const DeleteModal = ({ id, hideModal }: DeleteModalProps) => {
     const [deleteMessage, setDeleteMessage] = useState({
         visible: false,
         nachricht: 'N/A',
@@ -62,21 +62,24 @@ export const DeleteModal = ({ id, onHide }: DeleteModalProps) => {
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
                 show={true}
-                onHide={onHide}
+                onHide={hideModal}
             >
-                <Modal.Header closeButton onClick={onHide}>
+                <Modal.Header closeButton onClick={hideModal}>
                     <Modal.Title id="contained-modal-title-vcenter">
                         Sind Sie sicher?
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Button onClick={() => DeleteBook()}>Ja</Button>
-                    <Button onClick={onHide}> Nein </Button>
+                    <Button onClick={hideModal}> Nein </Button>
                     {loading && <p>Laden...</p>}
                 </Modal.Body>
             </Modal>
             {deleteMessage.visible && (
-                <StatusModal deleteMessage={deleteMessage} onHide={onHide} />
+                <StatusModal
+                    deleteMessage={deleteMessage}
+                    hideModal={hideModal}
+                />
             )}
         </>
     );

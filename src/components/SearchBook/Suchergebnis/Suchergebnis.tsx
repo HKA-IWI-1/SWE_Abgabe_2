@@ -25,11 +25,7 @@ export const Suchergebnis = ({ loading, error, data }: QueryTypes) => {
     const { userData } = useOutletContext<UserDataContext>();
     const isAdmin = userData.roles.includes(admin);
 
-    const openDeleteModal = (id: number) => {
-        setDeleteModalId(id);
-    };
-
-    const closeDeleteModal = () => {
+    const hideModal = () => {
         setDeleteModalId(undefined);
     };
 
@@ -79,7 +75,7 @@ export const Suchergebnis = ({ loading, error, data }: QueryTypes) => {
                                             <Button
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    openDeleteModal(buch.id);
+                                                    setDeleteModalId(buch.id);
                                                 }}
                                             >
                                                 <i className="bi bi-trash" />
@@ -91,10 +87,7 @@ export const Suchergebnis = ({ loading, error, data }: QueryTypes) => {
                         </tbody>
                     </Table>
                     {deleteModalId !== undefined && (
-                        <DeleteModal
-                            id={deleteModalId}
-                            onHide={closeDeleteModal}
-                        />
+                        <DeleteModal id={deleteModalId} hideModal={hideModal} />
                     )}
                 </>
             )}

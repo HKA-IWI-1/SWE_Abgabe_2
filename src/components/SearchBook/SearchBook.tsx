@@ -134,8 +134,7 @@ export const SearchInput = () => {
                     </Container>
                 </Form>
             </FormProvider>
-            <div className="mt-5" />
-            <Button className="ms-5" onClick={() => refetch()}>
+            <Button className="mt-5 ms-5" onClick={() => refetch()}>
                 <i className="bi bi-arrow-clockwise" />
             </Button>
             <div className="mt-2" />
