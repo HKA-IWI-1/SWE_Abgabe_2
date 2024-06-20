@@ -41,7 +41,7 @@ const bookDetailsLoader = ({ params }: LoaderFunctionArgs) => ({
 });
 
 const editBookLoader = ({ params }: LoaderFunctionArgs) => ({
-    book: params.bookId,
+    bookId: params.bookId,
 });
 
 const router = createBrowserRouter([
