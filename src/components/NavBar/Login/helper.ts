@@ -25,6 +25,7 @@ import {
     rolesIdentifier,
 } from '../../../helpers/localStorageKeys.ts';
 import { type LoginAuthData } from './Login/Login.tsx';
+import { type Roles } from '../../../authentication/roles.ts';
 
 export const persistTokenData = (result: LoginAuthData) => {
     const data = result.login ?? result.refresh;
@@ -69,5 +70,5 @@ export const readTokenData = () => {
     return { accessToken, rToken, expiresIn, refreshExpiresIn, roles };
 };
 
-export const readRoles = (): string[] =>
-    JSON.parse(localStorage.getItem(rolesIdentifier) ?? '[]') as string[];
+export const readRoles = (): Roles[] =>
+    JSON.parse(localStorage.getItem(rolesIdentifier) ?? '[]') as Roles[];

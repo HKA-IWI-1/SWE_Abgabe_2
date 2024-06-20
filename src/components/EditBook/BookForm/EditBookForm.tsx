@@ -68,7 +68,7 @@ const parseRabatt = (buch: BuchType) =>
 const RABATT_TEILER = 100;
 
 // eslint-disable-next-line max-lines-per-function
-export const EditBookForm = ({ buch, id }: { buch: BuchType; id: number }) => {
+export const EditBookForm = ({ buch }: { buch: BuchType }) => {
     const [updateMessage, setUpdateMessage] = useState({
         visible: false,
         nachricht: 'N/A',
@@ -95,7 +95,7 @@ export const EditBookForm = ({ buch, id }: { buch: BuchType; id: number }) => {
     const UpdateBook: SubmitHandler<FormValues> = async (bookData) => {
         await updateBook({
             variables: {
-                id,
+                id: buch.id,
                 version: bookData.version,
                 isbn: bookData.isbn,
                 rating: Number.parseInt(bookData.rating, 10),
@@ -165,7 +165,7 @@ export const EditBookForm = ({ buch, id }: { buch: BuchType; id: number }) => {
                 <StatusModal
                     updateMessage={updateMessage}
                     setUpdateMessage={setUpdateMessage}
-                    routingPath={`/${paths.bookDetails}/${id}`}
+                    routingPath={`/${paths.bookDetails}/${buch.id}`}
                 />
             )}
         </>

@@ -17,26 +17,6 @@
  *
  */
 
-import { gql } from '@apollo/client';
+export type Roles = 'admin' | 'user';
 
-export const READ_BOOK = gql`
-    query UpdateBook($id: ID! = "1") {
-        buch(id: $id) {
-            id
-            isbn
-            version
-            rating
-            art
-            preis
-            lieferbar
-            datum
-            homepage
-            schlagwoerter
-            titel {
-                titel
-                untertitel
-            }
-            rabatt(short: true)
-        }
-    }
-`;
+export const admin: Roles = 'admin';

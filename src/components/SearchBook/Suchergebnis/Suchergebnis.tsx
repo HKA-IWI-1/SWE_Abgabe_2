@@ -4,6 +4,7 @@ import { type ApolloError } from '@apollo/client';
 import { type BuchType } from '../../../entities/BuchType.ts';
 import { DeleteModal } from '../DeleteModal/DeleteModal';
 import { type UserDataContext } from '../../../../App.tsx';
+import { admin } from '../../../authentication/roles.ts';
 import { paths } from '../../../config/paths';
 import { useState } from 'react';
 
@@ -22,7 +23,7 @@ export const Suchergebnis = ({ loading, error, data }: QueryTypes) => {
     const navigate = useNavigate();
     const [deleteModalId, setDeleteModalId] = useState<number>();
     const { userData } = useOutletContext<UserDataContext>();
-    const isAdmin = userData.roles.includes('admin');
+    const isAdmin = userData.roles.includes(admin);
 
     const openDeleteModal = (id: number) => {
         setDeleteModalId(id);

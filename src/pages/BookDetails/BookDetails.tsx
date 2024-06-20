@@ -31,6 +31,7 @@ import { NavBar } from '../../components/NavBar/NavBar/NavBar.tsx';
 import { READ_BOOK } from './queries.ts';
 import Spinner from 'react-bootstrap/Spinner';
 import { type UserDataContext } from '../../../App.tsx';
+import { admin } from '../../authentication/roles.ts';
 import { paths } from '../../config/paths.ts';
 import { useQuery } from '@apollo/client';
 
@@ -47,7 +48,7 @@ interface QueryTypes {
 // eslint-disable-next-line max-lines-per-function
 export const BookDetails = () => {
     const { userData } = useOutletContext<UserDataContext>();
-    const isAdmin = userData.roles.includes('admin');
+    const isAdmin = userData.roles.includes(admin);
     const { book } = useLoaderData() as BookId;
     const navigate = useNavigate();
 

@@ -17,6 +17,7 @@
  *
  */
 import './EditBook.scss';
+import { Navigate, useLoaderData, useOutletContext } from 'react-router-dom';
 import { type ApolloError } from '@apollo/client/errors';
 import { type BuchType } from '../../entities/BuchType.ts';
 import Container from 'react-bootstrap/Container';
@@ -25,12 +26,10 @@ import { NavBar } from '../../components/NavBar/NavBar/NavBar.tsx';
 import { READ_BOOK } from './queries.ts';
 import { Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
-import { useLoaderData } from 'react-router-dom';
+import { type UserDataContext } from '../../../App.tsx';
+import { admin } from '../../authentication/roles.ts';
+import { paths } from '../../config/paths.ts';
 import { useQuery } from '@apollo/client';
-
-export interface BookId {
-    book: number;
-}
 
 interface QueryTypes {
     loading: boolean;
@@ -39,14 +38,20 @@ interface QueryTypes {
 }
 
 export const EditBook = () => {
-    const { book } = useLoaderData() as BookId; // Book-ID aus URL
+    const { userData } = useOutletContext<UserDataContext>();
+    const isAdmin = userData.roles.includes(admin);
+    const { bookId } = useLoaderData() as { bookId: number };
 
     const { loading, error, data }: QueryTypes = useQuery(READ_BOOK, {
-        variables: { id: book },
+        variables: { id: bookId },
         onError: (err) => {
             console.error(err.message);
         },
     });
+
+    if (!isAdmin) {
+        return <Navigate to={paths.root} />;
+    }
 
     return (
         <>
@@ -72,7 +77,7 @@ export const EditBook = () => {
             {!loading && !error && data && (
                 <>
                     <NavBar />
-                    <EditBookForm buch={data.buch} id={book} />
+                    <EditBookForm buch={data.buch} />
                 </>
             )}
         </>

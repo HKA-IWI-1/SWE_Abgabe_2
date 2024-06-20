@@ -31,20 +31,21 @@ import {
     accessTokenIdentifier,
     theme,
 } from './src/helpers/localStorageKeys.ts';
+import { type Roles } from './src/authentication/roles.ts';
 import { readRoles } from './src/components/NavBar/Login/helper.ts';
 import { setContext } from '@apollo/client/link/context';
 import { useState } from 'react';
 
 export interface UserDataType {
     theme: string;
-    roles: string[];
+    roles: Roles[];
 }
 
 export interface UserDataContext {
     userData: UserDataType;
     setUserData: (
         oldData: (oldData: UserDataType) => {
-            roles: string[];
+            roles: Roles[];
             theme: string;
         },
     ) => UserDataType;

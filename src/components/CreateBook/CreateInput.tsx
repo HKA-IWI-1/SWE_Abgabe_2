@@ -2,7 +2,6 @@ import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { Abbildungen } from './Abbildungen/Abbildungen';
 import { type Art } from '../../entities/Art.ts';
-import { BuchEmptyData } from '../../entities/BuchEmptyData.ts';
 import { Buchart } from './Buchart/Buchart';
 import { CREATE_MUTATION } from './mutations';
 import { Datum } from './Datum/Datum';
