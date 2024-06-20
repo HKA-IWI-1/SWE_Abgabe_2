@@ -18,6 +18,8 @@ interface QueryTypes {
         | undefined;
 }
 
+const NO_BOOKS_FOUND = 'Keine Buecher gefunden';
+
 // eslint-disable-next-line max-lines-per-function
 export const Suchergebnis = ({ loading, error, data }: QueryTypes) => {
     const navigate = useNavigate();
@@ -91,7 +93,19 @@ export const Suchergebnis = ({ loading, error, data }: QueryTypes) => {
                     )}
                 </>
             )}
-            {error && <Alert variant="danger">Error: {error.message}</Alert>}
+            {error && (
+                <Alert
+                    variant={
+                        error.message.includes(NO_BOOKS_FOUND)
+                            ? 'dark'
+                            : 'danger'
+                    }
+                >
+                    {error.message.includes(NO_BOOKS_FOUND)
+                        ? 'Es wurden keine passenden Bücher gefunden.'
+                        : `Error: ${error.message} `}
+                </Alert>
+            )}
             <div className="mt-5" />
             <div className="mt-5" />
         </>
