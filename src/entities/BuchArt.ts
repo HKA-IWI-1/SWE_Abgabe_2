@@ -17,4 +17,4 @@
  *
  */
 
-export type Art = 'KINDLE' | 'DRUCKAUSGABE';
+export type BuchArt = 'KINDLE' | 'DRUCKAUSGABE';

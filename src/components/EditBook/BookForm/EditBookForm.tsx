@@ -23,7 +23,7 @@ import {
     useFieldArray,
     useForm,
 } from 'react-hook-form';
-import { type Art } from '../../../entities/Art.ts';
+import { type BuchArt } from '../../../entities/BuchArt.ts';
 import { type BuchType } from '../../../entities/BuchType.ts';
 import { Buchart } from '../BuchArt/Buchart.tsx';
 import { Buchpreis } from '../Buchpreis/Buchpreis.tsx';
@@ -48,7 +48,7 @@ import { useState } from 'react';
 export interface FormValues {
     version: string;
     rating: string;
-    art: Art;
+    art: BuchArt;
     preis: number;
     rabatt: number;
     lieferbar: boolean;

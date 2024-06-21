@@ -33,6 +33,7 @@ import {
 import { useCallback, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Spinner from 'react-bootstrap/Spinner';
 import Stack from 'react-bootstrap/Stack';
 import { type SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
@@ -106,20 +107,23 @@ export const Login = () => {
         },
     );
 
-    const [refreshTokenMutation] = useMutation(REFRESH, {
-        onCompleted: (data: LoginAuthData) => {
-            setLoggedIn(true);
-            persistTokenData(data);
+    const [refreshTokenMutation, { loading: loadingMutation }] = useMutation(
+        REFRESH,
+        {
+            onCompleted: (data: LoginAuthData) => {
+                setLoggedIn(true);
+                persistTokenData(data);
+            },
+            onError: (err) => {
+                addTeaser({
+                    messageType: 'Danger',
+                    message: err.message,
+                    timestamp: Date.now(),
+                });
+                console.error(err);
+            },
         },
-        onError: (err) => {
-            addTeaser({
-                messageType: 'Danger',
-                message: err.message,
-                timestamp: Date.now(),
-            });
-            console.error(err);
-        },
-    });
+    );
 
     const tokenRefresh = useCallback(
         async (token: string) => {
@@ -181,6 +185,9 @@ export const Login = () => {
     return (
         <>
             <LoginToast teasers={teasers} deleteTeaser={deleteTeaser} />
+            {!loggedIn && (loadingAuth || loadingMutation) && (
+                <Spinner variant="primary" animation="border" role="status" />
+            )}
             {!loggedIn && !loadingAuth && (
                 <Form onSubmit={handleSubmit(logIn)}>
                     <Stack direction="horizontal" gap={3}>

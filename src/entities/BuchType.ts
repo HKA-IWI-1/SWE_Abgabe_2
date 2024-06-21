@@ -17,14 +17,14 @@
  *
  */
 
-import { type Art } from './Art.ts';
+import { type BuchArt } from './BuchArt.ts';
 
 export interface BuchType {
     id: number;
     version: string;
     isbn: string;
     rating?: string;
-    art?: Art;
+    art?: BuchArt;
     preis: number;
     rabatt?: string;
     lieferbar?: boolean;

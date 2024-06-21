@@ -18,13 +18,13 @@
  */
 
 import { Col, InputGroup, Row } from 'react-bootstrap';
-import { type Art } from '../../../entities/Art.ts';
+import { type BuchArt } from '../../../entities/BuchArt.ts';
 import Form from 'react-bootstrap/Form';
 import { FormErrors } from '../../FormError/FormError.tsx';
 import { useFormContext } from 'react-hook-form';
 
 interface BuchartProps {
-    art?: Art;
+    art?: BuchArt;
 }
 
 export const Buchart = ({ art }: BuchartProps) => {
