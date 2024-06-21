@@ -134,10 +134,9 @@ export const SearchInput = () => {
                     </Container>
                 </Form>
             </FormProvider>
-            <Button className="mt-5 ms-5" onClick={() => refetch()}>
+            <Button className="mt-5 ms-5 mb-2" onClick={() => refetch()}>
                 <i className="bi bi-arrow-clockwise" />
             </Button>
-            <div className="mt-2" />
             <Suchergebnis loading={loading} error={error} data={data} />
         </>
     );

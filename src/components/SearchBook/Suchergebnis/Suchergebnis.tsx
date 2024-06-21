@@ -47,7 +47,7 @@ export const Suchergebnis = ({ loading, error, data }: QueryTypes) => {
             )}
             {!loading && data && (
                 <>
-                    <Table striped bordered hover>
+                    <Table striped bordered hover className="mb-5">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -106,8 +106,6 @@ export const Suchergebnis = ({ loading, error, data }: QueryTypes) => {
                         : `Error: ${error.message} `}
                 </Alert>
             )}
-            <div className="mt-5" />
-            <div className="mt-5" />
         </>
     );
 };

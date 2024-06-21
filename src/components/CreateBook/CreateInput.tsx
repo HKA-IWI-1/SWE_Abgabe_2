@@ -133,7 +133,7 @@ export const CreateInput = () => {
     return (
         <FormProvider {...methods}>
             <Form onSubmit={handleSubmit(CreateBook)}>
-                <Container>
+                <Container className="mb-5">
                     <Row>
                         <Col>
                             <Titel />
@@ -219,7 +219,6 @@ export const CreateInput = () => {
                         </Col>
                     </Row>
                 </Container>
-                <div className="mt-5" />
             </Form>
             {createMessage.visible && (
                 <StatusModal createMessage={createMessage} onHide={hideModal} />
