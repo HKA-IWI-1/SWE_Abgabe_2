@@ -43,13 +43,11 @@ interface Variables {
 
 // eslint-disable-next-line max-lines-per-function
 export const SearchInput = () => {
-    const methods = useForm<FormValues>();
     const [searchBook, result] = useLazyQuery(READ_BOOK);
     const { loading, error, data, refetch } = result as QueryTypes;
     const [isLieferbarUsed, setIsLieferbarUsed] = useState(false);
     const [isRatingUsed, setIsRatingUsed] = useState(false);
 
-    const { handleSubmit } = methods;
     const SearchBook: SubmitHandler<FormValues> = async (bookData) => {
         const variables: Variables = {};
         if (bookData.titel) {
@@ -72,6 +70,18 @@ export const SearchInput = () => {
             variables: { suchkriterien: variables },
         });
     };
+
+    const methods = useForm<FormValues>({
+        defaultValues: {
+            rating: undefined,
+            art: undefined,
+            lieferbar: undefined,
+            isbn: undefined,
+            titel: undefined,
+        },
+    });
+
+    const { handleSubmit } = methods;
 
     const handleLieferbarChange = () => {
         setIsLieferbarUsed(!isLieferbarUsed);
