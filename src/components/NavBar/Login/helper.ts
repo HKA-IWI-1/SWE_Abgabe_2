@@ -27,7 +27,7 @@ import {
 import { type LoginAuthData } from './Login/Login.tsx';
 import { type Roles } from '../../../authentication/roles.ts';
 
-export const persistTokenData = (result: LoginAuthData) => {
+export const persistTokenData = ({ result }: { result: LoginAuthData }) => {
     const data = result.login ?? result.refresh;
     localStorage.setItem(accessTokenIdentifier, data?.access_token ?? '');
     localStorage.setItem(refreshTokenIdentifier, data?.refresh_token ?? '');

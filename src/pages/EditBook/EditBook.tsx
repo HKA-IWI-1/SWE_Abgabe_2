@@ -23,13 +23,12 @@ import { type BuchType } from '../../entities/BuchType.ts';
 import Container from 'react-bootstrap/Container';
 import { EditBookForm } from '../../components/EditBook/BookForm/EditBookForm.tsx';
 import { NavBar } from '../../components/NavBar/NavBar/NavBar.tsx';
-import { READ_BOOK } from './queries.ts';
 import { Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import { type UserDataContext } from '../../../App.tsx';
 import { admin } from '../../authentication/roles.ts';
 import { paths } from '../../config/paths.ts';
-import { useQuery } from '@apollo/client';
+import { useReadBookById } from '../../hooks/useReadBookById/useReadBookById.ts';
 
 interface QueryTypes {
     loading: boolean;
@@ -42,12 +41,7 @@ export const EditBook = () => {
     const isAdmin = userData.roles.includes(admin);
     const { bookId } = useLoaderData() as { bookId: number };
 
-    const { loading, error, data }: QueryTypes = useQuery(READ_BOOK, {
-        variables: { id: bookId },
-        onError: (err) => {
-            console.error(err.message);
-        },
-    });
+    const { loading, error, data }: QueryTypes = useReadBookById({ bookId });
 
     if (!isAdmin) {
         return <Navigate to={paths.root} />;

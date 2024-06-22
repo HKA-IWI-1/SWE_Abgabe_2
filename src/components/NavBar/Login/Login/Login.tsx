@@ -30,8 +30,8 @@ import Button from 'react-bootstrap/Button';
 import { LoginForm } from '../LoginForm/LoginForm.tsx';
 import Spinner from 'react-bootstrap/Spinner';
 import { useOutletContext } from 'react-router-dom';
-import { useTokenRefresh } from '../hooks/useTokenRefresh.ts';
-import { useUserAuthentication } from '../hooks/useUserAuthentication.ts';
+import { useTokenRefresh } from '../../../../hooks/login/useTokenRefresh.ts';
+import { useUserAuthentication } from '../../../../hooks/login/useUserAuthentication.ts';
 
 export interface Inputs {
     username: string;

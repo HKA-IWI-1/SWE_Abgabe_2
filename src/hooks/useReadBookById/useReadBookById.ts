@@ -17,25 +17,26 @@
  *
  */
 
-import { gql } from '@apollo/client';
+import { type BuchType } from '../../entities/BuchType.ts';
+import { type QueryResult } from '@apollo/client';
+import { READ_BOOK } from './queries.ts';
+import { useQuery } from '@apollo/client';
 
-export const READ_BOOK = gql`
-    query GetBook($id: ID! = "1") {
-        buch(id: $id) {
-            isbn
-            version
-            rating
-            art
-            preis
-            lieferbar
-            datum
-            homepage
-            schlagwoerter
-            titel {
-                titel
-                untertitel
-            }
-            rabatt(short: true)
-        }
-    }
-`;
+interface ReadBookByIdProps {
+    bookId: number;
+}
+
+export const useReadBookById = ({
+    bookId,
+}: ReadBookByIdProps): QueryResult<
+    | {
+          buch: BuchType;
+      }
+    | undefined
+> =>
+    useQuery(READ_BOOK, {
+        variables: { id: bookId },
+        onError: (err) => {
+            console.error(err.message);
+        },
+    });

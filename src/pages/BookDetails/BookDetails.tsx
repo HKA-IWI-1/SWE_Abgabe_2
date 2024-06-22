@@ -28,16 +28,11 @@ import Container from 'react-bootstrap/Container';
 import { InfoBar } from '../../components/BookDetails/InfoBar/InfoBar.tsx';
 import { MainData } from '../../components/BookDetails/MainData/MainData.tsx';
 import { NavBar } from '../../components/NavBar/NavBar/NavBar.tsx';
-import { READ_BOOK } from './queries.ts';
 import Spinner from 'react-bootstrap/Spinner';
 import { type UserDataContext } from '../../../App.tsx';
 import { admin } from '../../authentication/roles.ts';
 import { paths } from '../../config/paths.ts';
-import { useQuery } from '@apollo/client';
-
-interface BookId {
-    book: number;
-}
+import { useReadBookById } from '../../hooks/useReadBookById/useReadBookById.ts';
 
 interface QueryTypes {
     loading: boolean;
@@ -49,15 +44,10 @@ interface QueryTypes {
 export const BookDetails = () => {
     const { userData } = useOutletContext<UserDataContext>();
     const isAdmin = userData.roles.includes(admin);
-    const { book } = useLoaderData() as BookId;
+    const { bookId } = useLoaderData() as { bookId: number };
     const navigate = useNavigate();
 
-    const { loading, error, data }: QueryTypes = useQuery(READ_BOOK, {
-        variables: { id: book },
-        onError: (err) => {
-            console.error(err.message);
-        },
-    });
+    const { loading, error, data }: QueryTypes = useReadBookById({ bookId });
 
     const editBookButton = (
         <OverlayTrigger
@@ -76,7 +66,7 @@ export const BookDetails = () => {
         </OverlayTrigger>
     );
 
-    const buchOrEmpty = data?.buch ?? BuchEmptyData; // todo: checken ob ich const export daten auf das selbe Objekt beziehen oder ich die von einander unabhängig editieren kann
+    const buchOrEmpty = data?.buch ?? BuchEmptyData;
     return (
         <>
             <NavBar />

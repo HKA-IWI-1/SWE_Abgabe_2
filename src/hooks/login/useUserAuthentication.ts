@@ -17,14 +17,14 @@
  *
  */
 
+import { type UserDataContext, type UserDataType } from '../../../App.tsx';
 import {
-    type UserDataContext,
-    type UserDataType,
-} from '../../../../../App.tsx';
-import { persistTokenData, readRoles } from '../helper.ts';
-import { AUTH } from '../queries_mutations.ts';
-import { type LoginAuthData } from '../Login/Login.tsx';
-import { type TeaserData } from '../LoginToast/LoginToast.tsx';
+    persistTokenData,
+    readRoles,
+} from '../../components/NavBar/Login/helper.ts';
+import { AUTH } from '../../components/NavBar/Login/queries_mutations.ts';
+import { type LoginAuthData } from '../../components/NavBar/Login/Login/Login.tsx';
+import { type TeaserData } from '../../components/NavBar/Login/LoginToast/LoginToast.tsx';
 import { useMutation } from '@apollo/client';
 import { useOutletContext } from 'react-router-dom';
 
@@ -44,7 +44,7 @@ export const useUserAuthentication = ({
         AUTH,
         {
             onCompleted: (data: LoginAuthData) => {
-                persistTokenData(data);
+                persistTokenData({ result: data });
                 setLoggedIn(true);
                 reset();
                 setUserData((oldData: UserDataType) => ({

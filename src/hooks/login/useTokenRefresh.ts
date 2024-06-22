@@ -17,10 +17,13 @@
  *
  */
 
-import { persistTokenData, readTokenData } from '../helper.ts';
-import { type LoginAuthData } from '../Login/Login.tsx';
-import { REFRESH } from '../queries_mutations.ts';
-import { type TeaserData } from '../LoginToast/LoginToast.tsx';
+import {
+    persistTokenData,
+    readTokenData,
+} from '../../components/NavBar/Login/helper.ts';
+import { type LoginAuthData } from '../../components/NavBar/Login/Login/Login.tsx';
+import { REFRESH } from '../../components/NavBar/Login/queries_mutations.ts';
+import { type TeaserData } from '../../components/NavBar/Login/LoginToast/LoginToast.tsx';
 import { useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 
@@ -40,7 +43,7 @@ export const useTokenRefresh = ({
         {
             onCompleted: (data: LoginAuthData) => {
                 setLoggedIn(true);
-                persistTokenData(data);
+                persistTokenData({ result: data });
             },
             onError: (err) => {
                 addTeaser({
