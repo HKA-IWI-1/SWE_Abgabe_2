@@ -37,7 +37,7 @@ import { Start } from './src/pages/Start/Start';
 import { paths } from './src/config/paths.ts';
 
 const bookDetailsLoader = ({ params }: LoaderFunctionArgs) => ({
-    book: params.bookId,
+    bookId: params.bookId,
 });
 
 const editBookLoader = ({ params }: LoaderFunctionArgs) => ({

@@ -22,7 +22,7 @@ import {
     persistTokenData,
     readRoles,
 } from '../../components/NavBar/Login/helper.ts';
-import { AUTH } from '../../components/NavBar/Login/queries_mutations.ts';
+import { AUTH } from './queries_mutations.ts';
 import { type LoginAuthData } from '../../components/NavBar/Login/Login/Login.tsx';
 import { type TeaserData } from '../../components/NavBar/Login/LoginToast/LoginToast.tsx';
 import { useMutation } from '@apollo/client';

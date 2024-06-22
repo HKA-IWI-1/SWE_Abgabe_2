@@ -17,29 +17,32 @@
  *
  */
 
-import { gql } from '@apollo/client';
+import { type Dispatch, type SetStateAction } from 'react';
+import { type ApolloError } from '@apollo/client/errors';
+import { UPDATE_MUTATION } from './mutations.ts';
+import { useMutation } from '@apollo/client';
 
-export const AUTH = gql`
-    mutation Login($username: String!, $password: String!) {
-        login(username: $username, password: $password) {
-            access_token
-            expires_in
-            refresh_token
-            refresh_expires_in
-            roles
-        }
-    }
-`;
+interface UpdateBookProps {
+    setUpdateMessage: Dispatch<
+        SetStateAction<{ visible: boolean; nachricht: string; error: boolean }>
+    >;
+}
 
-export const REFRESH = gql`
-    mutation RefreshToken($refreshToken: String!) {
-        refresh(refresh_token: $refreshToken) {
-            access_token
-            expires_in
-            refresh_token
-            refresh_expires_in
-            roles
-        }
-    }
-`;
-// untertitel: buch.titel.untertitel,
+export const useUpdateBook = ({ setUpdateMessage }: UpdateBookProps) =>
+    useMutation(UPDATE_MUTATION, {
+        onCompleted: () => {
+            setUpdateMessage({
+                visible: true,
+                nachricht: 'Das Aktualisieren war erfolgreich.',
+                error: false,
+            });
+        },
+        onError: (err: ApolloError) => {
+            setUpdateMessage({
+                visible: true,
+                nachricht: `Fehler: ${err.message}`,
+                error: true,
+            });
+            console.error(err);
+        },
+    });

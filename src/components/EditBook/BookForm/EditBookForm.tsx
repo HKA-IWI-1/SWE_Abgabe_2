@@ -40,10 +40,9 @@ import { Rating } from '../Rating/Rating.tsx';
 import { Row } from 'react-bootstrap';
 import { Schlagwoerter } from '../Schlagwoerter/Schlagwoerter.tsx';
 import { StatusModal } from '../StatusModal/StatusModal.tsx';
-import { UPDATE_MUTATION } from './mutations.ts';
 import { paths } from '../../../config/paths.ts';
-import { useMutation } from '@apollo/client';
 import { useState } from 'react';
+import { useUpdateBook } from '../../../hooks/useUpdateBook/useUpdateBook.ts';
 
 export interface FormValues {
     version: string;
@@ -58,14 +57,14 @@ export interface FormValues {
     schlagwoerter: string[];
 }
 
+const RABATT_TEILER = 100;
+
 const parseRabatt = (buch: BuchType) =>
     buch.rabatt === undefined
         ? 0
         : Number.parseFloat(
               buch.rabatt.slice(0, Math.max(0, buch.rabatt.length - 1)).trim(),
           );
-
-const RABATT_TEILER = 100;
 
 // eslint-disable-next-line max-lines-per-function
 export const EditBookForm = ({ buch }: { buch: BuchType }) => {
@@ -74,24 +73,10 @@ export const EditBookForm = ({ buch }: { buch: BuchType }) => {
         nachricht: 'N/A',
         error: false,
     });
-    const [updateBook] = useMutation(UPDATE_MUTATION, {
-        onCompleted: () => {
-            setUpdateMessage({
-                visible: true,
-                nachricht: 'Das Aktualisieren war erfolgreich.',
-                error: false,
-            });
-        },
-        onError: (err) => {
-            setUpdateMessage({
-                visible: true,
-                nachricht: `Fehler: ${err.message}`,
-                error: true,
-            });
-            console.error(err);
-        },
-    });
 
+    const [updateBook] = useUpdateBook({
+        setUpdateMessage,
+    });
     const UpdateBook: SubmitHandler<FormValues> = async (bookData) => {
         await updateBook({
             variables: {

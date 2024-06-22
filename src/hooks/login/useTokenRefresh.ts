@@ -22,7 +22,7 @@ import {
     readTokenData,
 } from '../../components/NavBar/Login/helper.ts';
 import { type LoginAuthData } from '../../components/NavBar/Login/Login/Login.tsx';
-import { REFRESH } from '../../components/NavBar/Login/queries_mutations.ts';
+import { REFRESH } from './queries_mutations.ts';
 import { type TeaserData } from '../../components/NavBar/Login/LoginToast/LoginToast.tsx';
 import { useEffect } from 'react';
 import { useMutation } from '@apollo/client';
