@@ -18,29 +18,22 @@
  */
 
 import './Login.scss';
-import { AUTH, REFRESH } from '../queries_mutations.ts';
+import { FormProvider, useForm } from 'react-hook-form';
 import { LoginToast, type TeaserData } from '../LoginToast/LoginToast.tsx';
 import {
     type UserDataContext,
     type UserDataType,
 } from '../../../../../App.tsx';
-import {
-    persistTokenData,
-    readRoles,
-    readTokenData,
-    removeTokenData,
-} from '../helper.ts';
-import { useCallback, useEffect, useState } from 'react';
+import { readRoles, removeTokenData } from '../helper.ts';
+import { useCallback, useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import { LoginForm } from '../LoginForm/LoginForm.tsx';
 import Spinner from 'react-bootstrap/Spinner';
-import Stack from 'react-bootstrap/Stack';
-import { type SubmitHandler } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
-import { useMutation } from '@apollo/client';
 import { useOutletContext } from 'react-router-dom';
+import { useTokenRefresh } from '../hooks/useTokenRefresh.ts';
+import { useUserAuthentication } from '../hooks/useUserAuthentication.ts';
 
-interface Inputs {
+export interface Inputs {
     username: string;
     password: string;
 }
@@ -64,12 +57,6 @@ export interface LoginAuthData {
 export const Login = () => {
     const { userData, setUserData } = useOutletContext<UserDataContext>();
     const [loggedIn, setLoggedIn] = useState(false);
-    const { reset, register, handleSubmit } = useForm<Inputs>({
-        defaultValues: {
-            username: '',
-            password: '',
-        },
-    });
     const [teasers, setTeasers] = useState([] as TeaserData[]);
     const addTeaser = (teaser: TeaserData) => {
         setTeasers([...teasers, teaser]);
@@ -84,66 +71,18 @@ export const Login = () => {
         setTeasers(updatedTeasers);
     };
 
-    const [authenticateUser, { client, loading: loadingAuth }] = useMutation(
-        AUTH,
-        {
-            onCompleted: (data: LoginAuthData) => {
-                persistTokenData(data);
-                setLoggedIn(true);
-                reset();
-                setUserData((oldData: UserDataType) => ({
-                    ...oldData,
-                    roles: readRoles(),
-                }));
-            },
-            onError: (err) => {
-                addTeaser({
-                    messageType: 'Danger',
-                    message: err.message,
-                    timestamp: Date.now(),
-                });
-                console.error(err);
-            },
+    const methods = useForm<Inputs>({
+        defaultValues: {
+            username: '',
+            password: '',
         },
-    );
+    });
 
-    const [refreshTokenMutation, { loading: loadingMutation }] = useMutation(
-        REFRESH,
-        {
-            onCompleted: (data: LoginAuthData) => {
-                setLoggedIn(true);
-                persistTokenData(data);
-            },
-            onError: (err) => {
-                addTeaser({
-                    messageType: 'Danger',
-                    message: err.message,
-                    timestamp: Date.now(),
-                });
-                console.error(err);
-            },
-        },
-    );
-
-    const tokenRefresh = useCallback(
-        async (token: string) => {
-            await refreshTokenMutation({
-                variables: {
-                    refreshToken: token,
-                },
-            });
-        },
-        [refreshTokenMutation],
-    );
-
-    const logIn: SubmitHandler<Inputs> = async (loginData: Inputs) => {
-        await authenticateUser({
-            variables: {
-                username: loginData.username,
-                password: loginData.password,
-            },
-        });
-    };
+    const { authenticateUser, client, loadingAuth } = useUserAuthentication({
+        setLoggedIn,
+        reset: methods.reset,
+        addTeaser,
+    });
 
     const logOut = useCallback(async () => {
         removeTokenData();
@@ -155,80 +94,40 @@ export const Login = () => {
         }));
     }, [client, setLoggedIn, setUserData]);
 
-    useEffect(() => {
-        const { accessToken, rToken, expiresIn, refreshExpiresIn } =
-            readTokenData();
-        const currentDate = Date.now();
-
-        const tokenIsExpired =
-            expiresIn === '' || Number.parseInt(expiresIn, 10) < currentDate;
-        const refreshTokenIsExpired =
-            refreshExpiresIn === '' ||
-            Number.parseInt(refreshExpiresIn, 10) < currentDate;
-        if (accessToken === '' || rToken === '' || refreshTokenIsExpired) {
-            logOut().catch((err) => {
-                if (err instanceof Error) {
-                    console.error(err);
-                }
-            });
-        } else if (tokenIsExpired) {
-            tokenRefresh(rToken).catch((err) => {
-                if (err instanceof Error) {
-                    console.error(err);
-                }
-            });
-        } else {
-            setLoggedIn(true);
-        }
-    }, [logOut, tokenRefresh]);
+    const { loadingMutation } = useTokenRefresh({
+        logOut,
+        setLoggedIn,
+        addTeaser,
+    });
 
     return (
         <>
-            <LoginToast teasers={teasers} deleteTeaser={deleteTeaser} />
-            {!loggedIn && (loadingAuth || loadingMutation) && (
-                <Spinner variant="primary" animation="border" role="status" />
-            )}
-            {!loggedIn && !loadingAuth && (
-                <Form onSubmit={handleSubmit(logIn)}>
-                    <Stack direction="horizontal" gap={3}>
-                        <Form.Control
-                            className="mr-1"
-                            type="text"
-                            placeholder="Username"
-                            required
-                            {...register('username', {
-                                required: true,
-                            })}
-                        />
-                        <Form.Control
-                            className="mr-1"
-                            type="password"
-                            placeholder="Password"
-                            required
-                            {...register('password', {
-                                required: true,
-                            })}
-                        />
-                        <div className="vr" />
-                        <Button variant="primary" type="submit">
-                            Login
-                        </Button>
-                    </Stack>
-                </Form>
-            )}
-            {loggedIn && (
-                <Button
-                    variant="primary"
-                    type="submit"
-                    onClick={async (event) => {
-                        event.preventDefault();
-                        event.stopPropagation();
-                        await logOut();
-                    }}
-                >
-                    Logout {userData.roles[0] ?? 'N/A'}
-                </Button>
-            )}
+            <FormProvider {...methods}>
+                <LoginToast teasers={teasers} deleteTeaser={deleteTeaser} />
+                {!loggedIn && (loadingAuth || loadingMutation) && (
+                    <Spinner
+                        variant="primary"
+                        animation="border"
+                        role="status"
+                    />
+                )}
+                {!loggedIn && !loadingAuth && (
+                    <LoginForm authenticateUser={authenticateUser} />
+                )}
+                {loggedIn && (
+                    <Button
+                        variant="primary"
+                        type="submit"
+                        onClick={async (event) => {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            await logOut();
+                        }}
+                    >
+                        Logout {userData.roles[0] ?? 'N/A'}
+                    </Button>
+                )}
+            </FormProvider>
         </>
     );
 };
