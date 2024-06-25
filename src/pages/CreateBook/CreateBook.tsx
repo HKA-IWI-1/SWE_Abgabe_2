@@ -16,12 +16,12 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-import { CreateInput } from '../../components/CreateBook/CreateInput.tsx';
+import { CreateBookForm } from '../../components/CreateBook/CreateBookForm/CreateBookForm.tsx';
 import { NavBar } from '../../components/NavBar/NavBar/NavBar.tsx';
 
 export const CreateBook = () => (
     <>
         <NavBar />
-        <CreateInput />
+        <CreateBookForm />
     </>
 );

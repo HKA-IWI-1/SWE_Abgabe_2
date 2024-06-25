@@ -26,7 +26,7 @@ import {
 } from 'react-hook-form';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { type FormValues } from '../CreateInput.tsx';
+import { type FormValues } from '../CreateBookForm/CreateBookForm.tsx';
 
 interface SwProps {
     fields: FieldArrayWithId<any>[];
