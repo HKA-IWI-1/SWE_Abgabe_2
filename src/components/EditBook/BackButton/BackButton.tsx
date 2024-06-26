@@ -53,10 +53,10 @@ export const BackButton = ({ isDirty }: { isDirty: boolean }) => {
                     onHide={() => setBackButtonTriggered(false)}
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title>Modal heading</Modal.Title>
+                        <Modal.Title>Ungespeicherte Änderungen</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        Woohoo, you are reading this text in a modal!
+                        Möchten Sie tatsächlich zurück gehen?
                     </Modal.Body>
                     <Modal.Footer>
                         <Button
