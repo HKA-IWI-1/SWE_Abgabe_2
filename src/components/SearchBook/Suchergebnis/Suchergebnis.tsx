@@ -64,7 +64,7 @@ export const Suchergebnis = ({ loading, error, data }: QueryTypes) => {
                     </Spinner>
                 </Row>
             )}
-            {!loading && data && (
+            {!loading && data && !error && (
                 <>
                     <Table striped bordered hover className="mb-5">
                         <thead>
